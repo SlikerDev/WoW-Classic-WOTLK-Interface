@@ -1,0 +1,17 @@
+﻿## Interface: 20504
+
+## X-Min-Interface: 90205
+## X-Min-Interface-Classic: 11403
+## X-Min-Interface-BCC: 20504
+## X-Min-Interface-Wrath: 30400
+
+## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Voicepack Deutsch weiblich|r
+## DefaultState: enabled
+## RequiredDeps: DBM-Core
+## Author: Calanon
+## Version: 9.2.6
+## X-DBM-Voice: 1
+## X-DBM-Voice-Name: Deutsch weiblich by Calanon
+## X-DBM-Voice-ShortName: Deutsch weiblich
+## X-DBM-Voice-Version: 13
+## X-DBM-Voice-HasCount: 1

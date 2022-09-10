@@ -1,0 +1,10 @@
+## Interface: 20504
+## Title: Buffomat Classic TBC Deprecated
+## Notes: Please remove this deprecated addon and use Buffomat Classic
+## Version: 2022.7.1
+## Author: kvakvs; by GPI/Erytheia-Razorfen
+## DefaultState: enabled
+## SavedVariables: BomSharedState
+## SavedVariablesPerCharacter: BomCharacterState
+
+BuffomatDeprecated.lua

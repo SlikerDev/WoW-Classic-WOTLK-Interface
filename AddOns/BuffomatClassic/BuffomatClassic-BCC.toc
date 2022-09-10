@@ -1,0 +1,87 @@
+#
+# Do not edit - this file is generated from TOC_TEMPLATE.TOC
+#
+## Interface: 20504
+## Title: Buffomat Classic
+## Notes: Semi-automatic buff and resurrection bot, compatible with Classic, TBC, and WotLK Classic
+## Version: 2022.9.0-184406b0
+## Author: kvakvs; original by GPI/Erytheia-Razorfen
+## DefaultState: enabled
+## SavedVariables: BuffomatShared
+## SavedVariablesPerCharacter: BuffomatCharacter
+
+embeds.xml
+Src/Module.lua
+Src/Buffomat.lua
+
+Src/Const/Const.lua
+Src/Const/Textures.lua
+Src/Const/AllBuffs.lua
+Src/Const/AllSpellsMage.lua
+Src/Const/AllSpellsPriest.lua
+Src/Const/AllSpellsDruid.lua
+Src/Const/AllSpellsShaman.lua
+Src/Const/AllSpellsWarlock.lua
+Src/Const/AllSpellsHunter.lua
+Src/Const/AllSpellsPaladin.lua
+Src/Const/AllSpellsWarrior.lua
+Src/Const/AllSpellsRogue.lua
+Src/Const/AllSpellsDeathknight.lua
+Src/Const/AllConsumesScrolls.lua
+Src/Const/AllConsumesEnchantments.lua
+Src/Const/AllConsumesElixirs.lua
+Src/Const/AllConsumesFlasks.lua
+Src/Const/AllConsumesFood.lua
+Src/Const/AllConsumesOther.lua
+Src/Const/SpellIds.lua
+Src/Const/ItemIds.lua
+
+Src/Classes/Buff.lua
+Src/Classes/BuffClass.lua
+Src/Classes/BuffomatTranslations.lua
+Src/Classes/CharacterSettings.lua
+Src/Classes/Control.lua
+Src/Classes/GroupBuffTarget.lua
+Src/Classes/Macro.lua
+Src/Classes/Unit.lua
+Src/Classes/UnitBuffTarget.lua
+Src/Classes/Profile.lua
+Src/Classes/RowBuilder.lua
+Src/Classes/SharedSettings.lua
+Src/Classes/BuffDefinition.lua
+Src/Classes/Task.lua
+Src/Classes/TaskList.lua
+
+Src/Cache/GetItemCache.lua
+Src/Cache/GetSpellCache.lua
+Src/Cache/GetItemListCache.lua
+Src/Cache/UnitCache.lua
+
+Src/Ui/BuffRow.lua
+Src/Ui/LegacyManagedButton.lua
+Src/Ui/LegacyOptions.lua
+Src/Ui/ManagedUi.lua
+Src/Ui/MinimapButton.lua
+Src/Ui/Options.lua
+Src/Ui/OptionsPopup.lua
+Src/Ui/SpellButtonsTab.lua
+Src/Ui/UiButton.lua
+
+Src/Events.lua
+Src/Languages.lua
+Src/LanguageEnglish.lua
+Src/LanguageGerman.lua
+Src/LanguageFrench.lua
+Src/LanguageRussian.lua
+Src/LanguageChinese.lua
+Src/SpellSetup.lua
+Src/TaskScan.lua
+Src/BuffChecks.lua
+Src/Toolbox.lua
+Src/Toolbox.lua
+
+Src/Ui/Buffomat.xml
+
+#
+# Do not edit - this file is generated from TOC_TEMPLATE.TOC
+#
