@@ -77,6 +77,7 @@ vIvxSnY11zDdJHJDasK0UR1(JBSt664K04TROK21EtBxZ)jZsjrpKALwxLQziNR4mwdNz8mdLwTPPovn
 ## Screenshots
 
 ![App Screenshot](https://github.com/SlikerDev/WoW-Classic-WOTLK-Interface/blob/main/Interface.jpg)
+![App Screenshot](https://github.com/SlikerDev/WoW-Classic-WOTLK-Interface/blob/main/Battleground.jpg)
 
 
 ## Authors
