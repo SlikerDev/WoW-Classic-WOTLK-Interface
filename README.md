@@ -17,24 +17,24 @@ World of Warcraft\_classic_\Interface\
 ## Addons Enthalten
 
 - [AtlasLootClassic](https://www.curseforge.com/wow/addons/atlaslootclassic)
-- Auctionator
-- Bartender4
-- Buffomat Classic
-- Deadly Boss Mode + Voicepack Deutsch + PvP Mods
-- Details! Damage Meter
-- GatherMate2 Classic
-- GatherMate 2 Marker
-- GatherMate2 Data Wowhead Classic
-- Grid2
-- Guildbook
-- Masque
-- OmniCC
-- Pawn
-- Questie
-- TacoTip TacoTip ( GearScore & Talents & Item Level ) [ Classic / TBC / WOTLK ]
-- TomTom
-- WeakAuras
-- ElvUI
+- [Auctionator](https://www.curseforge.com/wow/addons/auctionator)
+- [Bartender4](https://www.curseforge.com/wow/addons/bartender4)
+- [Buffomat Classic](https://www.curseforge.com/wow/addons/buffomat-classic)
+- [Deadly Boss Mode + Voicepack Deutsch + PvP Mods](https://www.curseforge.com/wow/addons/deadly-boss-mods)
+- [Details! Damage Meter](https://www.curseforge.com/wow/addons/details)
+- [GatherMate2 Classic](https://www.curseforge.com/wow/addons/gathermate2-classic)
+- [GatherMate 2 Marker](https://www.curseforge.com/wow/addons/gathermate-2-marker)
+- [GatherMate2 Data Wowhead Classic](https://www.curseforge.com/wow/addons/gathermate2-data-wowhead-classic)
+- [Grid2](https://www.curseforge.com/wow/addons/grid2)
+- [Guildbook](https://www.curseforge.com/wow/addons/guildbook)
+- [Masque](https://www.curseforge.com/wow/addons/masque)
+- [OmniCC](https://www.curseforge.com/wow/addons/omni-cc)
+- [Pawn](https://www.curseforge.com/wow/addons/pawn)
+- [Questie](https://www.curseforge.com/wow/addons/questie)
+- [TacoTip ( GearScore & Talents & Item Level ) [ Classic / TBC / WOTLK ]](https://www.curseforge.com/wow/addons/tacotip-gearscore-talents)
+- [TomTom](https://www.curseforge.com/wow/addons/tomtom)
+- [WeakAuras](https://www.curseforge.com/wow/addons/weakauras-2)
+- [ElvUI](https://www.tukui.org/classic-wotlk-addons.php?id=2)
 
 
 ## Macros
