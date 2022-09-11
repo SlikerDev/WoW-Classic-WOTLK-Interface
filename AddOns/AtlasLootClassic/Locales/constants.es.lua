@@ -101,6 +101,8 @@ AL["Gun"] = "Arma de fuego"
 --[[Translation missing --]]
 --[[ AL["Hateful %s"] = "Hateful %s"--]] 
 --[[Translation missing --]]
+--[[ AL["Headless Horseman"] = "Headless Horseman"--]] 
+--[[Translation missing --]]
 --[[ AL["Heigan the Unclean"] = "Heigan the Unclean"--]] 
 --[[Translation missing --]]
 --[[ AL["Heroes' %s"] = "Heroes' %s"--]] 
