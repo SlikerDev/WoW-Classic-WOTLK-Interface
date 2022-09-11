@@ -1,69 +1,12 @@
-tag a49a67e7be9ac7e6979cf69e43566b9da3912535 Guildbook_5.43
+tag 7d158cde7c391a77ed16037c27abe4ffa7f06925 Guildbook_5.521
 Author:	stpain <sam.pain@live.co.uk>
-Date:	Fri Sep 9 14:59:35 2022 +0100
+Date:	Sun Sep 11 00:29:10 2022 +0100
 
-commit 30e52beab02d4656224e26bd9eecd201905a6826
+commit 475ff8e56dcd76c10d78e03d493c38f44d61c4cf
 Author: stpain <sam.pain@live.co.uk>
-Date:   Fri Sep 9 14:58:45 2022 +0100
+Date:   Sun Sep 11 00:29:00 2022 +0100
 
-    add locales
-
-commit 6994407a4e3ca9a3df84ad5d3a273121bfb4f3f0
-Author: Belrand <hydraaxon@gmail.com>
-Date:   Fri Sep 9 09:09:50 2022 +0200
-
-    Added Show Offline locale and changed discord link
+    quick locale fix
     
-    ShowOfflineMembers
-    Discord link changed to Welcome channel (same as on curse)
-
-commit 62d4f4faff3278f5580610d4f4484f2f675bb4c7
-Author: stpain <sam.pain@live.co.uk>
-Date:   Thu Sep 8 23:40:46 2022 +0100
-
-    added new locales
-    
-    working on tooltip extension
-    added new locale data
-
-commit 3e60c6b29af2ba39e65e257e75225a2ce3a42d2c
-Author: Belrand <hydraaxon@gmail.com>
-Date:   Thu Sep 8 16:46:08 2022 +0200
-
-    Update Locales.lua
-    
-    moved ModBlizz.lua strings with the new strings
-
-commit ad819e6a342f993278d6e30daee2acaf952226d1
-Author: Belrand <hydraaxon@gmail.com>
-Date:   Thu Sep 8 16:41:03 2022 +0200
-
-    Updated French Locale
-
-commit 79c1f1b336a3a3d2b665d93fb78959aa0c251a11
-Author: Belrand <hydraaxon@gmail.com>
-Date:   Thu Sep 8 15:15:33 2022 +0200
-
-    Added German locale from Curse
-    
-    NOTE: Welcome message is outdated
-
-commit 79c1f1b336a3a3d2b665d93fb78959aa0c251a11
-Author: Belrand <hydraaxon@gmail.com>
-Date:   Thu Sep 8 15:15:33 2022 +0200
-
-    Added German locale from Curse
-    
-    NOTE: Welcome message is outdated
-
-commit b9c5ef24d579f982e5985d770eb37a26c7cd4a6c
-Author: stpain <sam.pain@live.co.uk>
-Date:   Thu Sep 8 00:35:48 2022 +0100
-
-    themes
-    
-    added theme system
-    started work on tooltip info
-    added shift click link for tradeskill listview
-    added missing function for setting alts
+    missing closing ]] for string literal
 
