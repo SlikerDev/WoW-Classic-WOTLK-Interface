@@ -16,7 +16,7 @@ World of Warcraft\_classic_\Interface\
 
 ## Addons Enthalten
 
-- AtlasLootClassic
+- [AtlasLootClassic](https://www.curseforge.com/wow/addons/atlaslootclassic)
 - Auctionator
 - Bartender4
 - Buffomat Classic
