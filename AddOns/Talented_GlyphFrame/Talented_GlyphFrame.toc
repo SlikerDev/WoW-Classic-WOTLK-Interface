@@ -1,0 +1,10 @@
+## Interface: 30400
+## Note: Talented Glyph Frame
+## Dependency: Talented
+## LoadOnDemand: 1
+## Version: v2.4.5-release
+## DefaultState: Enabled
+
+glyph.lua
+frame.lua
+hook.lua
