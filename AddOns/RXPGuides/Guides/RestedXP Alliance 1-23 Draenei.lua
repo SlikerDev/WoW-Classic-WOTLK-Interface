@@ -9,7 +9,7 @@ RXPGuides.RegisterGuide([[
 #next 11-20 Bloodmyst (Draenei)
 step
     .goto Azuremyst Isle,82.96,43.88 << tbc
-    .goto Azuremyst Isle,84.19,43.03 << wotlk    
+    .goto Azuremyst Isle,84.19,43.03 << wotlk
     .accept 9279 >> Accept You Survived!
 step << Shaman
 	#completewith next
@@ -40,6 +40,7 @@ step
 step
 	#sticky
     #label mothblood
+    >> Kill and loot Vale Moths
     .complete 9280,1 --Collect Vial of Moth Blood (x8)
 step
     .goto Azuremyst Isle,78.4,44.3
@@ -140,7 +141,7 @@ step
     .accept 9303 >> Accept Inoculation
 step
     .goto Azuremyst Isle,85.3,66.2
-	.use 22962 >>Use the Innoculating Crystal in your bags to innoculate the neutral Owlbeasts.
+	.use 22962 >>Use the Innoculating Crystal in your bags to innoculate the Nestlewood Owlkins.
 	>> Loot Emitters on the ground, they look like spinning pink crystals.
     .complete 9303,1 --Nestlewood Owlkin inoculated (x6)
     .complete 9305,1 --Collect Emitter Spare Part (x4)
@@ -177,20 +178,20 @@ step
 step
     .goto Azuremyst Isle,69.2,65.5
     .complete 9311,1 --Kill Surveyor Candress (x1)
-	>>Loot the plans from the Surveyor and right click it
+	.use 23003 >>Loot the plans from the Surveyor and right click it
     .accept 9798 >> Accept Blood Elf Plans
 step
 	#sticky
 	#completewith next
     .xp 6-1485 >>Grind elves until you are 1485xp away from level 6 (1315/2800). Let yourself get low hp on the last few mobs, we're death skipping after.
 step
-	>>Die and talk to the spirit healer to respawn at the graveyard
+	.deathskip >>Die and talk to the spirit healer to respawn at the graveyard
     .goto Azuremyst Isle,79.2,46.4
     .turnin 9294 >> Turn in Healing the Lake
 step
     #label survivors2
     #requires survivors
-    .goto Azuremyst Isle,80.1,49.0,0
+    .goto Azuremyst Isle,80.1,49.0
     .turnin 9283 >> Turn in Rescue the Survivors!
 step
     .goto Azuremyst Isle,79.5,51.6
@@ -1386,7 +1387,7 @@ step
     .complete 9548,1 --Collect Clopper's Equipment (x1)
 step
     .goto Bloodmyst Isle,39.5,20.7
-	>> Kill and loot murlocs
+	>> Kill and loot murlocs. Idols drop from Seers and Oracles. Knives from the melee murlocs.
     .complete 9549,1 --Collect Crude Murloc Idol (x3)
     .complete 9549,2 --Collect Crude Murloc Knife (x6)
 step
@@ -1620,7 +1621,7 @@ step << Hunter/Shaman/Mage
     #completewith L20
     #requires limit1
     .goto Bloodmyst Isle,55.6,55.3
-    .turnin 9746 >> Turnin Limits of Physical Exhaustion
+    .turnin 9746 >> Turn in Limits of Physical Exhaustion
     .accept 9740 >> Accept The Sun Gate
 step << Hunter/Shaman/Mage
     #label sungate
@@ -1654,13 +1655,13 @@ step
     .turnin 9741 >> Turn in Critters of the Void
     .turnin 9748 >> Turn in Don't Drink the Water
     .turnin 9711 >> Turn in Matis the Cruel
-    .accept 9746 >> Accept Limits of Physical Exhaustion
+    .accept 9746 >> Accept Limits of Physical Exhaustion << Hunter/Shaman/Mage
 	.isQuestComplete 9711
 step
     .goto Bloodmyst Isle,55.6,55.3
     .turnin 9741 >> Turn in Critters of the Void
     .turnin 9748 >> Turn in Don't Drink the Water
-    .accept 9746 >> Accept Limits of Physical Exhaustion
+    .accept 9746 >> Accept Limits of Physical Exhaustion << Hunter/Shaman/Mage
 step
 	.goto Bloodmyst Isle,55.6,55.3
 	.abandon 9711 >> Abandon Matis the Cruel
@@ -2235,11 +2236,42 @@ step
 	#completewith next
 	.destroy 5505>>Delete Teronis' Journal from your inventory. It's no longer needed
 step
+#xprate <1.5 << tbc
+    .goto Ashenvale,36.6,49.6
+    .accept 1025 >> Accept An Aggressive Defense
+step
     .goto Ashenvale,37.3,51.8
     .turnin 1034 >> Turn in The Ruins of Stardust
 step
     .goto Ashenvale,34.7,48.9
     .turnin 1008 >> Turn in The Zoram Strand
+step
+#xprate <1.5 << tbc
+    >>Kill the mobs for An Aggressive Defense
+    .goto Ashenvale,49.9,60.8
+    .goto Ashenvale,56.9,63.7
+    .complete 1025,1 --Kill Foulweald Den Watcher (x1)
+    .complete 1025,2 --Kill Foulweald Ursa (x2)
+    .complete 1025,3 --Kill Foulweald Totemic (x10)
+    .complete 1025,4 --Kill Foulweald Warrior (x12)
+step
+#xprate <1.5 << tbc
+    .goto Ashenvale,49.8,67.2
+    .accept 1016 >> Accept Elemental Bracers
+step
+#xprate <1.5 << tbc
+    >>Kill all water elementals on the island/in the water for Intact Elemental Bracers. When you have 5, right click the Divining Scroll
+    .goto Ashenvale,48.0,69.9
+    .complete 1016,1 --Collect Divined Scroll (x1)
+step
+#xprate <1.5 << tbc
+    .goto Ashenvale,49.8,67.2
+    .turnin 1016 >> Turn in Elemental Bracers
+step
+#xprate <1.5 << tbc
+    .goto Ashenvale,36.6,49.6
+    .turnin 1025 >> Turn in An Aggressive Defense
+    .isQuestComplete 1025
 step
 	.goto Ashenvale,34.4,48.0
     .fly Auberdine>> Fly to Auberdine

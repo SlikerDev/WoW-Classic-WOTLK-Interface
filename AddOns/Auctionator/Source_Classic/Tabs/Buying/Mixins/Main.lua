@@ -176,7 +176,7 @@ AuctionatorBuyFrameMixinForShopping = CreateFromMixins(AuctionatorBuyFrameMixin)
 function AuctionatorBuyFrameMixinForShopping:Init()
   AuctionatorBuyFrameMixin.Init(self)
   Auctionator.EventBus:Register(self, {
-    Auctionator.Buying.Events.Show,
+    Auctionator.Buying.Events.ShowForShopping,
     Auctionator.ShoppingLists.Events.ListSearchStarted,
   })
 end
@@ -203,7 +203,7 @@ function AuctionatorBuyFrameMixinForShopping:OnHide()
 end
 
 function AuctionatorBuyFrameMixinForShopping:ReceiveEvent(eventName, eventData, ...)
-  if eventName == Auctionator.Buying.Events.Show then
+  if eventName == Auctionator.Buying.Events.ShowForShopping then
     self:Show()
 
     self:Reset()
@@ -239,7 +239,14 @@ function AuctionatorBuyFrameMixinForSelling:Init()
     Auctionator.Selling.Events.RefreshBuying,
     Auctionator.Selling.Events.StartFakeBuyLoading,
     Auctionator.Selling.Events.StopFakeBuyLoading,
+    Auctionator.Selling.Events.AuctionCreated,
   })
+end
+
+function AuctionatorBuyFrameMixinForSelling:Reset()
+  AuctionatorBuyFrameMixin.Reset(self)
+
+  self.waitingOnNewAuction = false
 end
 
 function AuctionatorBuyFrameMixinForSelling:OnShow()
@@ -271,7 +278,18 @@ function AuctionatorBuyFrameMixinForSelling:ReceiveEvent(eventName, eventData, .
     self:Reset()
     self.RefreshButton:Disable()
     self.HistoryButton:Disable()
+  elseif eventName == Auctionator.Selling.Events.AuctionCreated then
+    self.waitingOnNewAuction = true
   else
     AuctionatorBuyFrameMixin.ReceiveEvent(self, eventName, eventData, ...)
+  end
+end
+
+function AuctionatorBuyFrameMixinForSelling:OnEvent(eventName, ...)
+  AuctionatorBuyFrameMixin.OnEvent(self, eventName, ...)
+
+  if eventName == "AUCTION_OWNED_LIST_UPDATE" and self.waitingOnNewAuction then
+    self.waitingOnNewAuction = false
+    self.SearchDataProvider:PurgeAndReplaceOwnedAuctions(Auctionator.AH.DumpAuctions("owner"))
   end
 end

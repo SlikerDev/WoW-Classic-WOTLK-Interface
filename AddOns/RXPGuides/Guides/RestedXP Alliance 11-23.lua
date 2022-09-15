@@ -23,7 +23,7 @@ step << !NightElf
 step << NightElf
     .goto Darkshore,36.8,44.3
     .turnin 6342 >> Turn in Flight to Auberdine
-step << !Warlock
+step << !Warlock/!Rogue
 	.goto Darkshore,37.0,44.1
     .home >> Set your Hearthstone to Auberdine
 step
@@ -114,10 +114,17 @@ step
     .goto Darkshore,38.8,43.4
     .accept 2138 >> Accept Cleansing of the Infected
 step
+    #xprate <1.5
     >> Talk to Terenthis inside the building
     .goto Darkshore,39.3,43.5
     .turnin 984 >> Turn in How Big a Threat?
     .accept 985 >> Accept How Big a Threat?
+    .accept 4761 >> Accept Thundris Windweaver
+step
+    #xprate >1.499 
+    >> Talk to Terenthis inside the building
+    .goto Darkshore,39.3,43.5
+    .turnin 984 >> Turn in How Big a Threat?
     .accept 4761 >> Accept Thundris Windweaver
 step << Druid
     .goto Darkshore,43.5,45.9
@@ -128,7 +135,7 @@ step << !Dwarf/!Hunter
     >> Careful, the Moonkin in the area enrage and call for help, very deadly!
     .complete 4811,1 --Locate the large, red crystal on Darkshore's eastern mountain range
 step << wotlk !Dwarf/!Hunter
-    .hs >> Hearth back to Auberdine
+    .deathskip >> Die to the Owl Beasts nearby and spawn in Auberdine
 step << !Dwarf/!Hunter
     .goto Darkshore,37.7,43.4
     .turnin 4811 >> Turn in The Red Crystal
@@ -141,7 +148,7 @@ step
     .goto Darkshore,37.4,40.2
     >> Talk to Thundris in the town hall building
     .turnin 4761 >> Turn in Thundris Windweaver
-    .accept 4762 >> Accept The Cliffspring River << !Warlock
+    .accept 4762 >> Accept The Cliffspring River << !Warlock/!Rogue
     .accept 954 >> Accept Bashal'Aran
 step
     #xprate <1.5
@@ -193,7 +200,15 @@ step
     .goto Darkshore,42.3,66.9,0,0
 	>>Kill Rabid Thistle Bears as you quest
     .complete 2138,1 --Kill Rabid Thistle Bear (x20)
-step << !Warlock
+step << !Warlock/!Rogue
+    #xprate >1.499 
+    .goto Darkshore,41.94,31.47
+    .accept 4723 >> Accept Beached Sea Creature
+step << !Warlock/!Rogue
+    #xprate >1.499 
+    .goto Darkshore,44.18,20.60
+    .accept 4725 >> Accept Beached Sea Turtle
+step << !Warlock/!Rogue
     .isOnQuest 4762
     .goto Darkshore,50.8,25.6
 	.use 15844 >>Use the empty sampling tube at the base of the waterfall
@@ -208,7 +223,7 @@ step << Druid
 step << Druid
     .goto Darnassus,35.4,8.4
     .turnin 6001 >> Turn in Body and Heart
-step << !Warlock
+step << !Warlock/!Rogue
     #sticky
     #completewith next
     .hs >> Hearth to Auberdine
@@ -227,6 +242,7 @@ step << Dwarf Hunter
     .goto Darkshore,47.2,48.6
     .complete 4811,1 --Locate the large, red crystal on Darkshore's eastern mountain range
 step << !Dwarf/!Hunter
+    #xprate <1.5
     .goto Darkshore,39.9,54.9
     >> Head south to the furbolg camp
     .complete 985,1 --Kill Blackwood Pathfinder (x8)
@@ -289,7 +305,7 @@ step
     #completewith next
     .goto Darkshore,42.0,58.3
     .isOnQuest 957
-    .deathskip >>Die at the north side of Ameth'Aran and spirit rez at the northern graveyar
+    .deathskip >>Die at the north side of Ameth'Aran and spirit rez at the northern graveyard
 step
 #xprate <1.5
     #requires relics1
@@ -301,13 +317,18 @@ step
     .isOnQuest 958
     .goto Darkshore,37.4,40.1
     .turnin 958 >> Turn in Tools of the Highborne
-step << !Warlock
+step << !Warlock/!Rogue
     >> Head back to town
     .turnin -4762 >> Turn in The Cliffspring River
     .goto Darkshore,37.4,40.1,-1
     .turnin -985 >> Turn in How Big a Threat?
     .goto Darkshore,39.3,43.5,-1
     .isQuestComplete 4762
+step << !Warlock/!Rogue
+    #xprate >1.499 
+    .goto Darkshore,36.6,45.5
+    .turnin 4725 >> Turn in Beached Sea Turtle
+    .turnin 4727 >> Turn in Beached Sea Turtle
 step
 #xprate <1.5
     .goto Darkshore,38.8,43.4
@@ -335,8 +356,18 @@ step << Druid tbc
 step << Druid tbc
     .goto Moonglade,48.1,67.2
     .fly Auberdine>>Fly to Darkshore
-step << Warlock wotlk
+step << Warlock wotlk/Rogue wotlk
+    .xp >> Grind to level 14
+step << Warlock wotlk/wotlk Gnome Rogue/wotlk Human Rogue/wotlk Dwarf Rogue
     .hs >> Hearth to Stormwind
+step << wotlk Night Elf Rogue
+    .hs >> Hearth to Darnassus
+step << wotlk Night Elf Rogue
+    .goto Teldrassil,56.4,60.1
+	.trainer >> Go and train your spells
+step << wotlk Night Elf Rogue
+    .zone Darkshore >> Head to the Harbor and take the two boars to get to Azuremyst Isle.
+    .zoneskip Azuremyst Isle
 step << Warlock wotlk
     #sticky
     #completewith next
@@ -352,7 +383,10 @@ step << Warlock wotlk
     .goto StormwindClassic,42.84,65.14
     .collect 5208,1 --Smoldering Wand (1)
     .money >0.3174
-step << Warlock wotlk
+step << Rogue wotlk
+	.goto StormwindClassic,74.6,52.8
+	.trainer >> Train your class spells
+step << Warlock wotlk/wotlk Gnome Rogue/wotlk Human Rogue/wotlk Dwarf Rogue
     .goto StormwindNew,21.8,56.2
     .zone Darkshore >> Head to the Stormwind Harbor and take the boat to Darkshore
     .zoneskip Azuremyst Isle
@@ -935,7 +969,7 @@ step
     .accept 10067 >> Accept Fouled Water Spirits
 step
     #sticky
-    #completewith bloodmyst2
+    #completewith next
     #label ravager3
     >>Kill Ravagers and Tanglers as you quest
     .goto Bloodmyst Isle,30.3,57.2,0
@@ -960,7 +994,7 @@ step
     .turnin 10065 >> Turn in Cutting a Path
     .goto Bloodmyst Isle,30.3,46.0
 step
-    .goto Bloodmyst Isle,38.4,47,100
+    .goto Bloodmyst Isle,38.4,47
 	>>Finish killing and looting Bears and Flutterers. Flutterers can typically be found near the Cyro Core. Bears north of the road towards Axxarien. Try to end on the north side.
     .complete 9647,1 --Kill Royal Blue Flutterer (10)
 	.complete 9580,1 --Elder Brown Bear Flank (8)
@@ -1141,7 +1175,7 @@ step << Hunter/Warlock/Mage
     >>You'll need to hit level 20 before leaving Bloodmyst
 step
     #completewith next
-    .deathskip >>Die and respawn at Blood Watch
+    .deathskip >> Die and respawn at Blood Watch
 step
     .goto Bloodmyst Isle,56.4,56.7
     .turnin 9649 >> Turn in Ysera's Tears
@@ -1338,7 +1372,7 @@ step
 #xprate <1.5
     .isOnQuest 986
     .goto Darkshore,61.1,10.4
-	>>Kill Monstalker Sires/Matriarchs. Loot them for their pelts
+	>>Kill Moonstalker Sires/Matriarchs. Loot them for their pelts
 	>>Sires share their spawns with Bears, and Matriarchs share their spawns with Foreststriders
 	>>If you cannot find any moonstalkers, skip this quest
     .complete 986,1 --Collect Fine Moonstalker Pelt (x5)
@@ -1756,11 +1790,42 @@ step
     .goto Ashenvale,36.6,49.6
     .turnin 1023 >> Turn in Raene's Cleansing
 step
+#xprate <1.5 << tbc
     .goto Ashenvale,36.6,49.6
-    .turnin 1023 >> Turn in Raene's Cleansing
+    .accept 1025 >> Accept An Aggressive Defense
 step
     .goto Ashenvale,37.3,51.8
     .turnin 1034 >> Turn in The Ruins of Stardust
+step
+    .goto Ashenvale,34.7,48.9
+    .turnin 1008 >> Turn in The Zoram Strand
+step
+#xprate <1.5 << tbc
+    >>Kill the mobs for An Aggressive Defense
+    .goto Ashenvale,49.9,60.8
+    .goto Ashenvale,56.9,63.7
+    .complete 1025,1 --Kill Foulweald Den Watcher (x1)
+    .complete 1025,2 --Kill Foulweald Ursa (x2)
+    .complete 1025,3 --Kill Foulweald Totemic (x10)
+    .complete 1025,4 --Kill Foulweald Warrior (x12)
+step
+#xprate <1.5 << tbc
+    .goto Ashenvale,49.8,67.2
+    .accept 1016 >> Accept Elemental Bracers
+step
+#xprate <1.5 << tbc
+    >>Kill all water elementals on the island/in the water for Intact Elemental Bracers. When you have 5, right click the Divining Scroll
+    .goto Ashenvale,48.0,69.9
+    .complete 1016,1 --Collect Divined Scroll (x1)
+step
+#xprate <1.5 << tbc
+    .goto Ashenvale,49.8,67.2
+    .turnin 1016 >> Turn in Elemental Bracers
+step
+#xprate <1.5 << tbc
+    .goto Ashenvale,36.6,49.6
+    .turnin 1025 >> Turn in An Aggressive Defense
+    .isQuestComplete 1025
 step
     .goto Ashenvale,34.7,48.9
     .turnin 1008 >> Turn in The Zoram Strand
@@ -2049,8 +2114,42 @@ step
     .goto Ashenvale,36.6,49.6
     .accept 1025 >> Accept An Aggressive Defense
 step
+#xprate <1.5 << tbc
+    .goto Ashenvale,36.6,49.6
+    .accept 1025 >> Accept An Aggressive Defense
+step
     .goto Ashenvale,37.3,51.8
     .turnin 1034 >> Turn in The Ruins of Stardust
+step
+    .goto Ashenvale,34.7,48.9
+    .turnin 1008 >> Turn in The Zoram Strand
+step
+#xprate <1.5 << tbc
+    >>Kill the mobs for An Aggressive Defense
+    .goto Ashenvale,49.9,60.8
+    .goto Ashenvale,56.9,63.7
+    .complete 1025,1 --Kill Foulweald Den Watcher (x1)
+    .complete 1025,2 --Kill Foulweald Ursa (x2)
+    .complete 1025,3 --Kill Foulweald Totemic (x10)
+    .complete 1025,4 --Kill Foulweald Warrior (x12)
+step
+#xprate <1.5 << tbc
+    .goto Ashenvale,49.8,67.2
+    .accept 1016 >> Accept Elemental Bracers
+step
+#xprate <1.5 << tbc
+    >>Kill all water elementals on the island/in the water for Intact Elemental Bracers. When you have 5, right click the Divining Scroll
+    .goto Ashenvale,48.0,69.9
+    .complete 1016,1 --Collect Divined Scroll (x1)
+step
+#xprate <1.5 << tbc
+    .goto Ashenvale,49.8,67.2
+    .turnin 1016 >> Turn in Elemental Bracers
+step
+#xprate <1.5 << tbc
+    .goto Ashenvale,36.6,49.6
+    .turnin 1025 >> Turn in An Aggressive Defense
+        .isQuestComplete 1025
 step
     .goto Ashenvale,34.7,48.9
     .turnin 1008 >> Turn in The Zoram Strand
@@ -2167,7 +2266,7 @@ step
     .accept 942 >> Accept The Absent Minded Prospector
 step
     .goto Teldrassil,58.4,94.0
-    >>Exit Darnassus trhough the purple portal
+    >>Exit Darnassus through the purple portal
     .fp Rut'theran >> Get the Rut'theran Village flight path
     .fly Auberdine>> Fly to Auberdine
 step << Draenei !Paladin wotlk

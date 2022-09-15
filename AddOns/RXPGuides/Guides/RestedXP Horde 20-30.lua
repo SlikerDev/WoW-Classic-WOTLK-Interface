@@ -1137,8 +1137,11 @@ step << Shaman
     >>Fill the Waterskin at the well
     .complete 1536,1 --Filled Red Waterskin (1)
 step
-    .goto Hillsbrad Foothills,61.50,19.20
+    .goto Hillsbrad Foothills,61.5,19.2
     .turnin 493 >> Turn in Journey to Hillsbrad Foothills
+step
+    .isOnQuest 1065
+    .goto Hillsbrad Foothills,61.5,19.2
     .turnin 1065 >> Turn in Journey to Tarren Mill
     .accept 1066 >> Accept Blood of Innocents
 step
@@ -2623,15 +2626,17 @@ step
 step
 	#requires partsoftheswarm
     .turnin -1147 >> Turn in The Swarm Grows
-step
     .goto Thousand Needles,67.6,63.9
+step
     .turnin -1110 >> Turn in Rocket Car Parts
     .goto Thousand Needles,77.8,77.2
     .turnin -1104 >> Turn in Salt Flat Venom
     .goto Thousand Needles,78.0,77.1
     .turnin -1105 >> Turn in Hardened Shells
+    .goto Thousand Needles,78.1,77.1
 step
     .xp <33,1
+    .isQuestTurnedIn 1104
     .accept 1107 >> Accept Encrusted Tail Fins
     .accept 1106 >> Accept Martek the Exiled
 step

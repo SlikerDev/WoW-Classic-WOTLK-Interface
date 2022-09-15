@@ -17,6 +17,8 @@ L["AUCTION_TOOLTIP_TOOLTIP_HEADER"] = "Информация об аукцион�
 L["AUCTION_TOOLTIP_TOOLTIP_TEXT"] = "Показать информацию об аукционе во всплывающей подсказке при наведении мыши."
 L["AUCTIONATOR"] = "Auctionator"
 L["AUTHOR_HEADER"] = "Автор"
+--[[Translation missing --]]
+L["BID_ONLY_AVAILABLE"] = "bid only available"
 L["BID_PRICE"] = "Цена предложения"
 L["BIDDER"] = "Участник торгов"
 L["BIDDING_AUCTION_INFO"] = "%s ставка на %s"
@@ -118,6 +120,12 @@ L["CONFIG_SELLING_GEAR_USE_ILVL_VARIANTS_TOOLTIP_TEXT"] = "Обычно снар
 L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_SUFFIX"] = "Установите значение 0 без цены"
 L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_TOOLTIP_HEADER"] = "Цена торговца по умолчанию"
 L["CONFIG_SELLING_GEAR_VENDOR_PRICE_MULTIPLIER_TOOLTIP_TEXT"] = "Это позволяет вам установить цену по умолчанию для экипировки, кратную цене продавца. Используется для любого снаряжения, на которое у Аукционатора нет цены. Установите значение 0, чтобы не устанавливать цену."
+--[[Translation missing --]]
+L["CONFIG_SELLING_GREY_POST_BUTTON"] = "Grey (disable) the post button when a post may fail"
+--[[Translation missing --]]
+L["CONFIG_SELLING_GREY_POST_BUTTON_TOOLTIP_HEADER"] = "Grey post button"
+--[[Translation missing --]]
+L["CONFIG_SELLING_GREY_POST_BUTTON_TOOLTIP_TEXT"] = "When a post may fail the post button will be greyed out (disabled). Turn this option off to avoid waiting for the button to enable so you can attempt to post sooner."
 L["CONFIG_SELLING_ICON_SIZE"] = "Размер значка сумки (требуется перезагрузка)"
 L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_HEADER"] = "Размер иконок"
 L["CONFIG_SELLING_ICON_SIZE_TOOLTIP_TEXT"] = "Это позволяет сделать значки предметов сумки на вкладке продажи больше (до 50) или меньше (до 10). Размер по умолчанию-42."
@@ -281,6 +289,8 @@ L["PERCENTAGE_TOOLTIP_TEXT"] = "Процент снижения цены, кот
 L["PET_TOOLTIP_TOOLTIP_HEADER"] = "Подсказки Для Питомцев"
 L["PET_TOOLTIP_TOOLTIP_TEXT"] = "Показывает информацию Auctionator-а о питомцах в клетке."
 L["POST"] = "Выставить"
+--[[Translation missing --]]
+L["POST_ATTEMPT_FAILED"] = "Your last post attempt didn't work. Try again."
 L["PRICE"] = "Цена"
 L["PRICE_INCREASE_WARNING"] = "Цена увеличена на %s, ожидание %ss"
 L["PROFILE_TOGGLE_TOOLTIP_HEADER"] = "Включить настройки для каждого персонажа"
@@ -489,8 +499,7 @@ L["TRANSLATORS_RUSSIAN"] = "Русский"
 L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Китайский"
 L["TRANSLATORS_SPANISH"] = "Испанский"
 L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Китайский трад."
---[[Translation missing --]]
-L["TRANSLATORS_TURKISH_INFO"] = "Turkish (available separately)"
+L["TRANSLATORS_TURKISH_INFO"] = "Турецкий (доступен отдельно)"
 L["UNDERCUT_BID"] = "Ставка"
 L["UNDERCUT_NO"] = "Нет"
 L["UNDERCUT_PREFERENCE"] = "Предпочтения снижения цены"

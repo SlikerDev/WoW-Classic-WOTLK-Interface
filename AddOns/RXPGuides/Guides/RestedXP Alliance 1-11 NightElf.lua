@@ -762,6 +762,9 @@ step << Rogue
     .goto Teldrassil,44.0,54.6
     .deathskip >>Once you get past the furbolg area, die on purpose and respawn at the Darnassus graveyard
 step << Rogue
+    .goto Darnassus,67.2,15.8
+    .home >> Set your Hearthstone to Darnasus 
+step << Rogue
     .goto Darnassus,64.6,53.0
     .collect 25873,1 >> Purchase a Keen Throwing Knife from Ellandrieth
 step << Rogue
@@ -787,7 +790,7 @@ step << Hunter
 	.goto Teldrassil,44.2,39.8,0
 	.goto Teldrassil,45.6,31.4,0
 	.goto Teldrassil,37.6,28.8,0
-    .train 2981 >> Tame a Strigid Hunter and learn claw rank 2
+    .train 2981 >> Tame a Strigid Hunter
 step
     .goto Teldrassil,43.1,32.9
     >>Exit Darnassus << Rogue
