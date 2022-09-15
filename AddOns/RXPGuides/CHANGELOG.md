@@ -1,8 +1,9 @@
 # RestedXP Guides
 
-## [v4.2.11-54-g0871424](https://github.com/RestedXP/RXPGuides/tree/0871424e6b303eb323e93dcc7c1e30e7a7c63048) (2022-09-14)
-[Full Changelog](https://github.com/RestedXP/RXPGuides/compare/v4.2.11...0871424e6b303eb323e93dcc7c1e30e7a7c63048) [Previous Releases](https://github.com/RestedXP/RXPGuides/releases)
+## [v4.2.11-55-g274559e](https://github.com/RestedXP/RXPGuides/tree/274559ec253a91a2116cb235951f5f7d669d6f4d) (2022-09-15)
+[Full Changelog](https://github.com/RestedXP/RXPGuides/compare/v4.2.11...274559ec253a91a2116cb235951f5f7d669d6f4d) [Previous Releases](https://github.com/RestedXP/RXPGuides/releases)
 
+- Draenei Mage fixes  
 - typo fixes  
 - Hunter pet training removal for WOTLK  
 - Overhaul settings (#58)  

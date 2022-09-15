@@ -8,6 +8,7 @@ local buffomatModule = BuffomatModule.Import("Buffomat") ---@type BomBuffomatMod
 local spellCacheModule = BuffomatModule.Import("SpellCache") ---@type BomSpellCacheModule
 local itemCacheModule = BuffomatModule.Import("ItemCache") ---@type BomItemCacheModule
 local buffRowModule = BuffomatModule.Import("Ui/BuffRow") ---@type BomBuffRowModule
+local allBuffsModule = BuffomatModule.Import("AllBuffs") ---@type BomAllBuffsModule
 
 BOM.Class = BOM.Class or {}
 
@@ -113,7 +114,7 @@ function buffDefModule:New(singleId, fields)
   setmetatable(newSpell, spellDefClass)
 
   newSpell.category = false -- special value no category
-  newSpell.frames = buffRowModule:New() -- spell buttons from the UI go here
+  newSpell.frames = buffRowModule:New(tostring(singleId)) -- spell buttons from the UI go here
   newSpell.buffId = singleId
   newSpell.singleId = singleId
   newSpell.limitations = {}
@@ -367,21 +368,20 @@ function spellDefClass:IncrementNeedGroupBuff(class_name)
   self.GroupsNeedBuff[class_name] = (self.GroupsNeedBuff[class_name] or 0) + 1
 end
 
----@param spell_id number
----@param profile_name string|nil
-function buffDefModule:GetProfileSpell(spell_id, profile_name)
-  local spell
-  if profile_name == nil then
-    spell = BOM.CurrentProfile.Spell[spell_id]
-  else
-    local profile = buffomatModule.character[profile_name]
-    if profile == nil then
-      return nil
-    end
-    spell = profile.Spell[spell_id]
+---@param spellId number
+---@param profileName string|nil
+function buffDefModule:GetProfileSpell(spellId, profileName)
+  if profileName == nil then
+    return buffomatModule.currentProfile.Spell[spellId]
+    --return allBuffsModule.allBuffs[spellId]
   end
 
-  return spell
+  local profile = buffomatModule.character[profileName]
+  if profile == nil then
+    return nil
+  end
+
+  return profile.Spell[spellId]
 end
 
 ---Returns true whether spell is enabled by the player (has checkbox)
@@ -456,6 +456,7 @@ end
 ---@param iconReadyFn function|nil Call with result when icon value is ready
 ---@param nameReadyFn function|nil Call with result when name value is ready
 function spellDefClass:RefreshTextAndIcon(iconReadyFn, nameReadyFn)
+  -- TODO: If refresh is in progress and multiple requests come in parallel, that might also be a problem
   if self:IsItem() then
     local itemId = self.item
 

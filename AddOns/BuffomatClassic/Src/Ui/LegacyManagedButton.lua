@@ -2,7 +2,11 @@ local TOCNAME, _ = ...
 local BOM = BuffomatAddon ---@type BomAddon
 
 ---@class BomUiMyButtonModule
+---@field managed table<string, BomLegacyControl> Contains all MyButtons with uniqueId
+---@field managedWithoutUniqueId table<number, BomLegacyControl> Contains all MyButtons without uniqueId
 local managedUiModule = BuffomatModule.New("Ui/MyButton") ---@type BomUiMyButtonModule
+managedUiModule.managed = {}
+managedUiModule.managedWithoutUniqueId = {}
 
 local ONIcon = "|TInterface\\RAIDFRAME\\ReadyCheck-Ready:0:0:0:0:64:64:4:60:4:60|t"
 local OFFIcon = "|TInterface\\RAIDFRAME\\ReadyCheck-NotReady:0:0:0:0:64:64:4:60:4:60|t"
@@ -186,10 +190,6 @@ function BOM.MyButton_SetSpell(self, spell)
   self:SetAttribute("unit", "player")
 end
 
----Contains all MyButtons
----@type table<string, BomLegacyControl>
-local managedUiButtons = {}
-
 ---Creates small clickable button in the spell tab
 ---@param parent table - UI parent frame
 ---@param sel string - texture for checked / selected
@@ -198,44 +198,54 @@ local managedUiButtons = {}
 ---@param selCoord table - texcoord for selected
 ---@param unselCoord table - texcoord for unselected
 ---@param disCoord table - texcoord for disabled
----@param unmanaged boolean - set to true to not add button to bom_managed_mybuttons
+---@param uniqueId string|nil - set to nil to not add button to bom_managed_mybuttons, or pass unique id
 ---@return BomLegacyControl
-function managedUiModule:CreateManagedButton(parent, sel, unsel, dis, selCoord, unselCoord, disCoord, unmanaged)
+function managedUiModule:CreateManagedButton(parent, sel, unsel, dis, selCoord, unselCoord, disCoord, uniqueId)
   local newButtonFrame = CreateFrame("frame", nil, parent, "BomC_MyButton")
   BOM.MyButton_OnLoad(newButtonFrame)
   newButtonFrame:SetTextures(sel, unsel, dis, selCoord, unselCoord, disCoord)
 
-  if unmanaged == nil or unmanaged == false then
-    self:ManageControl(newButtonFrame)
-  end
-
+  self:ManageControl(uniqueId, newButtonFrame)
   return newButtonFrame
 end
 
-function managedUiModule:ManageControl(control)
-  tinsert(managedUiButtons, control)
+function managedUiModule:ManageControl(uniqueId, control)
+  if uniqueId ~= nil then
+    self.managed[uniqueId] = control
+  else
+    table.insert(self.managedWithoutUniqueId, control)
+  end
 end
 
 ---@return BomLegacyControl
-function managedUiModule:CreateMyButtonSecure(parent, sel, unsel, dis, selCoord, unselCoord, disCoord)
+---@param uniqueId string|nil Uniqueid for ManageControl call or nil to keep unmanaged
+function managedUiModule:CreateMyButtonSecure(parent, sel, unsel, dis, selCoord, unselCoord, disCoord, uniqueId)
   local newButton = CreateFrame("Button", nil, parent, "BomC_MyButtonSecure")
   BOM.MyButton_OnLoad(newButton, true)
   newButton:SetTextures(sel, unsel, dis, selCoord, unselCoord, disCoord)
-  self:ManageControl(newButton)
+  self:ManageControl(uniqueId, newButton)
   return newButton
 end
 
-function BOM.MyButtonUpdateAll()
-  for i, Frame in ipairs(managedUiButtons) do
-    if Frame.SetState then
-      Frame:SetState()
+function managedUiModule:UpdateAll()
+  for uniq, control in pairs(self.managed) do
+    if control.SetState then
+      control:SetState()
+    end
+  end
+  for i, control in ipairs(self.managedWithoutUniqueId) do
+    if control.SetState then
+      control:SetState()
     end
   end
 end
 
 -- Hides all icons and clickable buttons in the spells tab
-function BOM.HideAllManagedButtons()
-  for i, Frame in ipairs(managedUiButtons) do
-    Frame:Hide()
+function managedUiModule:HideAllManagedButtons()
+  for uniq, control in pairs(self.managed) do
+    control:Hide()
+  end
+  for i, control in ipairs(self.managedWithoutUniqueId) do
+    control:Hide()
   end
 end

@@ -1,30 +1,32 @@
-local TOCNAME, _ = ...
+--local TOCNAME, _ = ...
 
 ---@class BomBuffomatModule
 ---@field shared BomSharedSettings Refers to BuffomatShared global
 ---@field character BomCharacterSettings Refers to BuffomatCharacter global
+---@field currentProfileName string
+---@field currentProfile BomProfile
 local buffomatModule = BuffomatModule.New("Buffomat") ---@type BomBuffomatModule
 
+local characterSettingsModule = BuffomatModule.New("CharacterSettings") ---@type BomCharacterSettingsModule
 local _t = BuffomatModule.Import("Languages") ---@type BomLanguagesModule
 local allBuffsModule = BuffomatModule.Import("AllBuffs") ---@type BomAllBuffsModule
 local characterStateModule = BuffomatModule.Import("CharacterSettings") ---@type BomCharacterSettingsModule
 local constModule = BuffomatModule.Import("Const") ---@type BomConstModule
 local eventsModule = BuffomatModule.Import("Events") ---@type BomEventsModule
-local itemCacheModule = BuffomatModule.Import("ItemCache") ---@type BomItemCacheModule
 local languagesModule = BuffomatModule.Import("Languages") ---@type BomLanguagesModule
 local managedUiModule = BuffomatModule.New("Ui/MyButton") ---@type BomUiMyButtonModule
 local optionsModule = BuffomatModule.Import("Options") ---@type BomOptionsModule
 local optionsPopupModule = BuffomatModule.Import("OptionsPopup") ---@type BomOptionsPopupModule
+local profileModule = BuffomatModule.Import("Profile") ---@type BomProfileModule
 local sharedStateModule = BuffomatModule.Import("SharedSettings") ---@type BomSharedSettingsModule
 local spellButtonsTabModule = BuffomatModule.Import("Ui/SpellButtonsTab") ---@type BomSpellButtonsTabModule
-local spellCacheModule = BuffomatModule.Import("SpellCache") ---@type BomSpellCacheModule
 local taskScanModule = BuffomatModule.Import("TaskScan") ---@type BomTaskScanModule
 local toolboxModule = BuffomatModule.Import("Toolbox") ---@type BomToolboxModule
 
 ---global, visible from XML files and from script console and chat commands
 ---@class BomAddon
 ---@field ForceUpdate boolean Set to true to force recheck buffs on timer
----@field ForceUpdateSpellsTab boolean Set to true to force clear and rebuild spells tab. This activity is throttled to 1 per second
+-- -@field ForceUpdateSpellsTab boolean Set to true to force clear and rebuild spells tab. This activity is throttled to 1 per second
 ---@field ALL_PROFILES table<string> Lists all buffomat profile names (group, solo... etc)
 ---@field RESURRECT_CLASS table<string> Classes who can resurrect others
 ---@field MANA_CLASSES table<string> Classes with mana resource
@@ -212,7 +214,7 @@ function buffomatModule:OptionsUpdate()
   BOM.SetForceUpdate("OptionsUpdate")
   taskScanModule:UpdateScan("OptionsUpdate")
   spellButtonsTabModule:UpdateSpellsTab("OptionsUpdate")
-  BOM.MyButtonUpdateAll()
+  managedUiModule:UpdateAll()
   BOM.MinimapButton.UpdatePosition()
   --BOM.legacyOptions.DoCancel()
 end
@@ -236,20 +238,38 @@ end
 function buffomatModule.ChooseProfile(profile)
   if profile == nil or profil == "" or profile == "auto" then
     BOM.ForceProfile = nil
-    BOM:Print("Set profile to auto")
-
   elseif buffomatModule.character[profile] then
     BOM.ForceProfile = profile
-    BOM:Print("Set profile to " .. profile)
-
   else
     BOM:Print("Unknown profile: " .. profile)
+    return
   end
 
   BOM.ClearSkip()
   BOM.PopupDynamic:Wipe()
   BOM.SetForceUpdate("ChooseProfile")
+
+  buffomatModule:UseProfile(profile)
   taskScanModule:UpdateScan("ChooseProfile")
+end
+
+function buffomatModule:UseProfile(profileName)
+  if buffomatModule.currentProfileName == profileName then
+    return
+  end
+
+  buffomatModule.currentProfileName = profileName
+
+  local selectedProfile = self.character[profileName] or characterSettingsModule:New()
+  buffomatModule.currentProfile = selectedProfile
+
+  BomC_MainWindow_Title:SetText(
+          BOM.FormatTexture(constModule.BOM_BEAR_ICON_FULLPATH)
+                  .. _t("profile_" .. profileName)
+                  -- .. " - " .. constModule.SHORT_TITLE
+  )
+
+  BOM:Print("Using profile " .. _t("profile_" .. profileName))
 end
 
 ---When BomCharacterState.WatchGroup has changed, update the buff tab text to show what's
@@ -318,8 +338,7 @@ function BOM.CreateSingleBuffButton(parent_frame)
             parent_frame,
             BOM.ICON_SELF_CAST_ON,
             BOM.ICON_SELF_CAST_OFF,
-            nil, nil, nil, nil,
-            true)
+            nil, nil, nil, nil, nil)
     BOM.QuickSingleBuff:SetPoint("BOTTOMLEFT", parent_frame, "BOTTOMRIGHT", -18, 0);
     BOM.QuickSingleBuff:SetPoint("BOTTOMRIGHT", parent_frame, "BOTTOMRIGHT", -2, 12);
     BOM.QuickSingleBuff:SetVariable(buffomatModule.shared, "NoGroupBuff")
@@ -361,14 +380,6 @@ function buffomatModule:InitUI()
           end,
           constModule.SHORT_TITLE)
 
-  BomC_MainWindow_Title:SetText(
-          BOM.FormatTexture(constModule.BOM_BEAR_ICON_FULLPATH)
-                  .. " "
-                  .. _t("Buffomat")
-                  .. " - "
-                  .. _t("profile_solo"))
-  --BomC_ListTab_Button:SetText(L["BtnGetMacro"])
-
   buffomatModule:OptionsInit()
   BOM.PartyUpdateNeeded = true
   BOM.RepeatUpdate = false
@@ -404,8 +415,8 @@ function buffomatModule:InitGlobalStates()
     self.shared.Duration = {}
   end
 
-  if not self.character[BOM.ALL_PROFILES[1]] then
-    self.character[BOM.ALL_PROFILES[1]] = {
+  if not self.character[profileModule.ALL_PROFILES[1]] then
+    self.character[profileModule.ALL_PROFILES[1]] = {
       ["CancelBuff"] = self.character.CancelBuff,
       ["Spell"]      = self.character.Spell,
       ["LastAura"]   = self.character.LastAura,
@@ -417,7 +428,7 @@ function buffomatModule:InitGlobalStates()
     self.character.LastSeal = nil
   end
 
-  for i, each_profile in ipairs(BOM.ALL_PROFILES) do
+  for i, each_profile in ipairs(profileModule.ALL_PROFILES) do
     if not self.character[each_profile] then
       self.character[each_profile] = {}
     end
@@ -425,14 +436,13 @@ function buffomatModule:InitGlobalStates()
 
   --BOM.SharedState = self.shared
   --BOM.CharacterState = self.character
-  BOM.CurrentProfile = self.character[BOM.ALL_PROFILES[1]]
+  local soloProfile = profileModule:SoloProfile()
+  BOM.CurrentProfile = self.character[profileModule.ALL_PROFILES[soloProfile] or {}]
 end
 
 ---Called from event handler on Addon Loaded event
 ---Execution start here
 function BuffomatAddon:Init()
-  buffomatModule:InitGlobalStates()
-
   languagesModule:SetupTranslations()
   allBuffsModule:SetupSpells()
   allBuffsModule:SetupCancelBuffs()
@@ -440,12 +450,6 @@ function BuffomatAddon:Init()
   taskScanModule:SetupTasklist()
 
   BOM.Macro = BOM.Class.Macro:new(constModule.MACRO_NAME)
-
-  --function SetDefault(db, var, init)
-  --  if db[var] == nil then
-  --    db[var] = init
-  --  end
-  --end
 
   languagesModule:LocalizationInit()
 
@@ -535,6 +539,8 @@ end
 function BuffomatAddon:OnInitialize()
   -- do init tasks here, like loading the Saved Variables,
   -- or setting up slash commands.
+  profileModule:Setup()
+  buffomatModule:InitGlobalStates()
 end
 
 ---AceAddon handler
@@ -544,7 +550,7 @@ function BuffomatAddon:OnEnable()
   -- the game that wasn't available in OnInitialize
   self:Init()
   eventsModule:InitEvents()
-  self.Tool.AddDataBroker(
+  toolboxModule:AddDataBroker(
           constModule.BOM_BEAR_ICON_FULLPATH,
           function(self, button)
             if button == "LeftButton" then
@@ -553,13 +559,14 @@ function BuffomatAddon:OnEnable()
               optionsPopupModule:Setup(self, true)
             end
           end)
+  buffomatModule:UseProfile(profileModule:SoloProfile())
 end
 
 ---AceAddon handler
 function BuffomatAddon:OnDisable()
 end
 
-local function bomDownGrade()
+function buffomatModule:DownGrade()
   if BOM.CastFailedSpell
           and BOM.CastFailedSpell.SkipList
           and BOM.CastFailedSpellTarget then
