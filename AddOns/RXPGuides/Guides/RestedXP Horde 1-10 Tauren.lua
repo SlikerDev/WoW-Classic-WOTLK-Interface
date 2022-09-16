@@ -132,6 +132,7 @@ step << Shaman
     .goto Mulgore,44.7,76.2
     .accept 1519 >>Accept Call of Earth
 step
+    >>Talk to Windfeather. She patrols around the camp
     .goto Mulgore,45.0,76.4
     .accept 3376 >>Accept Break Sharptusk!
 step << Hunter
@@ -142,7 +143,7 @@ step << Warrior
     .trainer >> Train your class spells
 step
     .goto Mulgore,58.2,85.0
-    >>Kill Battleboars outside the cave for Flanks and Snouts
+    >>Kill Battleboars outside the cave for their Flanks and Snouts
     .complete 780,2 --Battleboar Flank (8)
     .complete 780,1 --Battleboar Snout (8)
 step
@@ -183,6 +184,10 @@ step
 step
     .goto Mulgore,44.9,77.0
     .turnin 780 >>Turn in The Battleboars
+step
+    #completewith next
+    .goto Mulgore,44.65,77.90
+    .vendor >>vendor trash
 step << Shaman
     .goto Mulgore,44.7,76.2
     .turnin 1519 >>Turn in Call of Earth
@@ -198,6 +203,7 @@ step << Shaman
     .goto Mulgore,44.7,76.2
     .turnin 1521 >>Turn in Call of Earth
 step
+    >>Talk to Windfeather. She patrols around the camp
     .goto Mulgore,44.5,76.5
     .turnin 3376 >>Turn in Break Sharptusk!
 step
@@ -309,19 +315,12 @@ step << Hunter
 step << Hunter
     .goto Mulgore,48.3,53.3
     .accept 11129 >>Accept Kyle's Gone Missing!
-step << Hunter
+step
     .goto Mulgore,49.3,56.2,15,0
     .goto Mulgore,52.0,61.1,15,0
     .goto Mulgore,50.0,66.4,15,0
     .goto Mulgore,50.4,66.5
-    >>Collect the 'Acorn' looking items on the ground, below the trees
-    .complete 771,2 --Ambercorn (2)
-step << !Hunter
-    .goto Mulgore,49.3,56.2,15,0
-    .goto Mulgore,52.0,61.1,15,0
-    .goto Mulgore,50.0,66.4,15,0
-    .goto Mulgore,50.4,66.5
-    >>Collect the 'Acorn' looking items on the ground, below the trees
+    >>Collect Ambercorn off the ground beneath trees
     .complete 771,2 --Ambercorn (2)
 step
     #sticky

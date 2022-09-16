@@ -61,9 +61,7 @@ function profileModule:New()
 end
 
 function profileModule:Setup()
-  self.GetSpecialization = _G.GetSpecialization or libClassicSpecsModule.GetSpecialization
-
-  if BOM.HaveWotLK or GetSpecialization then
+  if BOM.HaveWotLK or GetActiveTalentGroup then
     self.ALL_PROFILES = {
       "solo", "solo_spec2",
       "group", "group_spec2",
@@ -76,7 +74,8 @@ function profileModule:Setup()
 end
 
 function profileModule:SoloProfile()
-  if self:GetSpecialization() == 1 then
+  local spec = GetActiveTalentGroup()
+  if spec == 1 or spec == nil then
     return "solo"
   else
     return "solo_spec2"
@@ -84,7 +83,8 @@ function profileModule:SoloProfile()
 end
 
 function profileModule:GroupProfile()
-  if self:GetSpecialization() == 1 then
+  local spec = GetActiveTalentGroup()
+  if spec == 1 or spec == nil then
     return "group"
   else
     return "group_spec2"
@@ -92,7 +92,8 @@ function profileModule:GroupProfile()
 end
 
 function profileModule:RaidProfile()
-  if self:GetSpecialization() == 1 then
+  local spec = GetActiveTalentGroup()
+  if spec == 1 or spec == nil then
     return "raid"
   else
     return "raid_spec2"
@@ -100,7 +101,8 @@ function profileModule:RaidProfile()
 end
 
 function profileModule:BattlegroundProfile()
-  if self:GetSpecialization() == 1 then
+  local spec = GetActiveTalentGroup()
+  if spec == 1 or spec == nil then
     return "battleground"
   else
     return "battleground_spec2"

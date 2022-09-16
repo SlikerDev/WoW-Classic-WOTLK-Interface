@@ -164,7 +164,7 @@ function addon.settings:MigrateSettings()
 
     if RXPCData.hideWindow ~= nil then
         n("hideWindow", RXPCData.hideWindow)
-        db.hideWindow = RXPCData.hideWindow
+        db.hideGuideWindow = RXPCData.hideWindow
         RXPCData.hideWindow = nil
     end
 
@@ -658,7 +658,7 @@ function addon.settings:CreateAceOptionsPanel()
                         width = "full",
                         order = 2
                     },
-                    hideWindow = {
+                    hideGuideWindow = {
                         name = L("Hide Window"),
                         desc = L("Hides the main window"),
                         type = "toggle",
@@ -911,7 +911,10 @@ function addon.settings:CreateAceOptionsPanel()
                         type = "toggle",
                         width = "full",
                         order = 1.2,
-                        confirm = requiresReload,
+                        set = function(info, value)
+                            SetProfileOption(info, value)
+                            addon.tracker:SetupInspections()
+                        end,
                         disabled = function()
                             return not addon.settings.db.profile.enableTracker
                         end,
@@ -1259,7 +1262,7 @@ local function buildMinimapMenu()
     local menu = {}
     addon.RXPFrame.GenerateMenuTable(menu)
 
-    if addon.settings.db.profile.minimap.show then
+    if addon.settings.db.profile.minimap.show or addon.RXPFrame:IsShown() then
         table.insert(menu, #menu, {
             text = _G.HIDE,
             notCheckable = 1,
@@ -1295,7 +1298,8 @@ function addon.settings:UpdateMinimapButton()
                 _G.EasyMenu(buildMinimapMenu(), addon.settings.minimapFrame,
                             "cursor", 0, 0, "MENU")
             else
-                if addon.settings.db.profile.minimap.show then
+                if addon.settings.db.profile.minimap.show or
+                    addon.RXPFrame:IsShown() then
                     addon.settings.HideActive()
                 else
                     addon.settings.RestoreActive()
@@ -1329,7 +1333,7 @@ function addon.settings.RestoreActive()
     addon.settings.db.profile.minimap.show = true
 end
 
-function addon.settings:DetectXPRate()
+function addon.settings:DetectXPRate(heirloomCheck)
     if addon.settings.db.profile.xpRateOverriden then return end
 
     local UnitBuff = UnitBuff
@@ -1355,10 +1359,13 @@ function addon.settings:DetectXPRate()
         end
     end
 
-    if addon.currentGuide and addon.currentGuide.name then
-        addon:LoadGuide(addon.currentGuide)
-    else
-        addon.ReloadGuide()
+    -- TODO heirloomCheck for periodic checking
+    if heirloomCheck then
+        if addon.currentGuide and addon.currentGuide.name then
+            addon:LoadGuide(addon.currentGuide, 'onLoad')
+        else
+            addon.ReloadGuide()
+        end
     end
 
     addon.RXPFrame.GenerateMenuTable()

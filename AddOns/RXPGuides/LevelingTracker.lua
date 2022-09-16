@@ -53,11 +53,7 @@ function addon.tracker:SetupTracker()
     self:RegisterEvent("PLAYER_DEAD")
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-    if addon.settings.db.profile.enableLevelingReportInspections and
-        addon.settings.db.profile.enableBetaFeatures then
-        self:RegisterEvent("INSPECT_READY")
-        self:RegisterComm(self._commPrefix)
-    end
+    self:SetupInspections()
 
     self:GenerateDBLevel(self.playerLevel)
     self:UpgradeDB()
@@ -72,6 +68,16 @@ function addon.tracker:SetupTracker()
         self:CreateLevelSplits()
 
         self.levelSplits:Show()
+    end
+end
+
+function addon.tracker:SetupInspections()
+    if addon.settings.db.profile.enableLevelingReportInspections and
+        addon.settings.db.profile.enableBetaFeatures then
+        self:RegisterEvent("INSPECT_READY")
+        self:RegisterComm(self._commPrefix)
+    else
+        self:UnregisterEvent("INSPECT_READY")
     end
 end
 
@@ -120,6 +126,12 @@ function addon.tracker:UpgradeDB()
                 if questXP <= 0 then questData[i] = nil end
             end
         end
+
+        -- Repair DK starting time
+        if l == 55 and addon.player.class == "DEATHKNIGHT" and
+            not levelDB[l].timestamp.started then
+            levelDB[l].timestamp.started = 0
+        end
     end
 
     -- On 60/70 login, set timestamp.started to now
@@ -152,7 +164,11 @@ function addon.tracker:GenerateDBLevel(level)
         }
     end
 
-    if level == 1 then profile["levels"][level].timestamp.started = 0 end
+    if level == 1 then
+        profile["levels"][level].timestamp.started = 0
+    elseif level == 55 and addon.player.class == "DEATHKNIGHT" then
+        profile["levels"][level].timestamp.started = 0
+    end
 end
 
 function addon.tracker:CHAT_MSG_COMBAT_XP_GAIN(_, text, ...)
@@ -778,7 +794,8 @@ function addon.tracker:UpdateReport(selectedLevel, target, attachment)
                                               .timePlayedThisLevel or
                                               "Missing data"))
 
-        if selectedLevel == 1 then
+        if selectedLevel == 1 or
+            (selectedLevel == 55 and addon.player.class == "DEATHKNIGHT") then
             trackerUi.reachedContainer.data:SetText(
                 addon.tracker.reportData[selectedLevel].timestamp.dateStarted or
                     "Missing data")
@@ -1550,6 +1567,10 @@ function addon.tracker:OnCommReceived(prefix, data, distribution, sender)
 end
 
 function addon.tracker:INSPECT_READY(_, inspecteeGUID)
+    if not addon.settings.db.profile.enableLevelingReportInspections then
+        return
+    end
+
     local inspectedName = select(6, GetPlayerInfoByGUID(inspecteeGUID))
     if self.state.otherReports[inspectedName] and
         self.state.otherReports[inspectedName].compileTime and GetServerTime() -

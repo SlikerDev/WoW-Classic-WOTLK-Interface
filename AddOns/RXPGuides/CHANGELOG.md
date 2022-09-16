@@ -1,8 +1,25 @@
 # RestedXP Guides
 
-## [v4.2.11-55-g274559e](https://github.com/RestedXP/RXPGuides/tree/274559ec253a91a2116cb235951f5f7d669d6f4d) (2022-09-15)
-[Full Changelog](https://github.com/RestedXP/RXPGuides/compare/v4.2.11...274559ec253a91a2116cb235951f5f7d669d6f4d) [Previous Releases](https://github.com/RestedXP/RXPGuides/releases)
+## [v4.2.11-71-gc4e770a](https://github.com/RestedXP/RXPGuides/tree/c4e770a7317737372c2284cd9ddab4f47c409ac7) (2022-09-16)
+[Full Changelog](https://github.com/RestedXP/RXPGuides/compare/v4.2.11...c4e770a7317737372c2284cd9ddab4f47c409ac7) [Previous Releases](https://github.com/RestedXP/RXPGuides/releases)
 
+- ambercorn quest text update  
+- added vendor trash step  
+- added text to quest  
+- added patrol instruction  
+- coords fix  
+- coords updates  
+- added instructions  
+- Update level report inspection settings/obedience  
+- Fix flickering arrow on minimap hide toggle  
+- Fix initial minimap button toggle  
+- Only display timer if GuideWindow shown  
+- Avoid resetting step in DetectXPRate  
+- Fix IsShown call  
+- Handle DK level 55 tracking  
+- Set minimap button toggle initial state  
+    use GuideWindow as control  
+- Fix hideWindow setting/rename  
 - Draenei Mage fixes  
 - typo fixes  
 - Hunter pet training removal for WOTLK  
