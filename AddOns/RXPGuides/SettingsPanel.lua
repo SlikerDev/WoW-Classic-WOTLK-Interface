@@ -442,7 +442,7 @@ function addon.settings.CreateImportOptionsPanel()
     importFrame.text:SetJustifyH("LEFT")
     importFrame.text:SetJustifyV("CENTER")
     importFrame.text:SetTextColor(1, 1, 1)
-    importFrame.text:SetFont(addon.font, 14)
+    importFrame.text:SetFont(addon.font, 14, "")
     importFrame.text:SetText("")
     addon.RXPG.LoadText = importFrame.text
 
@@ -520,17 +520,28 @@ function addon.settings:CreateAceOptionsPanel()
 
     local optionsTable = {
         type = "group",
-        name = addon.title,
+        name = fmt("%s - %s", addon.title, addon.versionText),
         get = GetProfileOption,
         set = SetProfileOption,
         childGroups = "tab",
         args = {
-            buffer = { -- Buffer hacked in right-aligned icon
-                order = 1,
-                name = addon.versionText,
-                type = "description",
-                width = "full",
-                fontSize = "medium"
+            discordButton = {
+                order = 1.0,
+                name = L("Join Discord"), -- TODO locale
+                type = "execute",
+                width = "normal",
+                func = function()
+                    addon.url = "https://discord.gg/restedxp"
+                    _G.StaticPopup_Show("RXP_Link")
+                    addon.url = nil
+                end
+            },
+            feedbackButton = {
+                order = 1.1,
+                name = L("Open Feedback Form"),
+                type = "execute",
+                width = "normal",
+                func = addon.comms.OpenBugReport
             },
             generalSettings = {
                 type = "group",
@@ -651,6 +662,22 @@ function addon.settings:CreateAceOptionsPanel()
                             addon.ReloadGuide()
                         end,
                         hidden = addon.gameVersion < 30000
+                    },
+                    hideInRaid = {
+                        name = L("Autohide in Raids"), -- TODO locale
+                        desc = L(
+                            "Automatically hide when in a raid, and unhide when you leave a raid"),
+                        type = "toggle",
+                        width = optionsWidth,
+                        order = 1.91,
+                        set = function(info, value)
+                            SetProfileOption(info, value)
+                            if value then
+                                addon:RegisterEvent("GROUP_ROSTER_UPDATE")
+                            else
+                                addon:UnregisterEvent("GROUP_ROSTER_UPDATE")
+                            end
+                        end
                     },
                     interfaceHeader = {
                         name = _G.UIOPTIONS_MENU,
@@ -836,10 +863,13 @@ function addon.settings:CreateAceOptionsPanel()
                         type = "toggle",
                         width = optionsWidth,
                         order = 5.1,
-                        hidden = true, -- TODO, Impossible situation with character-specific settings
                         set = function(info, value)
                             SetProfileOption(info, value)
-                            addon.updateMap = true
+                            if value then
+                                addon.UpdateArrow(addon.arrowFrame)
+                            else
+                                addon.arrowFrame:Hide()
+                            end
                         end
                     },
                     arrowScale = {
@@ -1119,10 +1149,16 @@ function addon.settings:CreateAceOptionsPanel()
                     }
                 }
             },
+            helpPanel = {
+                type = "group",
+                name = _G.HELP_LABEL,
+                order = 9,
+                args = {}
+            },
             advancedSettings = {
                 type = "group",
                 name = L("Advanced Settings"),
-                order = 5,
+                order = 10,
                 args = {
                     enableBetaFeatures = {
                         name = L("Enable Beta Features"),
@@ -1237,11 +1273,33 @@ function addon.settings:CreateAceOptionsPanel()
         }
     }
 
+    -- Build FAQ items
+    local faqBatch = 2
+    for q, a in pairs(addon.help) do
+        optionsTable.args.helpPanel.args[faqBatch .. "q"] = {
+            order = faqBatch + 0.1,
+            name = q,
+            type = "header",
+            width = "full"
+        }
+
+        optionsTable.args.helpPanel.args[faqBatch .. "a"] = {
+            order = faqBatch + 0.2,
+            name = a,
+            type = "description",
+            width = "full",
+            fontSize = "medium"
+        }
+        faqBatch = faqBatch + 1
+    end
+
     AceConfig:RegisterOptionsTable(addon.title, optionsTable)
 
-    optionsTable.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(
-                                     self.db)
-    optionsTable.args.profiles.order = 20
+    if addon.settings.db.profile.enableBetaFeature then
+        optionsTable.args.profiles =
+            LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
+        optionsTable.args.profiles.order = 20
+    end
 
     addon.RXPOptions = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(
                            addon.title)

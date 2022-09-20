@@ -3,7 +3,7 @@
 ## Notes: In-game leveling guides
 ## Notes-zhCN: TODO
 ## Author: RestedXP
-## Version: v4.2.11-71-gc4e770a
+## Version: v4.2.11-107-gb9a92fb
 ## OptionalDeps: Questie, unitscan
 ## SavedVariables: RXPData, RXPDB
 ## SavedVariablesPerCharacter: RXPCData, RXPCTrackingData, RXPCComms, RXPCSettings
@@ -15,6 +15,7 @@ locale\locales.xml
 Locale.lua
 RXPGuides.lua
 GuideWindow.lua
+Help.lua
 SettingsPanel.lua
 HSBatching.lua
 QuestLog.lua

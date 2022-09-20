@@ -325,9 +325,6 @@ step
 step
     #sticky
     #completewith Well
-	.goto Mulgore,55.9,63.1,90
-    .goto Mulgore,51.1,66.5,90
-    .goto Mulgore,40.7,73.0,90
     >>Get the items for Mazzranache as you quest throughout the zone
     .complete 766,1 --Prairie Wolf Heart (1)
     .complete 766,2 --Flatland Cougar Femur (1)
@@ -594,7 +591,7 @@ step
     .turnin 833 >>Turn in A Sacred Burial
 step
     .goto Mulgore,61.5,21.9
-    .xp 9+4400 >> Grind to 4400+/6500xp
+    .xp 9+4400 >> Grind to 4450+/6500xp
 step << !Druid
     #completewith hsfailsafe3
     .hs >>Hearth to Bloodhoof Village
@@ -608,9 +605,6 @@ step << !Hunter
 step
     .goto Mulgore,48.7,59.4
     .turnin 761 >>Turn in Swoop Hunting
-step << !Hunter !Druid
-    .goto Mulgore,46.9,60.2
-    .accept 861 >>Accept The Hunter's Way
 step
     .goto Mulgore,48.5,60.4
     .turnin 758 >>Turn in Thunderhorn Cleansing
@@ -618,6 +612,9 @@ step
 step << !Hunter
     .goto Mulgore,47.5,60.2
     .turnin 746 >>Turn in Dwarven Digging
+step << !Hunter !Druid
+    .goto Mulgore,46.9,60.2
+    .accept 861 >>Accept The Hunter's Way
 step
     #label hsfailsafe3
     .goto Mulgore,47.4,62.0
@@ -711,14 +708,18 @@ step << Druid/Hunter
     .turnin 751 >> Turn in The Ravaged Caravan
 	.unitscan Morin Cloudstalker
 step << Tauren Warrior/Tauren Shaman
-    >>Kill Wolves in the area. Loot them for teeth
-    .goto Mulgore,66.9,67.2
+    >>Kill Wolves in the area. Loot them for their teeth
+    .goto Mulgore,62.48,66.93,80,0
+    .goto Mulgore,66.9,67.2,80,0
+    .goto Mulgore,66.66,58.40,80,0
+    .goto Mulgore,62.38,57.56,80,0
     .complete 759,1 --Prairie Alpha Tooth (8)
-step << Warrior/Shaman
+step << Warrior tbc/Shaman tbc
     #sticky
     #completewith next
     .goto Mulgore,46.5,55.5,200 >> Die and respawn at the Spirit Healer, or run to Bloodhoof Village
 step << Tauren Warrior/Tauren Shaman
+    >>Run back to Bloodhoof Village << wotlk
     .goto Mulgore,48.5,60.4
     .turnin 759 >>Turn in Wildmane Totem
     .accept 760 >>Accept Wildmane Cleansing
@@ -788,15 +789,15 @@ step << Druid
 step << !Druid
     .goto The Barrens,52.2,31.9
     .accept 870 >>Accept The Forgotten Pools
-step
-    .goto The Barrens,51.5,30.1
-    .accept 848 >>Accept Fungal Spores
 step << Tauren
     .goto The Barrens,51.5,30.8
     .turnin 854 >>Turn in Journey to the Crossroads
 step
     .goto The Barrens,51.5,30.4
     .fp The Crossroads >>Get the The Crossroads Flight Path
+step
+    .goto The Barrens,51.5,30.1
+    .accept 848 >>Accept Fungal Spores
 step
     .goto The Barrens,51.1,29.0
     .accept 6361 >>Accept A Bundle of Hides
@@ -1013,10 +1014,11 @@ step << Warrior
     .train 5242 >>Train Battle Shout r2
     .train 7384 >>Train Overpower
 step
-    #sticky
     #completewith next
-    .cooldown item,6948,>0
-    .goto The Barrens,52.0,29.9,100 >>Hearth or fly back to Crossroads
+    .hs >> Hearth or fly back to Crossroads
+step
+    .goto The Barrens,52.0,30.3
+    .accept 869 >>Accept Raptor Thieves
 step
     .goto The Barrens,51.2,29.1
     .turnin 6364 >>Turn in Return to Jahan
@@ -1032,9 +1034,6 @@ step
     .goto The Barrens,52.2,31.0
     .turnin 860 >>Turn in Sergra Darkthorn
     .accept 844 >>Accept Plainstrider Menace
-step
-    .goto The Barrens,52.0,30.3
-    .accept 869 >>Accept Raptor Thieves
 step << Shaman
     .goto The Barrens,55.9,19.9
     .turnin 2984 >>Turn in Call of Fire
@@ -1047,11 +1046,20 @@ step << Shaman
     .accept 1525 >>Accept Call of Fire
 step << Warrior
     .goto The Barrens,61.4,21.1
-    .turnin 1505 >>Turn in ' Uzzek
+    .turnin 1505 >>Turn in Veteran Uzzek
     .accept 1498 >>Accept Path of Defense
 step << Warrior
-    >>Kill Lightning Hides for Singed Scales
+    .goto Durotar,39.2,32.3,40,0
+    .goto Durotar,39.62,28.10,40,0	
+    .goto Durotar,40.20,24.13,40,0		
+    .goto Durotar,43.33,24.32,40,0
+    .goto Durotar,39.2,32.3	
+    >>Kill Thunder Lizards and Lightning Hides in Thunder Ridge for their Scales
     .complete 1498,1 --Singed Scale (5)
+step << Warrior
+    .isQuestComplete 1498
+    #completewith next
+.goto Durotar,39.2,32.3,30 >>Leave Thunder Ridge
 step << Warrior
     .goto The Barrens,61.4,21.1
     .turnin 1498 >>Turn in Path of Defense

@@ -1249,23 +1249,6 @@ step
 	.goto Hillsbrad Foothills,63.5,33.0
     .complete 496,2 --Collect Creeper Ichor (x1) 
 step
-	#requires syndicateq
-    .goto Hillsbrad Foothills,61.5,19.1
-    .turnin 1066 >> Turn in Blood of Innocents
-step
-    .goto Hillsbrad Foothills,62.38,20.52
-	.turnin 549 >> Turn in WANTED: Syndicate Personnel
-step
-    .goto Hillsbrad Foothills,63.2,20.7
-    .turnin 498 >> Turn in The Rescue
-step << Hunter
-	#completewith next
-	.goto Hillsbrad Foothills,62.56,19.91
-	.vendor >> Buy arrows until your quiver is full
-step
-    .goto Hillsbrad Foothills,62.79,19.05
-	.vendor 2388 >> Go inside the Inn. Vendor trash, and buy Food/Water from Shay	
-step
 	#completewith next
     >>Kill Bears and Mountain Lions en route to the Fields. Loot them for Tongues and Blood
 	.complete 496,1 --Collect Gray Bear Tongue (x10)
@@ -1313,6 +1296,23 @@ step
 	.complete 496,1 --Collect Gray Bear Tongue (x10)
 	.complete 501,1 --Collect Mountain Lion Blood (x10)
 --N Claw rank 3?
+step
+	#requires syndicateq
+    .goto Hillsbrad Foothills,61.5,19.1
+    .turnin 1066 >> Turn in Blood of Innocents
+step
+    .goto Hillsbrad Foothills,62.38,20.52
+	.turnin 549 >> Turn in WANTED: Syndicate Personnel
+step
+    .goto Hillsbrad Foothills,63.2,20.7
+    .turnin 498 >> Turn in The Rescue
+step << Hunter
+	#completewith next
+	.goto Hillsbrad Foothills,62.56,19.91
+	.vendor >> Buy arrows until your quiver is full
+step
+    .goto Hillsbrad Foothills,62.79,19.05
+	.vendor 2388 >> Go inside the Inn. Vendor trash, and buy Food/Water from Shay	
 step
 	#requires Farmers
 	>>Return to Tarren Mill
@@ -2479,25 +2479,6 @@ step
     .unitscan Rok'Alim the Pounder
     .complete 1151,1 --Collect Fragments of Rok'Alim (x1)
 step
-    .isOnQuest 4881
-	>>Escort will start when you accept next part of the quest.
-	.goto Thousand Needles,21.3,32.0
-	.turnin 4881 >> Turn in Assassination Plot
-step
-    .isQuestTurnedIn 4881
-	>>Escort will start when you accept next part of the quest.
-	.goto Thousand Needles,21.3,32.0    
-	.accept 4966 >> Accept Protect Kanati Greycloud
-step
-    .isOnQuest 4966
-	>>3 mobs will spawn. Let Kanati get aggro, then simply kill them
-	.goto Thousand Needles,21.4,31.8
-    .complete 4966,1 --Protect Kanati Greycloud
-step
-    .isQuestComplete 4966
-	.goto Thousand Needles,21.4,31.8    
-    .turnin 4966 >> Turn in Protect Kanati Greycloud
-step
 	.goto Thousand Needles,31.2,36.9,30 >>Run up the path here
     .isOnQuest 5064
 step
@@ -2531,6 +2512,25 @@ step
 >>Open the panther cage and kill it. Make sure to have your cooldowns/potions available
     .goto Thousand Needles,23.3,23.3
     .complete 5151,1 --Collect Hypercapacitor Gizmo (x1)
+step
+    .isOnQuest 4881
+	>>Escort will start when you accept next part of the quest.
+	.goto Thousand Needles,21.3,32.0
+	.turnin 4881 >> Turn in Assassination Plot
+step
+    .isQuestTurnedIn 4881
+	>>Escort will start when you accept next part of the quest.
+	.goto Thousand Needles,21.3,32.0    
+	.accept 4966 >> Accept Protect Kanati Greycloud
+step
+    .isOnQuest 4966
+	>>3 mobs will spawn. Let Kanati get aggro, then simply kill them
+	.goto Thousand Needles,21.4,31.8
+    .complete 4966,1 --Protect Kanati Greycloud
+step
+    .isQuestComplete 4966
+	.goto Thousand Needles,21.4,31.8    
+    .turnin 4966 >> Turn in Protect Kanati Greycloud
 step
     #label OreSample
 .goto Thousand Needles,21.5,32.3
@@ -2568,7 +2568,7 @@ step
     .turnin 1146 >> Turn in The Swarm Grows
     .accept 1147 >> Accept The Swarm Grows
 step
-    .xp >33,1
+    .xp <33,1
     >> Accept quests around the racetrack
 	.accept 1110 >> Accept Rocket Car Parts
     .goto Thousand Needles,77.8,77.2
@@ -2610,7 +2610,7 @@ step
 step
 	#sticky
 	#label partsoftheswarm
-    .isQuestTurnedIn 1146
+    .isOnQuest 1110
 	>>Grind the Silithid creatures until you get a Cracked Silithid Carapace. Click it to accept a quest.
 	.collect 5877,1,1148
 	.accept 1148 >> Accept Parts of the Swarm
@@ -2908,9 +2908,8 @@ step
     .goto Orgrimmar,75.2,34.2
     .turnin 1145 >> Turn in The Swarm Grows
     .accept 1146 >> Accept The Swarm Grows
-step
-	#completewith next
-    .xp >33,1
+step << !Shaman !Warrior
+    .maxlevel 32
     .goto Orgrimmar,54.1,68.4
     .home >>Set your Hearthstone to Valley of Strength
 step << Orc !Warlock tbc

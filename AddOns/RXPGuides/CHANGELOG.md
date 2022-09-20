@@ -1,8 +1,56 @@
 # RestedXP Guides
 
-## [v4.2.11-71-gc4e770a](https://github.com/RestedXP/RXPGuides/tree/c4e770a7317737372c2284cd9ddab4f47c409ac7) (2022-09-16)
-[Full Changelog](https://github.com/RestedXP/RXPGuides/compare/v4.2.11...c4e770a7317737372c2284cd9ddab4f47c409ac7) [Previous Releases](https://github.com/RestedXP/RXPGuides/releases)
+## [v4.2.11-107-gb9a92fb](https://github.com/RestedXP/RXPGuides/tree/b9a92fb66709a956fec4da8a61be19b92cbad00d) (2022-09-20)
+[Full Changelog](https://github.com/RestedXP/RXPGuides/compare/v4.2.11...b9a92fb66709a956fec4da8a61be19b92cbad00d) [Previous Releases](https://github.com/RestedXP/RXPGuides/releases)
 
+- Hearthstone fixes  
+    - Small HS fix  
+- Route improvement  
+    - Saves traveltime by not having to run north early when it's not needed since u have to travel north later.  
+- Hillsbrad route improvement  
+    - Route slightly improved, you need to go 1 time less to the city, saves travel time.  
+- option to show missing quests  
+- Wrap profiles in beta flag  
+- improved quest completion checks  
+- Thousand needles fully working  
+    - Fixed bugs that made it not skip correctly.  
+- Update RestedXP Alliance 1-14 Human.lua  
+- Update RestedXP Horde 13-23 Barrens.lua  
+- Waypoint fixes  
+- Missing Diplomat fixes  
+- Night Elf Mount fixes  
+- Unitscan additions for draenei  
+- Grove of the Ancients removed on 1.5x  
+- Update RestedXP Alliance 11-23.lua  
+- Crown of Earth fixes  
+- Fix copy/paste issue with hideArrow  
+- Add basic Help/FAQ menu (#59)  
+    * Add buttons to top  
+- Add Raid autohide (#61)  
+    Co-authored-by: David Groves <git@fibrecat.org>  
+    Co-authored-by: David Groves <git@fibrecat.org>  
+- Explicitly package each client, again  
+- Update toc and builds  
+- Blood elf updates for .use  
+    - Added .use for quest items.  
+- improved 10.0 compatibility  
+- 1-6 Night Elf  
+    -Various improvements in relation to coordinates  
+    -added missing .use  
+    -added further elaborations  
+    -added comments for each step  
+- 10.0 support (WIP)  
+- improved quest logic  
+- Fix  
+- 2h sword warrior training tbc only  
+- Add waypoints for Warrior level 10 quest  
+- Veteran Uzzek typo fix  
+- XR Pathing improvement  
+- Hearth to XR update  
+- Crossroads pathing improvements  
+- quest improvement and remove deathskip in wotlk  
+- Improve quest turnin/accept routing after hearth  
+- Mazzranache quest update  
 - ambercorn quest text update  
 - added vendor trash step  
 - added text to quest  
