@@ -46,9 +46,6 @@ BINDING_HEADER_RXPGuides = addon.title
 local questFrame = CreateFrame("Frame");
 
 function RXPG_init()
-    RXPData = RXPData or {}
-    RXPCData = RXPCData or {}
-
     RXPCData.completedWaypoints = RXPCData.completedWaypoints or {}
     addon.settings.db.profile.hardcore = addon.game == "CLASSIC" and addon.settings.db.profile.hardcore
     addon.RenderFrame()
@@ -414,6 +411,8 @@ function addon:OnInitialize()
     }
 
     addon.db = LibStub("AceDB-3.0"):New("RXPDB", importGuidesDefault, 'global')
+    RXPData = RXPData or {}
+    RXPCData = RXPCData or {}
 
     if not RXPData.gameVersion then
         RXPData.gameVersion = gameVersion
@@ -428,6 +427,7 @@ function addon:OnInitialize()
 
     addon.RXPG.LoadCachedGuides()
     addon.RXPG.LoadEmbeddedGuides()
+    addon.UpdateGuideFontSize()
     addon.RXPFrame:SetShown(not addon.settings.db.profile.hideGuideWindow)
     addon.RXPFrame:SetScale(addon.settings.db.profile.windowScale)
     addon.arrowFrame:SetSize(32 * addon.settings.db.profile.arrowScale, 32 * addon.settings.db.profile.arrowScale)
@@ -568,7 +568,7 @@ end
 
 function addon.UnitScanUpdate()
     local unitscanList = addon.currentGuide.unitscan
-    if _G.unitscan_targets and unitscanList and not addon.settings.db.profile.disableUnitscan then
+    if _G.unitscan_targets and unitscanList and addon.settings.db.profile.enableUnitscan then
         for unit, elements in pairs(unitscanList) do
             local enabled
             for _, element in pairs(elements) do

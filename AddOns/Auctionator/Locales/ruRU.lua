@@ -91,8 +91,7 @@ L["CONFIG_PET_TOOLTIP"] = "Показать подсказки для питом
 L["CONFIG_PROFILE_CATEGORY"] = "Профиль"
 L["CONFIG_PROFILE_TEXT"] = "Настройка параметров для каждого персонажа."
 L["CONFIG_PROFILE_TOGGLE"] = "Применить настройки только к этому персонажу"
---[[Translation missing --]]
-L["CONFIG_PROSPECT_TOOLTIP"] = "Show prospect value for ore from jewelcrafting in tooltips"
+L["CONFIG_PROSPECT_TOOLTIP"] = "Показывать потенциальную ценность руды от ювелирного дела во всплывающих подсказках."
 L["CONFIG_QUANTITIES_CATEGORY"] = "Продажа: количество"
 L["CONFIG_QUANTITIES_TEXT"] = "Выберите количество по умолчанию, используемое для различных категорий товаров."
 L["CONFIG_RESET_STACK_SIZE_MEMORY"] = "Сбросить размер стака из памяти"
@@ -293,12 +292,9 @@ L["PRICE_INCREASE_WARNING"] = "Цена увеличена на %s, ожидан
 L["PROFILE_TOGGLE_TOOLTIP_HEADER"] = "Включить настройки для каждого персонажа"
 L["PROFILE_TOGGLE_TOOLTIP_TEXT"] = "Внесение изменений в настройки Auctionator влияет только на этого персонажа."
 L["PROFIT_COLON"] = "Доход:"
---[[Translation missing --]]
-L["PROSPECT"] = "Prospect"
---[[Translation missing --]]
-L["PROSPECT_TOOLTIP_TOOLTIP_HEADER"] = "Prospect Tooltip Information"
---[[Translation missing --]]
-L["PROSPECT_TOOLTIP_TOOLTIP_TEXT"] = "Show jewelcrafting prospecting estimated value in tooltip on mouseover."
+L["PROSPECT"] = "Перспектива"
+L["PROSPECT_TOOLTIP_TOOLTIP_HEADER"] = "Информация о подсказке потенциального клиента"
+L["PROSPECT_TOOLTIP_TOOLTIP_TEXT"] = "Показывать оценочную стоимость поиска ювелирных изделий во всплывающей подсказке при наведении курсора."
 L["PURCHASED_X_XX"] = "Куплено %s x%s"
 L["QUANTITY"] = "Количество"
 L["REAGENT_SEARCH"] = "Поиск реагентов"

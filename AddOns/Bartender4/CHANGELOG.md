@@ -1,8 +1,11 @@
 # Bartender4
 
-## [4.11.6-14-g5466361](https://github.com/Nevcairiel/Bartender4/tree/5466361a7f39948424717feffaa83b20e1207b3d) (2022-09-16)
-[Full Changelog](https://github.com/Nevcairiel/Bartender4/compare/4.11.6...5466361a7f39948424717feffaa83b20e1207b3d) [Previous Releases](https://github.com/Nevcairiel/Bartender4/releases)
+## [4.11.6-17-gf513e91](https://github.com/Nevcairiel/Bartender4/tree/f513e91c69f0ff8f25a3277855ea97c2eaaaa75d) (2022-09-21)
+[Full Changelog](https://github.com/Nevcairiel/Bartender4/compare/4.11.6...f513e91c69f0ff8f25a3277855ea97c2eaaaa75d) [Previous Releases](https://github.com/Nevcairiel/Bartender4/releases)
 
+- Re-factor scale migration for 10.0  
+- Support Dragon Riding bonus action bars in WoW 10.0  
+- Fix Extra Action Button in WoW 10.0  
 - Update BagBar for WoW 10.0  
 - Update presets for WoW 10.0  
 - Update Blizzard Art Bar for WoW 10.0  
