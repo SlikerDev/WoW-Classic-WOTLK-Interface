@@ -302,11 +302,14 @@ function NRC:encounterStartRD(...)
 			difficultyID = difficultyID,
 			groupSize = groupSize,
 			auraCache = NRC:tableCopyAuras(NRC.auraCache),
-			resCache = NRC:tableCopy(NRC.resistances),
-			weaponEnchantCache = NRC:tableCopy(NRC.weaponEnchants),
 			startTime = GetServerTime(),
 			startGetTime = GetTime(),
 		};
+		if (NRC.isTBC or NRC.isClassic) then
+			--No need to store this data for log lookup in wrath.
+			encounter.resCache = NRC:tableCopy(NRC.resistances);
+			encounter.weaponEnchantCache = NRC:tableCopy(NRC.weaponEnchants);
+		end
 		--Check if talents have changed and only record if they are different.
 		--We don't want to record talent cache for every boss to save load times.
 		--Encounters are saved in order so we can just check last recorded talents before the encounter for buff snapshot viewing.
@@ -968,6 +971,7 @@ local function getLootData(logID, minQuality, exactQuality, showKtWeapons, encou
 						if (v.itemLink == itemData.itemLink) then
 							v.traded = tradeData.tradeWho;
 							v.tradedClass = tradeData.tradeWhoClass;
+							v.gold = tradeData.targetMoney;
 							tremove(trades, tradeID);
 						end
 					end
@@ -2438,6 +2442,10 @@ function NRC:loadRenameLootFrame(logID, lootID, lineFrameCount, displayNum, fram
 				classColorHex = "ffffffff";
 			end
 			local text;
+			local goldString = "";
+			if (v.gold and v.gold > 0) then
+				goldString = "  " .. NRC:getCoinString(v.gold, 10);
+			end
 			if (v.override) then
 				if (v.overrideClass) then
 					_, _, _, classColorHex = GetClassColor(v.overrideClass);
@@ -2448,7 +2456,8 @@ function NRC:loadRenameLootFrame(logID, lootID, lineFrameCount, displayNum, fram
 						classColorHex = "ffffffff";
 					end
 				end
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.override .. "|r|cFF00C800*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;
+				goldString = ""
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.override .. "|r|cFF00C800*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;
 			elseif (v.traded) then
 				if (v.tradedClass) then
 					_, _, _, classColorHex = GetClassColor(v.tradedClass);
@@ -2459,9 +2468,9 @@ function NRC:loadRenameLootFrame(logID, lootID, lineFrameCount, displayNum, fram
 						classColorHex = "ffffffff";
 					end
 				end
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.traded .. "|r|cFFFF5100*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;	
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.traded .. "|r|cFFFF5100*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;	
 			else
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.name .. "|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.name .. "|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;
 			end
 			setLootText(logID, lootID, lineFrameCount, displayNum, text, nil, nil, nil, true);
 			if (NRCExportFrame and NRCExportFrame:IsShown()) then
@@ -2601,6 +2610,10 @@ function NRC:loadRaidLogLoot(logID)
 				classColorHex = "ffffffff";
 			end
 			local text;
+			local goldString = "";
+			if (v.gold and v.gold > 0) then
+				goldString = "  " .. NRC:getCoinString(v.gold, 10);
+			end
 			if (v.override) then
 				if (v.overrideClass) then
 					_, _, _, classColorHex = GetClassColor(v.overrideClass);
@@ -2611,7 +2624,8 @@ function NRC:loadRaidLogLoot(logID)
 						classColorHex = "ffffffff";
 					end
 				end
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.override .. "|r|cFF00C800*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;
+				goldString = ""
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.override .. "|r|cFF00C800*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;
 			elseif (v.traded) then
 				if (v.tradedClass) then
 					_, _, _, classColorHex = GetClassColor(v.tradedClass);
@@ -2622,9 +2636,9 @@ function NRC:loadRaidLogLoot(logID)
 						classColorHex = "ffffffff";
 					end
 				end
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.traded .. "|r|cFFFF5100*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;	
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.traded .. "|r|cFFFF5100*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;	
 			else
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.name .. "|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.name .. "|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;
 			end
 			lineFrameCount = lineFrameCount + 1;
 			textCount = textCount + 1;
@@ -2668,6 +2682,10 @@ function NRC:loadRaidLogLoot(logID)
 				classColorHex = "ffffffff";
 			end
 			local text;
+			local goldString = "";
+			if (v.gold and v.gold > 0) then
+				goldString = "  " .. NRC:getCoinString(v.gold, 10);
+			end
 			if (v.override) then
 				if (v.overrideClass) then
 					_, _, _, classColorHex = GetClassColor(v.overrideClass);
@@ -2678,7 +2696,8 @@ function NRC:loadRaidLogLoot(logID)
 						classColorHex = "ffffffff";
 					end
 				end
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.override .. "|r|cFF00C800*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;	
+				goldString = ""
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.override .. "|r|cFF00C800*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;	
 			elseif (v.traded) then
 				if (v.tradedClass) then
 					_, _, _, classColorHex = GetClassColor(v.tradedClass);
@@ -2689,9 +2708,9 @@ function NRC:loadRaidLogLoot(logID)
 						classColorHex = "ffffffff";
 					end
 				end
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.traded .. "|r|cFFFF5100*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;	
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.traded .. "|r|cFFFF5100*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;	
 			else
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.name .. "|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.name .. "|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;
 			end
 			lineFrameCount = lineFrameCount + 1;
 			textCount = textCount + 1;
@@ -2735,6 +2754,10 @@ function NRC:loadRaidLogLoot(logID)
 				classColorHex = "ffffffff";
 			end
 			local text;
+			local goldString = "";
+			if (v.gold and v.gold > 0) then
+				goldString = "  " .. NRC:getCoinString(v.gold, 10);
+			end
 			if (v.override) then
 				if (v.overrideClass) then
 					_, _, _, classColorHex = GetClassColor(v.overrideClass);
@@ -2745,7 +2768,8 @@ function NRC:loadRaidLogLoot(logID)
 						classColorHex = "ffffffff";
 					end
 				end
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.override .. "|r|cFF00C800*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;
+				goldString = ""
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.override .. "|r|cFF00C800*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;
 			elseif (v.traded) then
 				if (v.tradedClass) then
 					_, _, _, classColorHex = GetClassColor(v.tradedClass);
@@ -2756,9 +2780,9 @@ function NRC:loadRaidLogLoot(logID)
 						classColorHex = "ffffffff";
 					end
 				end
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.traded .. "|r|cFFFF5100*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;	
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.traded .. "|r|cFFFF5100*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;	
 			else
-				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.name .. "|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;
+				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.name .. "|r  |cFFcccccc" .. lootText .. "|r " .. encounterText .. goldString;
 			end
 			lineFrameCount = lineFrameCount + 1;
 			textCount = textCount + 1;
@@ -2802,6 +2826,10 @@ function NRC:loadRaidLogLoot(logID)
 				classColorHex = "ffffffff";
 			end
 			local text;
+			local goldString = "";
+			if (v.gold and v.gold > 0) then
+				goldString = "  " .. NRC:getCoinString(v.gold, 10);
+			end
 			if (v.override) then
 				if (v.overrideClass) then
 					_, _, _, classColorHex = GetClassColor(v.overrideClass);
@@ -2812,6 +2840,7 @@ function NRC:loadRaidLogLoot(logID)
 						classColorHex = "ffffffff";
 					end
 				end
+				goldString = ""
 				text = "|cFFA1A1A1" .. NRC:getTimeFormat(v.time or v.timer, nil, true, true, true) .. "|r  |c" .. classColorHex .. v.override .. "|r|cFF00C800*|r  |cFFcccccc" .. lootText .. "|r " .. encounterText;
 			elseif (v.traded) then
 				if (v.tradedClass) then

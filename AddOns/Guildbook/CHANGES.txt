@@ -1,12 +1,12 @@
-tag 7d158cde7c391a77ed16037c27abe4ffa7f06925 Guildbook_5.521
+tag 11eea3e82ddd9f10068b7b6512a2003ba88b3b03 Guildbook_5.55
 Author:	stpain <sam.pain@live.co.uk>
-Date:	Sun Sep 11 00:29:10 2022 +0100
+Date:	Sat Oct 1 09:00:48 2022 +0100
 
-commit 475ff8e56dcd76c10d78e03d493c38f44d61c4cf
+commit 6cd220f405abfd3c59d50e4a09f219888671dd0d
 Author: stpain <sam.pain@live.co.uk>
-Date:   Sun Sep 11 00:29:00 2022 +0100
+Date:   Sat Oct 1 09:00:38 2022 +0100
 
-    quick locale fix
+    jc fix
     
-    missing closing ]] for string literal
+    fixed error with jc tradeskill ID
 

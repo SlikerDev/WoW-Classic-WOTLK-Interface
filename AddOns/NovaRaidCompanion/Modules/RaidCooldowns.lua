@@ -975,6 +975,62 @@ function NRC:updateRaidCooldownsVisibility()
 	NRC:updateSoulstoneFrame();
 end
 
+local function sendClick(button, name, class, timeLeft, spell)
+	local spellID;
+	for k, v in pairs(NRC.cooldowns) do
+		if (k == spell and v.spellIDs) then
+			--Get last spellID in table.
+			for id, _ in NRC:pairsByKeys(v.spellIDs) do
+				spellID = id;
+			end
+		end
+	end
+	local ignoreList = {
+		["Divine Shield"] = true,
+	};
+	if (spellID and class) then
+		if (not ignoreList[spell]) then
+			local type;
+			local _, _, _, classHex = GetClassColor(class);
+			local colorizedName = "|c" .. classHex .. name .. "|r";
+			if (button == "LeftButton") then
+				if (IsShiftKeyDown()) then
+					type = NRC.config.raidCooldownsShiftLeftClick;
+				else
+					type = NRC.config.raidCooldownsLeftClick;
+				end
+			elseif (button == "RightButton") then
+				if (IsShiftKeyDown()) then
+					type = NRC.config.raidCooldownsShiftRightClick;
+				else
+					type = NRC.config.raidCooldownsRightClick;
+				end
+			end
+			local spellLink = GetSpellLink(spellID);
+			if (type == 2) then
+				if (name ~= UnitName("player")) then
+					if (timeLeft > 0) then
+						local minutes = string.format("%02.f", math.floor(timeLeft / 60));
+						local seconds = string.format("%02.f", math.floor(timeLeft - minutes * 60));
+						print("|cFFFFFF00" .. string.format(L["cooldownNotReadyMsg"], colorizedName, spellLink, "|cFF9CD6DE(" .. minutes .. ":" .. seconds .. ")|r"));
+					else
+						SendChatMessage(string.format(L["raidCooldownsClickWhisperCastOnMe"], spellLink), "WHISPER", nil, name);
+					end
+				end
+			elseif (type == 3) then
+				if (timeLeft > 0) then
+					local minutes = string.format("%02.f", math.floor(timeLeft / 60));
+					local seconds = string.format("%02.f", math.floor(timeLeft - minutes * 60));
+					NRC:sendGroup(string.format(L["raidCooldownsClickGroupChatNotReady"], name, spellLink, minutes .. ":" .. seconds));
+				else
+					NRC:sendGroup(string.format(L["raidCooldownsClickGroupChatReady"], name, spellLink));
+				end
+			end
+		else
+			print("|cFFFFFF00" .. L["selfOnlyCooldownMsg"]);
+		end
+	end
+end
 --Refresh the cooldown frames.
 --This can be made much more efficient with the way it handles updating frames later.
 local soulstoneBars = {};
@@ -1086,7 +1142,6 @@ function NRC:updateRaidCooldowns()
 					end
 					local timeLeft = endTime - GetServerTime();
 					if (timeLeft > 0) then
-						local timeLeft = endTime - GetServerTime();
 						local minutes = string.format("%02.f", math.floor(timeLeft / 60));
 						local seconds = string.format("%02.f", math.floor(timeLeft - minutes * 60));
 						lineSubFrame.fs2:SetText(minutes .. ":" .. seconds);
@@ -1143,12 +1198,9 @@ function NRC:updateRaidCooldowns()
 							v.enabled = false;
 						end
 					end
-					--Future feature.
-					--[[lineFrame:SetScript("OnClick", function(self, button)
-						if (button == "LeftButton") then
-							NRC:debug(rawName);
-						end
-					end)]]
+					lineSubFrame:SetScript("OnClick", function(self, button)
+						sendClick(button, rawName, charData.class, timeLeft, spellData.spellName);
+					end)
 				end
 				--raidCooldowns:SetPoint("BOTTOM", lineSubFrame);
 				--Shorten name if it's long.
@@ -1256,14 +1308,16 @@ function NRC:updateRaidCooldowns()
 						lineFrame.subFrame:Hide();
 					end
 				end)
-				lineFrame:SetScript("OnClick", function(self, button)
-				end)
+				lineFrame:SetScript("OnClick", function(self, button) end);
 				lastLineFrame[frameNum] = lineFrame;
 			else
 				--Unmerged, show a list of all players cooldowns.
 				for guid, charData in NRC:pairsByKeys(spellData.chars) do
 					count[frameNum] = count[frameNum] +1;
 					local _, _, _, _, _, name, realm = GetPlayerInfoByGUID(guid);
+					if (not name) then
+						name, realm = "Unknown", "Unknown";
+					end
 					if (testRunning) then
 						name = charData.name;
 						realm = NRC.realm;
@@ -1287,7 +1341,6 @@ function NRC:updateRaidCooldowns()
 					local endTime = charData.endTime or 0;
 					local timeLeft = endTime - GetServerTime();
 					if (timeLeft > 0) then
-						local timeLeft = endTime - GetServerTime();
 						local minutes = string.format("%02.f", math.floor(timeLeft / 60));
 						local seconds = string.format("%02.f", math.floor(timeLeft - minutes * 60));
 						lineFrame.fs2:SetText(minutes .. ":" .. seconds);
@@ -1358,11 +1411,9 @@ function NRC:updateRaidCooldowns()
 					end
 					lineFrame.updateTooltip(text);
 					lastLineFrame[frameNum] = lineFrame;
-					--[[lineFrame:SetScript("OnClick", function(self, button)
-						if (button == "LeftButton") then
-							NRC:debug(rawName);
-						end
-					end)]]
+					lineFrame:SetScript("OnClick", function(self, button)
+						sendClick(button, rawName, charData.class, timeLeft, spellData.spellName);
+					end)
 				end
 			end
 		end

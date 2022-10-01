@@ -6,11 +6,11 @@
 
 		local version, build, date, tocversion = GetBuildInfo()
 
-		_detalhes.build_counter = 10029
-		_detalhes.alpha_build_counter = 10029 --if this is higher than the regular counter, use it instead
+		_detalhes.build_counter = 10033
+		_detalhes.alpha_build_counter = 10033 --if this is higher than the regular counter, use it instead
 		_detalhes.dont_open_news = true
 		_detalhes.game_version = version
-		_detalhes.userversion = version .. _detalhes.build_counter
+		_detalhes.userversion = version .. " " .. _detalhes.build_counter
 		_detalhes.realversion = 146 --core version, this is used to check API version for scripts and plugins (see alias below)
 		_detalhes.APIVersion = _detalhes.realversion --core version
 		_detalhes.version = _detalhes.userversion .. " (core " .. _detalhes.realversion .. ")" --simple stirng to show to players
@@ -18,7 +18,7 @@
 		_detalhes.BFACORE = 131 --core version on BFA launch
 		_detalhes.SHADOWLANDSCORE = 143 --core version on Shadowlands launch
 --
-		_detalhes.dragonflight_beta_version = 32
+		_detalhes.dragonflight_beta_version = 36
 
 		Details = _detalhes
 
@@ -349,6 +349,13 @@ do
 					available = {},
 				},
 			}
+
+		--make a color namespace
+		Details.Colors = {}
+		function Details.Colors.GetMenuTextColor()
+			return "orange"
+		end
+
 		--> armazena as fun��es para inicializa��o dos dados - Metatable functions
 			_detalhes.refresh = {}
 		--> armazena as fun��es para limpar e guardas os dados - Metatable functions
@@ -495,7 +502,17 @@ do
 			{Name = "On Spec Change", Desc = "Run code when the player has changed its specialization.", Value = 5, ProfileKey = "on_specchanged"},
 			{Name = "On Enter/Leave Group", Desc = "Run code when the player has entered or left a party or raid group.", Value = 6, ProfileKey = "on_groupchange"},
 		}
-		
+
+		--run a function without stopping the execution in case of an error
+		function Details.SafeRun(func, executionName, ...)
+			local runToCompletion, errorText = pcall(func, ...)
+			if (not runToCompletion) then
+				if (Details.debug) then
+					Details:Msg("Safe run failed:", executionName, errorText)
+				end
+			end
+		end
+
 		--> tooltip
 			_detalhes.tooltip_backdrop = {
 				bgFile = [[Interface\DialogFrame\UI-DialogBox-Background-Dark]], 
@@ -911,6 +928,10 @@ do
 			end
 		end
 
+		function dumpt(value)
+			return Details:Dump(value)
+		end
+
 	--> copies a full table
 		function Details.CopyTable(orig)
 			local orig_type = type(orig)
@@ -953,26 +974,26 @@ do
 		
 	--> welcome
 		function _detalhes:WelcomeMsgLogon()
-		
 			_detalhes:Msg ("you can always reset the addon running the command |cFFFFFF00'/details reinstall'|r if it does fail to load after being updated.")
-			
+
 			function _detalhes:wipe_combat_after_failed_load()
 				_detalhes.tabela_historico = _detalhes.historico:NovoHistorico()
 				_detalhes.tabela_overall = _detalhes.combate:NovaTabela()
 				_detalhes.tabela_vigente = _detalhes.combate:NovaTabela (_, _detalhes.tabela_overall)
 				_detalhes.tabela_pets = _detalhes.container_pets:NovoContainer()
 				_detalhes:UpdateContainerCombatentes()
-				
+
 				_detalhes_database.tabela_overall = nil
 				_detalhes_database.tabela_historico = nil
-				
+
 				_detalhes:Msg ("seems failed to load, please type /reload to try again.")
 			end
-			_detalhes:ScheduleTimer ("wipe_combat_after_failed_load", 5)
-			
+
+			Details.Schedules.After(5, _detalhes.wipe_combat_after_failed_load)
 		end
-		_detalhes.failed_to_load = _detalhes:ScheduleTimer ("WelcomeMsgLogon", 20)
-	
+
+		Details.failed_to_load = C_Timer.NewTimer(1, function() Details.Schedules.NewTimer(20, _detalhes.WelcomeMsgLogon) end)
+
 	--> key binds
 		--> header
 			_G ["BINDING_HEADER_Details"] = "Details!"

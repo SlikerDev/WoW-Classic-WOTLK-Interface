@@ -40,10 +40,8 @@ function addon.settings.ChatCommand(input)
         end
     elseif input == "splits" then
         addon.tracker:ToggleLevelSplits()
-    elseif input == "show" then
-        addon.settings.RestoreActive()
-    elseif input == "hide" then
-        addon.settings.HideActive()
+    elseif input == "show" or input == "hide" or input == "toggle" then
+        addon.settings.ToggleActive()
     elseif input == "support" or input == "ticket" or input == "bug" or input ==
         "feedback" then
         addon.comms.OpenBugReport()
@@ -74,10 +72,14 @@ function addon.settings:InitializeSettings()
             --
             enableQuestAutomation = true,
             enableFPAutomation = true,
+            enableBindAutomation = true,
+            enableGossipAutomation = true,
             showUnusedGuides = true,
             SoM = 1,
             anchorOrientation = "top",
             enableUnitscan = true,
+            enableTargetMacro = true,
+            notifyOnTargetUpdates = true,
 
             -- Sliders
             arrowScale = 1,
@@ -90,7 +92,9 @@ function addon.settings:InitializeSettings()
             batchSize = 5,
             phase = 6,
             xpRate = 1,
-            guideFontSize = 9
+            guideFontSize = 9,
+
+            showEnabled = true
         }
     }
 
@@ -119,6 +123,8 @@ function addon.settings:MigrateSettings()
     local function n(t, v)
         if d then pp(fmt("Migrating %s = %s", t, tostr(v))) end
     end
+
+    db.minimap.show = nil
 
     if RXPData.disableQuestAutomation ~= nil then
         n("disableQuestAutomation", RXPData.disableQuestAutomation)
@@ -675,9 +681,18 @@ function addon.settings:CreateAceOptionsPanel()
                         set = function(info, value)
                             SetProfileOption(info, value)
                             if value then
-                                addon:RegisterEvent("GROUP_ROSTER_UPDATE")
+                                addon:RegisterEvent("GROUP_JOINED",
+                                                    addon.HideInRaid)
+                                addon:RegisterEvent("GROUP_FORMED",
+                                                    addon.HideInRaid)
+                                addon:RegisterEvent("GROUP_LEFT")
+
+                                -- Check if reloading in raid
+                                addon.HideInRaid()
                             else
-                                addon:UnregisterEvent("GROUP_ROSTER_UPDATE")
+                                addon:UnregisterEvent("GROUP_JOINED")
+                                addon:UnregisterEvent("GROUP_FORMED")
+                                addon:UnregisterEvent("GROUP_LEFT")
                             end
                         end
                     },
@@ -767,6 +782,22 @@ function addon.settings:CreateAceOptionsPanel()
                         type = "toggle",
                         width = optionsWidth,
                         order = 3.4
+                    },
+                    enableBindAutomation = {
+                        name = L("Inkeeper Bind automation"), -- TODO locale
+                        desc = L(
+                            "Allows the guide to automatically set your home at an Innkeeper"),
+                        type = "toggle",
+                        width = optionsWidth,
+                        order = 3.5
+                    },
+                    enableGossipAutomation = {
+                        name = L("Skip Gossip"), -- TODO locale
+                        desc = L(
+                            "Allows the guide to automatically skip gossip for NPCs"),
+                        type = "toggle",
+                        width = optionsWidth,
+                        order = 3.6
                     },
                     mapHeader = {
                         name = _G.MAP_OPTIONS_TEXT,
@@ -882,11 +913,7 @@ function addon.settings:CreateAceOptionsPanel()
                         order = 5.1,
                         set = function(info, value)
                             SetProfileOption(info, value)
-                            if value then
-                                addon.UpdateArrow(addon.arrowFrame)
-                            else
-                                addon.arrowFrame:Hide()
-                            end
+                            addon.UpdateArrow(addon.arrowFrame)
                         end
                     },
                     arrowScale = {
@@ -908,7 +935,7 @@ function addon.settings:CreateAceOptionsPanel()
                         desc = L("Size of the waypoint arrow text"),
                         type = "range",
                         width = optionsWidth,
-                        order = 20,
+                        order = 5.3,
                         min = 5,
                         max = 20,
                         step = 1,
@@ -917,6 +944,41 @@ function addon.settings:CreateAceOptionsPanel()
                             addon.arrowFrame.text:SetFont(addon.font, value,
                                                           "OUTLINE")
                         end
+                    },
+                    resetArrowPosition = {
+                        order = 5.4,
+                        name = L("Reset Arrow Position"), -- TODO locale
+                        type = "execute",
+                        width = optionsWidth,
+                        func = function()
+                            addon.ResetArrowPosition()
+                        end
+                    },
+                    macroHeader = {
+                        name = fmt("%s%s", L("Targeting Macro"),
+                                   addon.targeting:CanCreateMacro() and '' or
+                                       ' - ' .. L("Macro capacity reached")), -- TODO locale
+                        type = "header",
+                        width = "full",
+                        order = 6
+                    },
+                    enableTargetMacro = {
+                        name = L("Create Targeting Macro"), -- TODO locale
+                        desc = L("Automatically create a targeting macro"),
+                        type = "toggle",
+                        width = optionsWidth,
+                        order = 6.1,
+                        disabled = (_G.unitscan_targets and true) or
+                            not addon.targeting:CanCreateMacro()
+                    },
+                    notifyOnTargetUpdates = {
+                        name = L("Notify on new target"), -- TODO locale
+                        desc = L("Notify when a new target is loaded"),
+                        type = "toggle",
+                        width = optionsWidth,
+                        order = 6.2,
+                        disabled = (_G.unitscan_targets and true) or
+                            not addon.targeting:CanCreateMacro()
                     }
                 }
             },
@@ -980,9 +1042,8 @@ function addon.settings:CreateAceOptionsPanel()
                         order = 2.1,
                         set = function(info, value)
                             SetProfileOption(info, value)
-                            if addon.settings.db.profile.enablelevelSplits then
+                            if value then
                                 addon.tracker:CreateLevelSplits()
-                                addon.tracker:UpdateLevelSplits("full")
                                 addon.tracker.levelSplits:Show()
                             else
                                 addon.tracker.levelSplits:Hide()
@@ -1194,8 +1255,7 @@ function addon.settings:CreateAceOptionsPanel()
                         name = L("Enable Debug"),
                         type = "toggle",
                         width = "full",
-                        order = 1.1,
-                        hidden = isNotAdvanced
+                        order = 1.1
                     },
                     batchSize = {
                         name = L("Batching window size (ms)"),
@@ -1337,19 +1397,11 @@ local function buildMinimapMenu()
     local menu = {}
     addon.RXPFrame.GenerateMenuTable(menu)
 
-    if addon.settings.db.profile.minimap.show or addon.RXPFrame:IsShown() then
-        table.insert(menu, #menu, {
-            text = _G.HIDE,
-            notCheckable = 1,
-            func = function() addon.settings.HideActive() end
-        })
-    else
-        table.insert(menu, #menu, {
-            text = _G.SHOW,
-            notCheckable = 1,
-            func = function() addon.settings.RestoreActive() end
-        })
-    end
+    table.insert(menu, #menu, {
+        text = addon.settings.db.profile.showEnabled and _G.HIDE or _G.SHOW,
+        notCheckable = 1,
+        func = addon.settings.ToggleActive
+    })
 
     return menu
 end
@@ -1373,12 +1425,7 @@ function addon.settings:UpdateMinimapButton()
                 _G.EasyMenu(buildMinimapMenu(), addon.settings.minimapFrame,
                             "cursor", 0, 0, "MENU")
             else
-                if addon.settings.db.profile.minimap.show or
-                    addon.RXPFrame:IsShown() then
-                    addon.settings.HideActive()
-                else
-                    addon.settings.RestoreActive()
-                end
+                addon.settings.ToggleActive()
             end
         end,
         OnTooltipShow = function(tooltip)
@@ -1391,21 +1438,16 @@ function addon.settings:UpdateMinimapButton()
     LibDBIcon:Register(addonName, minimapButton, self.db.profile.minimap);
 end
 
-function addon.settings.HideActive()
-    for _, frame in pairs(addon.activeFrames) do
-        frame.restoreState = frame:IsShown()
-        if frame.restoreState then frame:Hide() end
+function addon.settings.ToggleActive()
+    addon.settings.db.profile.showEnabled =
+        not addon.settings.db.profile.showEnabled
+
+    for _, frame in pairs(addon.enabledFrames) do
+        if frame.IsFeatureEnabled() then
+            frame:SetShown(addon.settings.db.profile.showEnabled)
+        end
     end
 
-    addon.settings.db.profile.minimap.show = false
-end
-
-function addon.settings.RestoreActive()
-    for _, frame in pairs(addon.activeFrames) do
-        if frame.restoreState then frame:Show() end
-    end
-
-    addon.settings.db.profile.minimap.show = true
 end
 
 function addon.settings:DetectXPRate(heirloomCheck)

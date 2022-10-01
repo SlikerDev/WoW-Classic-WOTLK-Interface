@@ -42,7 +42,16 @@ function GuildbookGuildMenuButtonTemplateMixin:OnLoad()
 
 end
 
-function GuildbookGuildMenuButtonTemplateMixin:OnMouseDown()
+function GuildbookGuildMenuButtonTemplateMixin:OnMouseDown(button)
+
+    if button == "RightButton" then
+        StaticPopup_Show("GuildbookRemoveGuildData", nil, nil, {
+            callback = function()
+                gb:TriggerEvent("OnGuildRemoved", self.guild)
+            end,
+        })
+        return;
+    end
 
     gb:TriggerEvent("OnGuildChanged", self.guild)
 
@@ -237,8 +246,10 @@ function GuildbookTradeskillWorkOrderListviewItemTemplateMixin:OnEnter()
             GameTooltip:AddLine("Work order info:")
 
             --this character object might get saved and will lose its methods so just access the data here
-            GameTooltip:AddDoubleLine("Requested by:", Colours[self.item.character.data.class]:WrapTextInColorCode(self.item.character.data.name).." |cffffffff["..self.item.guild.."]")
-            GameTooltip:AddDoubleLine("Requested amount:", self.item.quantity)
+            if self.item.character and self.item.guild then
+                GameTooltip:AddDoubleLine("Requested by:", Colours[self.item.character.data.class]:WrapTextInColorCode(self.item.character.data.name).." |cffffffff["..self.item.guild.."]")
+                GameTooltip:AddDoubleLine("Requested amount:", self.item.quantity)
+            end
             --GameTooltip:AddLine(L["TRADESKILL_WORK_ORDER_CLICK_CAST"])
         end
         GameTooltip:Show()
@@ -539,13 +550,38 @@ function GuildbookCharacterStatsListviewItemTemplateMixin:OnLeave()
 end
 
 function GuildbookCharacterStatsListviewItemTemplateMixin:SetDataBinding(stat)
-    self.label:SetText(stat.name)
-    self.value:SetText(stat.value)
+    if stat.value == nil then
+        self.label:ClearAllPoints()
+        self.label:SetPoint("CENTER", 0, 0)
+
+        self.label:SetText(stat.name)
+        self.background:SetAtlas("UI-Character-Info-Title")
+    else
+        self.label:SetText(stat.name)
+
+        if type(stat.value) == "table" then
+            self.value:SetText(stat.value.Base)
+        else
+            self.value:SetText(stat.value)
+        end
+
+        if stat.hasBounce then
+            self.background:SetAtlas("UI-Character-Info-Line-Bounce")
+        else
+            self.background:SetTexture(nil)
+        end
+    end
+
 end
 
 function GuildbookCharacterStatsListviewItemTemplateMixin:ResetDataBinding()
     self.label:SetText(nil)
     self.value:SetText(nil)
+
+    self.label:ClearAllPoints()
+    self.label:SetPoint("LEFT", 0, 0)
+
+    self.background:SetTexture(nil)
 end
 
 

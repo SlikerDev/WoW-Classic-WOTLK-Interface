@@ -22,6 +22,7 @@ Database.keys = {
 
 		showInfoMessages = true,
 		showMinimapButton = true,
+        showChatWindowMessages = false,
 
         blockCommsDuringCombat = false,
 		blockCommsDuringInstance = false,
@@ -83,7 +84,7 @@ function Database:Init()
     --setup and check the account wide saved variables
     if not GUILDBOOK_GLOBAL then
         GUILDBOOK_GLOBAL = {};
-        addon.DEBUG("func", "Database:Init", "declared global saved variables as new table")
+        --addon.DEBUG("func", "Database:Init", "declared global saved variables as new table")
     end
 
     for k, v in pairs(self.keys.global) do
@@ -91,31 +92,31 @@ function Database:Init()
             GUILDBOOK_GLOBAL[k] = v;
         end
     end
-    addon.DEBUG("func", "Database:Init", "copied global saved variable keys")
+    --addon.DEBUG("func", "Database:Init", "copied global saved variable keys")
     for k, v in pairs(self.keysToRemove.global) do
         if GUILDBOOK_GLOBAL[v] then
             GUILDBOOK_GLOBAL[v] = nil;
         end
     end
-    addon.DEBUG("func", "Database:Init", "removed old global saved variable keys")
+    --addon.DEBUG("func", "Database:Init", "removed old global saved variable keys")
 
     --setup the account wide config saved variables
     if not GUILDBOOK_CONFIG then
         GUILDBOOK_CONFIG = {};
-        addon.DEBUG("func", "Database:Init", "declared config saved variables as new table")
+        --addon.DEBUG("func", "Database:Init", "declared config saved variables as new table")
     end
     for k, v in pairs(self.keys.config) do
         if not GUILDBOOK_CONFIG[k] then
             GUILDBOOK_CONFIG[k] = v;
         end
     end
-    addon.DEBUG("func", "Database:Init", "copied config saved variable keys")
+    --addon.DEBUG("func", "Database:Init", "copied config saved variable keys")
     for k, v in pairs(self.keysToRemove.config) do
         if GUILDBOOK_CONFIG[v] then
             GUILDBOOK_CONFIG[v] = nil;
         end
     end
-    addon.DEBUG("func", "Database:Init", "removed old config saved variable keys")
+    --addon.DEBUG("func", "Database:Init", "removed old config saved variable keys")
 
     if GUILDBOOK_GLOBAL.config then
         for k, v in pairs(GUILDBOOK_GLOBAL.config) do
@@ -125,34 +126,34 @@ function Database:Init()
                 end
             end
         end
-        addon.DEBUG("func", "Database:Init", "copied old config variables into new saved variables")
+        --addon.DEBUG("func", "Database:Init", "copied old config variables into new saved variables")
     end
 
     --setup the account wide privacy saved variables
     if not GUILDBOOK_PRIVACY then
         GUILDBOOK_PRIVACY = {};
-        addon.DEBUG("func", "Database:Init", "declared privacy saved variables as new table")
+        --addon.DEBUG("func", "Database:Init", "declared privacy saved variables as new table")
     end
     for k, v in pairs(self.keys.privacy) do
         if not GUILDBOOK_PRIVACY[k] then
             GUILDBOOK_PRIVACY[k] = v;
         end
     end
-    addon.DEBUG("func", "Database:Init", "copied privacy saved variable keys")
+    --addon.DEBUG("func", "Database:Init", "copied privacy saved variable keys")
     if GUILDBOOK_GLOBAL.config and GUILDBOOK_GLOBAL.config.privacy then
         for k, v in pairs(GUILDBOOK_GLOBAL.config.privacy) do
             if GUILDBOOK_PRIVACY[k] then
                 GUILDBOOK_PRIVACY[k] = v;
             end
         end
-        addon.DEBUG("func", "Database:Init", "copied old privacy variables into new saved variables")
+        --addon.DEBUG("func", "Database:Init", "copied old privacy variables into new saved variables")
     end
     for k, v in pairs(self.keysToRemove.privacy) do
         if GUILDBOOK_PRIVACY[v] then
             GUILDBOOK_PRIVACY[v] = nil;
         end
     end
-    addon.DEBUG("func", "Database:Init", "removed old privacy saved variable keys")
+    --addon.DEBUG("func", "Database:Init", "removed old privacy saved variable keys")
 
 
     --add this character guid to list
@@ -171,10 +172,17 @@ function Database:GuildExists(guildName)
     return false;
 end
 
+
+function Database:RemoveGuild(guildName)
+    if GUILDBOOK_GLOBAL and GUILDBOOK_GLOBAL.GuildRosterCache[guildName] then
+        GUILDBOOK_GLOBAL.GuildRosterCache[guildName] = nil;
+    end
+end
+
 function Database:CreateNewGuildRosterCache(guildName, cache)
     if not GUILDBOOK_GLOBAL.GuildRosterCache[guildName] then
         GUILDBOOK_GLOBAL.GuildRosterCache[guildName] = cache or {};
-        addon.DEBUG("func", "Database:CreateNewGuildRosterCache", string.format("created roster cache for %s", guildName))
+        --addon.DEBUG("func", "Database:CreateNewGuildRosterCache", string.format("created roster cache for %s", guildName))
     end
 end
 
@@ -200,7 +208,7 @@ end
 function Database:SetGuildRosterCache(guildName, cache)
     if GUILDBOOK_GLOBAL and GUILDBOOK_GLOBAL.GuildRosterCache[guildName] then
         GUILDBOOK_GLOBAL.GuildRosterCache[guildName] = cache;
-        addon.DEBUG("func", "Database:SetGuildRosterCache", string.format("set roster cache for %s", guildName), cache)
+        --addon.DEBUG("func", "Database:SetGuildRosterCache", string.format("set roster cache for %s", guildName), cache)
     end
 end
 
@@ -233,20 +241,20 @@ function Database:ImportGuildData(data)
 
     if type(data.name) == "string" and type(data.cache) == "table" then
 
-        addon.DEBUG("func", "Database:ImportGuildData", string.format("importing data for %s", data.name))
+        --addon.DEBUG("func", "Database:ImportGuildData", string.format("importing data for %s", data.name))
 
         if self:GuildExists(data.name) then
             self:SetGuildRosterCache(data.name, data.cache)
 
             --ViragDevTool:AddData(data.cache, "import: "..data.name)
 
-            addon.DEBUG("func", "Database:ImportGuildData", "guild exists setting roster cache")
+            --addon.DEBUG("func", "Database:ImportGuildData", "guild exists setting roster cache")
 
         else
 
             self:CreateNewGuildRosterCache(data.name, data.cache)
 
-            addon.DEBUG("func", "Database:ImportGuildData", "created new roster cache, setting data")
+            --addon.DEBUG("func", "Database:ImportGuildData", "created new roster cache, setting data")
         end
 
         addon:TriggerEvent("OnGuildDataImported", data.name)
@@ -274,6 +282,12 @@ function Database:GetPrivacySetting(privacy)
 
 end
 
+function Database:AddAltToMyCharacters(guid)
+    if not GUILDBOOK_GLOBAL.myCharacters then
+        GUILDBOOK_GLOBAL.myCharacters = {}
+    end
+    GUILDBOOK_GLOBAL.myCharacters[guid] = false;
+end
 
 function Database:GetMyCharacters()
     if not GUILDBOOK_GLOBAL.myCharacters then

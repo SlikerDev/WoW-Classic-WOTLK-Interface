@@ -235,30 +235,32 @@ end
 
 function Character:CanCraftItem(item)
 
-    --addon.DEBUG("func", "Character:CanCraftItem", string.format("looking for crafters for %s", item.name))
-
-    if self.data.profession1 == item.tradeskill then
-        --addon.DEBUG("func", "Character:CanCraftItem", string.format("found matching prof 1 for %s", self.data.name))
-        for k, itemID in pairs(self.data.profession1Recipes) do
-            if itemID == item.itemID then
-                return true;
+    if type(self.data.profession1Recipes) == "table" then
+        if self.data.profession1 == item.tradeskill then
+            for k, itemID in ipairs(self.data.profession1Recipes) do
+                if itemID == item.itemID then
+                    return true;
+                end
             end
         end
     end
 
-    if self.data.profession2 == item.tradeskill then
-        --addon.DEBUG("func", "Character:CanCraftItem", string.format("found matching prof 2 for %s", self.data.name))
-        for k, itemID in pairs(self.data.profession2Recipes) do
-            if itemID == item.itemID then
-                return true;
+    if type(self.data.profession2Recipes) == "table" then
+        if self.data.profession2 == item.tradeskill then
+            for k, itemID in ipairs(self.data.profession2Recipes) do
+                if itemID == item.itemID then
+                    return true;
+                end
             end
         end
     end
 
-    if item.tradeskill == 185 then --cooking
-        for k, itemID in pairs(self.data.cookingRecipes) do
-            if itemID == item.itemID then
-                return true;
+    if type(self.data.cookingRecipes) == "table" then
+        if item.tradeskill == 185 then --cooking
+            for k, itemID in ipairs(self.data.cookingRecipes) do
+                if itemID == item.itemID then
+                    return true;
+                end
             end
         end
     end
@@ -345,7 +347,11 @@ function Character:GetProfile()
 end
 
 function Character:SetTalents(spec, talents)
-    self.data.talents[spec] = talents;
+    if (#talents > 0) then
+        self.data.talents[spec] = talents;
+    else
+        --print("talents", spec, "no data")
+    end
 end
 
 function Character:GetTalents(spec)
@@ -356,7 +362,12 @@ end
 
 
 function Character:SetGlyphs(spec, glyphs)
-    self.data.glyphs[spec] = glyphs;
+
+    if (#glyphs > 0) then
+        self.data.glyphs[spec] = glyphs;
+    else
+        --print("glyphs", spec, "no data")
+    end
 end
 
 function Character:GetGlyphs(spec)
@@ -372,6 +383,24 @@ end
 
 function Character:GetInventory()
     return self.data.inventory;
+end
+
+
+function Character:SetCurrentPaperdollStats(stats)
+    self.data.currentPaperdollStats = stats;
+end
+
+function Character:GetCurrentPaperdollStats()
+    return self.data.currentPaperdollStats; 
+end
+
+
+function Character:SetCurrentInventory(inventory)
+    self.data.currentInventory = inventory;
+end
+
+function Character:GetCurrentInventory()
+    return self.data.currentInventory;
 end
 
 
@@ -518,7 +547,9 @@ function Character:CreateFromData(guid, data)
                 talents = data.Talents or {},
                 glyphs = data.Glyphs or {},
                 inventory = data.Inventory,
+                currentInventory = data.currentInventory or {},
                 paperDollStats = data.PaperDollStats,
+                currentPaperdollStats = data.CurrentPaperdollStats or {},
                 onlineStatus = {
                     isOnline = false,
                     zone = "",
@@ -576,7 +607,9 @@ function Character:SetData(data)
         talents = data.Talents or {},
         glyphs = data.Glyphs or {},
         inventory = data.Inventory,
+        currentInventory = data.currentInventory or {},
         paperDollStats = data.PaperDollStats,
+        currentPaperdollStats = data.CurrentPaperdollStats or {},
         onlineStatus = {
             isOnline = false,
             zone = "",
@@ -616,7 +649,9 @@ function Character:GetData()
         Talents = self.data.talents,
         Glyphs = self.data.glyphs,
         Inventory = self.data.inventory,
+        CurrentInventory = self.data.currentInventory,
         PaperDollStats = self.data.paperDollStats,
+        CurrentPaperdollStats = self.data.currentPaperdollStats or {},
     }
     return data;
 end
@@ -666,6 +701,7 @@ function Character:ResetData()
         },
 
         inventory = {},
+        currentInventory = {},
 
         rankName = "",
         profile = {
@@ -680,6 +716,7 @@ function Character:ResetData()
             primary = {},
             secondary = {},
         },
+        CurrentPaperdollStats = {},
 
         onlineStatus = {
             isOnline = false,
@@ -689,11 +726,11 @@ function Character:ResetData()
     if guid == UnitGUID("player") then
         addon:TriggerEvent("Character_OnDataChanged")
     end
-    addon.DEBUG("func", "Character:ResetData", string.format("reset data for %s", name))
+    --addon.DEBUG("func", "Character:ResetData", string.format("reset data for %s", name))
 end
 
 function Character:New()
-    addon.DEBUG("func", "Character:New", string.format("created new character object"))
+    --addon.DEBUG("func", "Character:New", string.format("created new character object"))
     return Mixin({ 
         data = {
             name = "",
@@ -715,8 +752,8 @@ function Character:New()
             profession2 = "-",
             profession1Level = 0,
             profession2Level = 0,
-            profession1Recipes = 0,
-            profession2Recipes = 0,
+            profession1Recipes = {},
+            profession2Recipes = {},
             profession1Spec = 0,
             profession2Spec = 0,
 
@@ -736,6 +773,7 @@ function Character:New()
             },
 
             inventory = {},
+            currentInventory = {},
 
             rankName = "",
             profile = {
@@ -750,6 +788,7 @@ function Character:New()
                 primary = {},
                 secondary = {},
             },
+            CurrentPaperdollStats = {},
         },
     }, self)
 end

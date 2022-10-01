@@ -10,10 +10,10 @@ local Comms = {};
 Comms.prefix = "Guildbook";
 Comms.version = 0;
 Comms.processDelay = 2.0; --delay before processing incoming message data
-Comms.queueWaitingTime = 10.0; --delay from first outgoing message queued to actual dispatch time
-Comms.dispatcherElapsedDelay = 1.0; --stagger effect for the onUpdate func on dispatcher
+Comms.queueWaitingTime = 15.0; --delay from transmit request to first dispatch attempt, this prevents spamming if a player opens/closes a panel that triggers a transmit
+Comms.dispatcherElapsedDelay = 1.0; --stagger effect for the onUpdate func on dispatcher, limits the onUpdate to once per second
 Comms.queue = {};
-Comms.queueExtendTime = 5.0; --the extension given to each message waiting in the queue, this limits how oftena  message can be dispatched
+Comms.queueExtendTime = 5.0; --the extension given to each message waiting in the queue, this limits how often a message can be dispatched
 Comms.dispatcher = CreateFrame("FRAME");
 Comms.dispatcherElapsed = 0;
 Comms.pause = false;
@@ -25,13 +25,18 @@ function Comms:Init()
 
     self.version = tonumber(GetAddOnMetadata('Guildbook', "Version"));
 
-    addon.DEBUG("func", "Comms:Init", "comms init")
+    --addon.DEBUG("func", "Comms:Init", "comms init")
 
 
     self.dispatcher:SetScript("OnUpdate", Comms.DispatcherOnUpdate)
 end
 
 
+---the pourpose of this function is to check the queued mesages once per second and take action
+---if there is a message and its dispatch time has been reached then push the message, then update remaining messages to dispatch at n secon intervals
+---if the queue is empty remove the onUpdate script
+---@param self table Comms object
+---@param elapsed number elapsed since last OnUpdate
 function Comms.DispatcherOnUpdate(self, elapsed)
 
     Comms.dispatcherElapsed = Comms.dispatcherElapsed + elapsed;
@@ -44,21 +49,26 @@ function Comms.DispatcherOnUpdate(self, elapsed)
 
     if #Comms.queue == 0 then
         self:SetScript("OnUpdate", nil)
-        addon.DEBUG("commsMixin", "Comms:DispatcherOnUpdate", string.format("queue is empty removed the onUpdate func"))
     else
 
         local now = time();
+
+        --grab the message from the queue
         local event = Comms.queue[1];
+
+        --if the message is due to go push it
         if event.dispatchTime < now then
             Comms:SendChatMessage(event.message, event.channel, event.target, event.priority)
+
+            --set remaining messages to dispatch in 'n' second intervals
             for i = 2, #Comms.queue do
                 Comms.queue[i].dispatchTime = now + ((i - 1) * Comms.queueExtendTime)
-                addon.DEBUG("commsMixin", "Comms:DispatcherOnUpdate", string.format("extended dispatch time for %s", Comms.queue[i].event))
             end
+
+            --remove the message
             table.remove(Comms.queue, 1)
             if #Comms.queue == 0 then
                 self:SetScript("OnUpdate", nil)
-                addon.DEBUG("commsMixin", "Comms:DispatcherOnUpdate", string.format("queue is empty removed the onUpdate func"))
             end
         end
     end
@@ -75,7 +85,7 @@ end
 ---the timer delay is determined by the previous timer to keep messages spaced out
 function Comms:QueueMessage(event, message, channel, target, priority)
 
-    addon.DEBUG("commsMixin", "Comms:QueueMessage", string.format("adding %s to the queue", event), message)
+    --addon.DEBUG("commsMixin", "Comms:QueueMessage", string.format("adding %s to the queue", event), message)
 
     local exists = false;
     for k, info in ipairs(self.queue) do
@@ -88,7 +98,7 @@ function Comms:QueueMessage(event, message, channel, target, priority)
                 target = target,
                 priority = priority,
             }
-            addon.DEBUG("commsMixin", "Comms:QueueMessage", string.format("updated package data for %s", event), message)
+            --addon.DEBUG("commsMixin", "Comms:QueueMessage", string.format("updated package data for %s", event), message)
         end
     end
 
@@ -117,7 +127,7 @@ function Comms:SendChatMessage(data, channel, targetGUID, priority)
     end
 
     if targetGUID == UnitGUID("player") then
-        addon.DEBUG('commsMixin', 'Comms:Transmit', "cancel transmit as target is player", data)
+        --addon.DEBUG('commsMixin', 'Comms:Transmit', "cancel transmit as target is player", data)
         --return;
     end
 
@@ -139,6 +149,7 @@ function Comms:SendChatMessage(data, channel, targetGUID, priority)
     end
     if IsInGuild() and GetGuildInfo("player") then
         -- we just want to make sure we are in a guild here to stop spam
+        data["senderGuild"] = GetGuildInfo('player');
     else
         return;
     end
@@ -158,7 +169,7 @@ function Comms:SendChatMessage(data, channel, targetGUID, priority)
             local nameRealm, _, _, _, _, _, _, _, isOnline, _, _, _, _, _, _, _, guid = GetGuildRosterInfo(i)
             if guid == targetGUID and isOnline == true then
                 
-                addon.DEBUG('commsMixin', 'SendCommMessage_TargetOnline', string.format("type: %s, channel: %s target: %s, prio: %s", data.type or 'nil', channel, (target or 'nil'), priority), data)
+                --addon.DEBUG('commsMixin', 'SendCommMessage_TargetOnline', string.format("type: %s, channel: %s target: %s, prio: %s", data.type or 'nil', channel, (target or 'nil'), priority), data)
                 
                 local target = Ambiguate(nameRealm, "none")
 
@@ -206,7 +217,7 @@ function Comms:SendChatMessage(data, channel, targetGUID, priority)
         local encoded    = LibDeflate:EncodeForWoWAddonChannel(compressed);
 
         if encoded and channel and priority then
-            addon.DEBUG('commsMixin', 'SendCommMessage_NoTarget', string.format("type: %s, channel: %s target: %s, prio: %s", data.type or 'nil', channel, 'nil', priority), data)
+            --addon.DEBUG('commsMixin', 'SendCommMessage_NoTarget', string.format("type: %s, channel: %s target: %s, prio: %s", data.type or 'nil', channel, 'nil', priority), data)
             self:SendCommMessage(Comms.prefix, encoded, channel, nil, priority)
         end
     end
@@ -253,7 +264,7 @@ function Comms:OnCommReceived(prefix, message, distribution, sender)
         return;
     end
 
-    addon.DEBUG('commsMixin', string.format("Comms:OnCommsReceived <%s>", distribution), string.format("%s from %s", data.type, sender), data)
+    --addon.DEBUG('commsMixin', string.format("Comms:OnCommsReceived <%s>", distribution), string.format("%s from %s", data.type, sender), data)
     
     ---before we process the data pause to allow all messages to be put together again
     C_Timer.After(self.processDelay, function()
@@ -264,7 +275,7 @@ end
 
 function Comms:ProcessIncomingData(data, sender)
     addon:TriggerEvent("OnCommsMessage", sender, data)
-    addon.DEBUG('commsMixin', "Comms:ProcessIncomingData", string.format("Handler %s does exist", data.type), data)
+    --addon.DEBUG('commsMixin', "Comms:ProcessIncomingData", string.format("Handler %s does exist", data.type), data)
 end
 
 

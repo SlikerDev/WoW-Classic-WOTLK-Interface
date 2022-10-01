@@ -1153,16 +1153,19 @@ data["JewelcraftingWrath"] = {
 				{ 3, 66448 },	-- Delicate Cardinal Ruby
 				{ 4, 66453 },	-- Flashing Cardinal Ruby
 				{ 5, 66450 },	-- Precise Cardinal Ruby
-				{ 7, 53830 },	-- Bold Scarlet Ruby
-				{ 8, 53946 },	-- Runed Scarlet Ruby
-				{ 9, 53945 },	-- Delicate Scarlet Ruby
-				{ 10, 53949 },	-- Flashing Scarlet Ruby
-				{ 11, 53951 },	-- Precise Scarlet Ruby
+				{ 6, 66449 },	-- Bright Cardinal Ruby
+				{ 8, 53830 },	-- Bold Scarlet Ruby
+				{ 9, 53946 },	-- Runed Scarlet Ruby
+				{ 10, 53945 },	-- Delicate Scarlet Ruby
+				{ 11, 53949 },	-- Flashing Scarlet Ruby
+				{ 12, 53951 },	-- Precise Scarlet Ruby
+				{ 13, 53947 },	-- Bright Scarlet Ruby
 				{ 16, 53831 },	-- Bold Bloodstone
 				{ 17, 53834 },	-- Runed Bloodstone
 				{ 18, 53832 },	-- Delicate Bloodstone
 				{ 19, 53844 },	-- Flashing Bloodstone
 				{ 20, 54017 },	-- Precise Bloodstone
+				{ 21, 53835 },	-- Bright Bloodstone
 			}
 		},
 		{
@@ -1361,6 +1364,7 @@ data["JewelcraftingWrath"] = {
 			name = AL["Misc"],
 			[NORMAL_DIFF] = {
 				{ 1, 62242 },	-- Icy Prism
+				{ 3, "i43297" },	-- Damaged Necklace
 				{ 16, 56208 },	-- Shadow Jade Focusing Lens
 				{ 17, 56206 },	-- Shadow Crystal Focusing Lens
 				{ 18, 56205 },	-- Dark Jade Focusing Lens
@@ -1906,7 +1910,12 @@ data["InscriptionWrath"] = {
 			name = AL["Misc"],
 			[NORMAL_DIFF] = {
 				{ 1, 59387 },	-- Certificate of Ownership
-				{ 16, 52739 },	-- Armor Vellum
+				{ 3, 52739 },	-- Armor Vellum
+				{ 4, 59499 },	-- Armor Vellum II
+				{ 5, 59500 },	-- Armor Vellum III
+				{ 18, 52840 },	-- Weapon Vellum
+				{ 19, 59488 },	-- Weapon Vellum II
+				{ 20, 59501 },	-- Weapon Vellum III
 			}
 		},
 	}
@@ -2014,6 +2023,16 @@ data["CookingWrath"] = {
 			},
 		},
 		{
+			name = ALIL["Spell Power"],
+			[NORMAL_DIFF] = {
+				{ 1, 45550 },	-- Shoveltusk Steak
+				{ 2, 45564 },	-- Smoked Salmon
+				{ 16, 45556 },	-- Tender Shoveltusk Steak
+				{ 17, 45568 },	-- Firecracker Salmon
+			},
+		},
+
+		{
 			name = ALIL["Attack Power"].." + "..ALIL["Spell Power"],
 			[NORMAL_DIFF] = {
 				{ 1, 58065 },	-- Dalaran Clam Chowder
@@ -2044,7 +2063,9 @@ data["CookingWrath"] = {
 			name = AL["Feast"],
 			[NORMAL_DIFF] = {
 				{ 1, 45554 },	-- Great Feast
+				{ 3, 58528 },   -- Small Feast
 				{ 16, 57423 },	-- Fish Feast
+				{ 18, 58527 },  -- Gigantic Feast
 			},
 		},
 		{
@@ -2069,7 +2090,11 @@ data["CookingWrath"] = {
 			[NORMAL_DIFF] = {
 				{ 1, 57438 },	-- Blackened Worg Steak
 				{ 2, 57443 },	-- Tracker Snacks
+				{ 4, 58523 },   -- Bad Clams
+				{ 5, 58521 },   -- Last Week's Mammoth
 				{ 16, 57435 },	-- Critter Bites
+				{ 19, 58525 },  -- Haunted Herring
+				{ 20, 58512 },  -- Tasty Cupcake
 			},
 		},
 	}

@@ -18,6 +18,7 @@ local UnitGUID = UnitGUID;
 local pairs = pairs;
 local GetNormalizedRealmName = GetNormalizedRealmName;
 local tinsert = tinsert;
+local cachedGetNormalizedRealmName;
 
 function NRC:updateGroupCache()
 	local group = {};
@@ -286,7 +287,7 @@ function NRC:inOurGroup(who)
 			--No realms means they are on our realm.
 			for k, v in pairs(NRC.groupCache) do
 				if (not strfind(k, "-")) then
-					k = k .. "-" .. GetNormalizedRealmName();
+					k = k .. "-" .. (cachedGetNormalizedRealmName or GetNormalizedRealmName());
 				end
 				if (normalizeNameRealm(k) == normalizeNameRealm(who)) then
 					return true;
@@ -933,6 +934,9 @@ f:SetScript('OnEvent', function(self, event, ...)
 			if (isReload and IsInGroup()) then
 				NRC:throddleEventByFunc(event, 1, "loadGroupMana", ...);
 				NRC:throddleEventByFunc(event, 2, "updateHealerCache", "PLAYER_ENTERING_WORLD");
+			end
+			if (not cachedGetNormalizedRealmName and GetNormalizedRealmName()) then
+				cachedGetNormalizedRealmName = GetNormalizedRealmName();
 			end
 		end
 		if (event == "GROUP_FORMED" or event == "GROUP_JOINED") then

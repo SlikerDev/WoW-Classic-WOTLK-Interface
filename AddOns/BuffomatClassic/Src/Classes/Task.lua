@@ -25,14 +25,20 @@ taskClass.__index = taskClass
 
 --Creates a new TaskListItem
 ---@param priority number|nil Sorting priority to display
----@param target BomUnit|GroupBuffTarget Unit to calculate distance to or boolean true
+---@param target BomUnit|BomGroupBuffTarget Unit to calculate distance to or boolean true
 ---@param actionText string
 ---@param actionLink string
 ---@param prefixText string
 ---@param extraText string
 function taskModule:New(prefixText, actionLink, actionText, extraText,
-                            target, isInfo, priority)
-  local distance = target:GetDistance()
+                        target, isInfo, priority)
+  local distance
+  if target then
+    distance = target:GetDistance()
+  else
+    distance = 0
+  end
+
   local fields = {}  ---@type BomTask
   setmetatable(fields, taskClass)
 

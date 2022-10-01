@@ -1,16 +1,16 @@
-lightweight tag 2aafc3659a1b5a916f7ef8a4f4b1d949a3505ee3 v1.0.15
+lightweight tag 70c5ad0df6e618bfb5b1ca0752b2f70c9d7adf79 v1.0.17
 Author:	GitHub <noreply@github.com>
-Date:	Tue Aug 30 23:03:59 2022 -0700
+Date:	Sat Sep 24 16:32:26 2022 -0700
 
-commit a5e64fac0dc1cbe853c8edad64002a0a2c24c29a
+commit 91041c55e4b18b4b94b06584368dc0af163185f3
 Author: WindowsDesktop <anonymouse@nunya.biz>
-Date:   Tue Aug 30 23:01:16 2022 -0700
+Date:   Sat Sep 24 16:25:21 2022 -0700
 
-    add optional support for sfx when detecting marked node
+    revert forced tracking
 
-commit a5e64fac0dc1cbe853c8edad64002a0a2c24c29a
+commit 91041c55e4b18b4b94b06584368dc0af163185f3
 Author: WindowsDesktop <anonymouse@nunya.biz>
-Date:   Tue Aug 30 23:01:16 2022 -0700
+Date:   Sat Sep 24 16:25:21 2022 -0700
 
-    add optional support for sfx when detecting marked node
+    revert forced tracking
 

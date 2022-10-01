@@ -1,4 +1,3 @@
-local addonName = GetAddOnMetadata('GatherMate2Marker', 'Title')
 local addonNameFull = GetAddOnMetadata('GatherMate2Marker', 'X-FullName')
 local addonVersion = GetAddOnMetadata('GatherMate2Marker', 'Version')
 local addonAuthor = GetAddOnMetadata('GatherMate2Marker', 'Author')
@@ -7,7 +6,6 @@ local addonSupportLink = 'https://discord.gg/wTFM4pghYn'
 
 local GatherMate2Marker = LibStub('AceAddon-3.0'):NewAddon('GatherMate2Marker', 'AceConsole-3.0', 'AceTimer-3.0')
 local GatherMate = LibStub('AceAddon-3.0'):GetAddon('GatherMate2')
-local GatherMate2MarkerCfg = LibStub('AceConfig-3.0')
 local AceConfigRegistry = LibStub("AceConfigRegistry-3.0")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
@@ -15,8 +13,6 @@ local profile = {}
 
 GM_Display, GM_Display_addMiniMapPinStub = nil
 PinDB, GM2_DB = nil
-
-local showOptionsPanel = false
 
 HeaderColor_h1 = '|cffffd200'
 HeaderColor_h2 = '|cffffff78'
@@ -74,7 +70,7 @@ local generalOptions = {
 			desc = 'Time (in minutes) to reset marked node icons. Default is 5. Supports partial minutes (0.5, etc.)',
 			get = 'GetResetTimeInMinutes',
 			set = 'SetResetTimeInMinutes',
-			width = 'full',
+			width = 'normal',
 			order = 6
 		},
 		persistOnReload = {
@@ -90,22 +86,36 @@ local generalOptions = {
 			type = 'toggle',
 			name = 'SFX on mark',
 			desc = 'Play a subtle sound when nodes on mini-map are considered marked',
-			get = 'GetPlaySFXOnMark',
-			set = 'SetPlaySFXOnMark',
-			width = 'full',
+			get = 'GetPlaySFXOnMarked',
+			set = 'SetPlaySFXOnMarked',
+			width = 'normal',
 			order = 8
+		},
+		playSFXOnMarkedVolume = {
+			type = 'select',
+			name = 'SFX Volume',
+			desc = 'Node marked volume',
+			get = 'GetPlaySFXOnMarkedVolume',
+			set = 'SetPlaySFXOnMarkedVolume',
+			width = 'normal',
+			values = {
+				subtle = "Subtle",
+				normal = "Normal",
+				loud = "Loud"
+			},
+			order = 9
 		},
 		helpMisc = {
 			type = 'description',
 			name = '\r\nWhile reloading the UI should not be required, doing so will reset the state of things (Timers, marked node colors, etc.) If you radically change your timers or experience any visual issues, simply click the button below.',
-			order = 9
+			order = 10
 		},				
 		reloadUIButton = {
 			type = 'execute',
 			name = 'Reload UI',
 			desc = 'Reload the Blizz UI',
 			func = function () ReloadUI() end,
-			order = 10
+			order = 11
 		}
     }
 }
@@ -260,14 +270,15 @@ local optionDefaults = {
 		useGMCircleColor = false,
 		ResetTimeInMinutes = 5,
 		nodeColor = { 1.0, 1.0, 1.0, 0.45 },
-		persistOnReload = true
+		persistOnReload = true,
+		playSFXOnMarked = false,
+		playSFXOnMarkedVolume = 'normal',
     }
 }
 
 function GatherMate2Marker:SetDefaults()
 	if profile.enabled == nil then
 		profile.enabled = optionDefaults.profile.enabled
-		print('setting enabled to ' .. tostring(profile.enabled))
 	end
 
 	if profile.nodeColor == nil then 
@@ -294,7 +305,7 @@ function GatherMate2Marker:OnInitialize()
     self.db.RegisterCallback(self, 'OnProfileReset', 'ResetConfig')
 
     AceConfigRegistry:RegisterOptionsTable(addonNameFull, generalOptions)
-    local options = AceConfigDialog:AddToBlizOptions(addonNameFull, addonNameFull)
+    AceConfigDialog:AddToBlizOptions(addonNameFull, addonNameFull)
 
     AceConfigRegistry:RegisterOptionsTable("GM2M/Help", helpOptions)
     AceConfigDialog:AddToBlizOptions("GM2M/Help", "Help / FAQ", addonNameFull)
@@ -378,12 +389,20 @@ function GatherMate2Marker:GetPersistOnReload(info)
     return profile.persistOnReload
 end
 
-function GatherMate2Marker:SetPlaySFXOnMark(info, val)
-	profile.playSFXOnMark = val
+function GatherMate2Marker:SetPlaySFXOnMarked(info, val)
+	profile.playSFXOnMarked = val
 end
 
-function GatherMate2Marker:GetPlaySFXOnMark(info)
-	return profile.playSFXOnMark
+function GatherMate2Marker:GetPlaySFXOnMarked(info)
+	return profile.playSFXOnMarked
+end
+
+function GatherMate2Marker:SetPlaySFXOnMarkedVolume(info, val)
+	profile.playSFXOnMarkedVolume = val
+end
+
+function GatherMate2Marker:GetPlaySFXOnMarkedVolume(info)
+	return profile.playSFXOnMarkedVolume
 end
 
 function GatherMate2Marker:SetUseGMCircleColor(info, val)
@@ -460,7 +479,7 @@ function GatherMate2Marker:ResetConfig()
 	self:RefreshConfig()
 end
 
-function GatherMate2Marker:AddMiniPin_STUB(pin, refresh)	
+function GatherMate2Marker:AddMiniPin_STUB(pin, refresh)
 	-- trigger the original GM2 addMinimapPin method
 	GM_Display_addMiniMapPinActual(_, pin, refresh)	
 
@@ -481,8 +500,21 @@ function GatherMate2Marker:AddMiniPin_STUB(pin, refresh)
 			PinDB[pin.coords] = {}
 
 			-- optionally play a sound effect if marking a node for the first time (in the timeout window)
-			if profile.playSFXOnMark == true then
-				PlaySoundFile("Interface\\AddOns\\GatherMate2Marker\\Sounds\\mark_pop.mp3", "sfx", false)
+			if profile.playSFXOnMarked == true then
+				local sfxVolumeType = profile.playSFXOnMarkedVolume
+				local sfxFile = ''
+
+				if sfxVolumeType == 'normal' then
+					sfxFile = 'Interface\\AddOns\\GatherMate2Marker\\Sounds\\mark_pop_normal.mp3'
+				elseif sfxVolumeType == 'subtle' then
+					sfxFile = 'Interface\\AddOns\\GatherMate2Marker\\Sounds\\mark_pop_subtle.mp3'
+				elseif sfxVolumeType == 'loud' then
+					sfxFile = 'Interface\\AddOns\\GatherMate2Marker\\Sounds\\mark_pop_loud.mp3'
+				end
+
+				if sfxFile ~= '' then
+					PlaySoundFile(sfxFile, "sfx", false)
+				end
 			end
 		end
 
@@ -516,8 +548,6 @@ function GatherMate2Marker:AddMiniPin_STUB(pin, refresh)
 
 	-- if we have a pin with no utility, drop it from PinDB
 	if PinDB[pin.coords] ~= nil and PinDB[pin.coords].touched == false and PinDB[pin.activeTimer] == nil then
-		-- pin.texture:SetDesaturated(nil)
-
 		PinDB[pin.coords] = nil
 	end
 end

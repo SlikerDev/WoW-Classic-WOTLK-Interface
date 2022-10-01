@@ -80,51 +80,195 @@ local talentTabsToBackground = {
     },
 }
 local characterStats = {
-    ["attributes"] = {
-        { key = "Strength", displayName = L["STRENGTH"], },
-        { key = "Agility", displayName = L["AGILITY"], },
-        { key = "Stamina", displayName = L["STAMINA"], },
-        { key = "Intellect", displayName = L["INTELLECT"], },
-        { key = "Spirit", displayName = L["SPIRIT"], },
-    },
-    ["defence"] = {
-        { key = "Armor", displayName = L["ARMOR"], },
-        { key = "Defence", displayName = L["DEFENSE"], },
-        { key = "Dodge", displayName = L["DODGE"], },
-        { key = "Parry", displayName = L["PARRY"], },
-        { key = "Block", displayName = L["BLOCK"], },
-    },
-    ["melee"] = {
-        { key = "Expertise", displayName = L["EXPERTISE"], },
-        { key = "MeleeHit", displayName = L["HIT_CHANCE"], },
-        { key = "MeleeCrit", displayName = L["MELEE_CRIT"], },
-        { key = "MeleeDmgMH", displayName = L["MH_DMG"], },
-        { key = "MeleeDpsMH", displayName = L["MH_DPS"], },
-        { key = "MeleeDmgOH", displayName = L["OH_DMG"], },
-        { key = "MeleeDpsOH", displayName = L["OH_DPS"], },
-    },
-    ["ranged"] = {
-        { key = "RangedHit", displayName = L["RANGED_HIT"], },
-        { key = "RangedCrit", displayName = L["RANGED_CRIT"], },
-        { key = "RangedDmg", displayName = L["RANGED_DMG"], },
-        { key = "RangedDps", displayName = L["RANGED_DPS"], },
-    },
-    ["spells"] = {
-        { key = "Haste", displayName = L["SPELL_HASTE"], },
-        { key = "ManaRegen", displayName = L["MANA_REGEN"], },
-        { key = "ManaRegenCasting", displayName = L["MANA_REGEN_CASTING"], },
-        { key = "SpellHit", displayName = L["SPELL_HIT"], },
-        { key = "SpellCrit", displayName = L["SPELL_CRIT"], },
-        { key = "HealingBonus", displayName = L["HEALING_BONUS"], },
-        { key = "SpellDmgHoly", displayName = L["SPELL_DMG_HOLY"], },
-        { key = "SpellDmgFrost", displayName = L["SPELL_DMG_FROST"], },
-        { key = "SpellDmgShadow", displayName = L["SPELL_DMG_SHADOW"], },
-        { key = "SpellDmgArcane", displayName = L["SPELL_DMG_ARCANE"], },
-        { key = "SpellDmgFire", displayName = L["SPELL_DMG_FIRE"], },
-        { key = "SpellDmgNature", displayName = L["SPELL_DMG_NATURE"], },
-    }
-}
 
+    {
+        isHeader = true,
+        stat = L["Attributes"],
+    },
+    {
+        isHeader = false,
+        stat = "Strength",
+    },
+    {
+        isHeader = false,
+        stat = "Agility",
+    },
+    {
+        isHeader = false,
+        stat = "Stamina",
+    },
+    {
+        isHeader = false,
+        stat = "Intellect",
+    },
+    {
+        isHeader = false,
+        stat = "Spirit",
+    },
+
+    {
+        isHeader = true,
+        stat = L["Defence"],
+    },
+    {
+        isHeader = false,
+        stat = "Armor",
+    },
+    {
+        isHeader = false,
+        stat = "Defence",
+    },
+    {
+        isHeader = false,
+        stat = "Dodge",
+    },
+    {
+        isHeader = false,
+        stat = "Parry",
+    },
+    {
+        isHeader = false,
+        stat = "Block",
+    },
+    {
+        isHeader = false,
+        stat = "ShieldBlock",
+    },
+
+    {
+        isHeader = true,
+        stat = L["Melee"],
+    },
+    {
+        isHeader = false,
+        stat = "AttackPower",
+    },
+    {
+        isHeader = false,
+        stat = "Expertise",
+    },
+    {
+        isHeader = false,
+        stat = "MeleeHit",
+    },
+    {
+        isHeader = false,
+        stat = "MeleeCrit",
+    },
+    {
+        isHeader = false,
+        stat = "MeleeDmgMH",
+    },
+    {
+        isHeader = false,
+        stat = "MeleeDmgOH",
+    },
+    {
+        isHeader = false,
+        stat = "MeleeDpsMH",
+    },
+    {
+        isHeader = false,
+        stat = "MeleeDpsOH",
+    },
+
+    {
+        isHeader = true,
+        stat = L["Ranged"],
+    },
+    {
+        isHeader = false,
+        stat = "RangedHit",
+    },
+    {
+        isHeader = false,
+        stat = "RangedCrit",
+    },
+    {
+        isHeader = false,
+        stat = "RangedDmg",
+    },
+    {
+        isHeader = false,
+        stat = "RangedDps",
+    },
+
+    {
+        isHeader = true,
+        stat = L["Spells"],
+    },
+    {
+        isHeader = false,
+        stat = "SpellHit",
+    },
+    {
+        isHeader = false,
+        stat = "SpellCrit",
+    },
+    {
+        isHeader = false,
+        stat = "Haste",
+    },
+    {
+        isHeader = false,
+        stat = "ManaRegen",
+    },
+    {
+        isHeader = false,
+        stat = "ManaRegenCasting",
+    },
+
+    {
+        isHeader = false,
+        stat = "SpellDmgArcane",
+    },
+    {
+        isHeader = false,
+        stat = "SpellDmgHoly",
+    },
+    {
+        isHeader = false,
+        stat = "SpellDmgFire",
+    },
+    {
+        isHeader = false,
+        stat = "SpellDmgFrost",
+    },
+    {
+        isHeader = false,
+        stat = "SpellDmgNature",
+    },
+    {
+        isHeader = false,
+        stat = "SpellDmgShadow",
+    },
+    
+    {
+        isHeader = false,
+        stat = "SpellCritArcane",
+    },
+    {
+        isHeader = false,
+        stat = "SpellCritHoly",
+    },
+    {
+        isHeader = false,
+        stat = "SpellCritFire",
+    },
+    {
+        isHeader = false,
+        stat = "SpellCritFrost",
+    },
+    {
+        isHeader = false,
+        stat = "SpellCritNature",
+    },
+    {
+        isHeader = false,
+        stat = "SpellCritShadow",
+    },
+
+}
 
 
 
@@ -220,7 +364,16 @@ end
 
 function GuildbookMixin:OnLoad()
 
+    SLASH_GUILDBOOK1 = '/guildbook'
+    SLASH_GUILDBOOK2 = '/gbk'
+    SLASH_GUILDBOOK3 = '/gb'
+    SlashCmdList['GUILDBOOK'] = function(msg)
+        GuildbookInterface:Show()
+    end
+
     self:RegisterForDrag("LeftButton")
+
+    self.resize:Init(self, 940, 510)
 
     self.welcomeMessage.text:SetText(L["WELCOME_MESSAGE"])
 
@@ -259,6 +412,7 @@ function GuildbookMixin:OnLoad()
     addon:RegisterCallback("OnPlayerEnteringWorld", self.OnPlayerEnteringWorld, self)
     addon:RegisterCallback("OnChatMessageGuild", self.OnChatMessageGuild, self)
     addon:RegisterCallback("OnGuildChanged", self.OnGuildChanged, self)
+    addon:RegisterCallback("OnGuildRemoved", self.OnGuildRemoved, self)
     addon:RegisterCallback("OnGuildRosterUpdate", self.OnGuildRosterUpdate, self)
     addon:RegisterCallback("OnGuildDataImported", self.OnGuildDataImported, self)
     addon:RegisterCallback("OnPlayerBagsUpdated", self.OnPlayerBagsUpdated, self)
@@ -846,6 +1000,18 @@ function GuildbookMixin:OnLoad()
 
     --settings locales
     self.settings.scrollChild.header:SetText(L["SETTINGS_HEADER"])
+
+    self.settings.scrollChild.generalHeader:SetText(L["SETTINGS_GENERAL_LABEL"])
+    self.settings.scrollChild.themeHeader:SetText(L["SETTINGS_THEME_LABEL"])
+    self.settings.scrollChild.commsHeader:SetText(L["SETTINGS_DATASYNC_LABEL"])
+    self.settings.scrollChild.tooltipHeader:SetText(L["SETTINGS_TOOLTIP_LABEL"])
+
+
+    self.settings.scrollChild.newTheme:SetText(L["SETTINGS_TOOLTIP_LABEL"])
+    self.settings.scrollChild.deleteTheme:SetText(L["SETTINGS_TOOLTIP_LABEL"])
+    self.settings.scrollChild.newThemeEditor.confirmTheme:SetText(L["SETTINGS_THEME_EDITOR_CONFIRM_LABEL"])
+    self.settings.scrollChild.newThemeEditor.cancelTheme:SetText(L["SETTINGS_THEME_EDITOR_CANCEL_LABEL"])
+
     self.settings.scrollChild.exportImportLabel:SetText(L["SETTINGS_EXPORT_IMPORT_LABEL"])
     self.settings.scrollChild.showMinimapButton.label:SetText(L["SETTINGS_SHOW_MINIMAP_BUTTON_LABEL"])
     self.settings.scrollChild.showMinimapButton.tooltip = L["SETTINGS_SHOW_MINIMAP_BUTTON_TOOLTIP"]
@@ -863,6 +1029,9 @@ function GuildbookMixin:OnLoad()
 
     self.settings.scrollChild.modifyDefaultGuildRoster.label:SetText(L["SETTINGS_MOD_BLIZZ_ROSTER_LABEL"])
     self.settings.scrollChild.modifyDefaultGuildRoster.tooltip = L["SETTINGS_MOD_BLIZZ_ROSTER_TOOLTIP"]
+
+    self.settings.scrollChild.showChatWindowMessages.label:SetText(L["SETTINGS_SHOW_CHAT_MESSAGES"])
+    self.settings.scrollChild.showChatWindowMessages.tooltip = L["SETTINGS_SHOW_CHAT_MESSAGES_TOOLTIP"]
 
     self.settings.scrollChild.generateExportData:SetText(L["SETTINGS_EXPORT_GUILD_LABEL"])
     self.settings.scrollChild.importData:SetText(L["SETTINGS_IMPORT_GUILD_LABEL"])
@@ -915,6 +1084,10 @@ function GuildbookMixin:OnLoad()
             ReloadUI()
         end
     end)
+    self.settings.scrollChild.showChatWindowMessages:SetScript("OnClick", function()
+        Database:SetConfigSetting("showChatWindowMessages", self.settings.scrollChild.showChatWindowMessages:GetChecked())
+    end)
+
 
     self.settings.scrollChild.resetCharacter:SetScript("OnClick", function()
         for k, guild in ipairs(self.guilds) do
@@ -941,14 +1114,7 @@ function GuildbookMixin:OnLoad()
             })
         end
     end)
-    self.settings.scrollChild.debug:SetScript("OnClick", function()
-        addon.DebuggerWindow:SetShown(not addon.DebuggerWindow:IsVisible())
-        --self.settings.scrollChild.scanForLocaleData:SetShown(not self.settings.scrollChild.scanForLocaleData:IsVisible())
-    end)
 
-    -- self.settings.scrollChild.scanForLocaleData:SetScript("OnClick", function()
-    --     addon:GetLocaleTradeskillInfo()
-    -- end)
 
     self.settings.scrollChild.generateExportData:SetScript("OnClick", function()
         if self.selectedGuild then
@@ -1141,6 +1307,23 @@ function GuildbookMixin:OnLoad()
     self.profile.altsHelptip:SetText(L["PROFILE_ALTS_HELPTIP"])
     self.profile.altManager.label:SetText(L["PROFILE_ALT_MANAGER_LABEL"])
     self.profile.altManager.labelRight:SetText(L["PROFILE_ALT_MANAGER_LABEL_RIGHT"])
+    
+    self.profile.addAltCharacter:SetText(L["PROFILE_ADD_ALT_LABEL"])
+    self.profile.addAltCharacter:SetScript("OnClick", function()
+        StaticPopup_Show("GuildbookAddMainCharacter", nil, nil, {
+            findCharacter = function(characterName)
+                for k, guild in ipairs(self.guilds) do
+                    if guild:GetCharacterByName(characterName) then
+                        return guild:GetCharacterByName(characterName)
+                    end
+                end
+            end,
+            addAlt = function(character)
+                Database:AddAltToMyCharacters(character:GetGuid())
+                self:UpdateAltManager()
+            end,
+        })
+    end)
 
     self.profile.primarySpecIsPvp.label:SetText(L["PVP"])
     self.profile.primarySpecIsPvp:SetScript("OnClick", function()
@@ -1160,6 +1343,11 @@ function GuildbookMixin:OnLoad()
                 player:SetSpecIsPvp("secondary", self.profile.secondarySpecIsPvp:GetChecked())
             end
         end
+    end)
+
+    self.profile:SetScript("OnShow", function()
+        self:InitProfileSpecDropdown()
+        self:UpdateAltManager()
     end)
 
     self.profile:SetScript("OnHide", function()
@@ -1212,7 +1400,6 @@ function GuildbookMixin:LoadHelp()
 end
 
 
-
 function GuildbookMixin:OnCommsMessage(sender, data)
 
     -- print(sender)
@@ -1228,7 +1415,7 @@ function GuildbookMixin:OnCommsMessage(sender, data)
         if _guild:GetCharacter(senderGUID) then
             character = _guild:GetCharacter(senderGUID)
             guild = _guild;
-            addon.DEBUG("func", "OnCommsMessage", string.format("found character"))
+            --addon.DEBUG("func", "OnCommsMessage", string.format("found character"))
         end
     end
     if type(character) ~= "table" then
@@ -1250,29 +1437,51 @@ function GuildbookMixin:OnCommsMessage(sender, data)
 
     self:SetStatusText(string.format("%s from %s", commType, character:GetName()))
 
+    --schedule this before we return out
+    C_Timer.After(1.0, function()
+        guild:UpdateSavedVariablesForCharacter(senderGUID)
+        
+        if self.guild.home.character.selectedCharacter and (self.guild.home.character.selectedCharacter:GetGuid() == character:GetGuid()) then
+            self:InitCharacterEquipmentDropdown(character)
+            self:InitCharacterTalentsDropdown(character)
+            self:LoadCharacterScrollView(character)
+        end
+    end)
+
     if commType == "TRADESKILL_WORK_ORDER_ADD" then
         self:TradeskillListviewItem_OnAddToWorkOrder(data.payload, character, guild:GetName())
+        return;
     end
 
     if commType == "CHARACTER_STATS" then
-        character:SetPaperdollStats(data.payload.name, data.payload.stats)
+        if data.payload.name == "gb-char-cur-equip-stats" then
+            character:SetCurrentPaperdollStats(data.payload.stats)
+        else
+            character:SetPaperdollStats(data.payload.name, data.payload.stats)
+        end
+        return;
     end
 
     if commType == "TRADESKILL_RECIPES" then
         self:HandleTradeskillUpdate(senderGUID, data.payload.tradeskill, data.payload.level, data.payload.recipes)
+        return;
     end
 
     if commType == "CHARACTER_SKILLS" then
         self:HandleCharacterSkillsUpdate(senderGUID, data.payload)
+        return;
     end
 
-    if commType == "CHARACTER_EQUIPMENT" then
-        character:SetInventory(data.payload)
+    if commType == "CHARACTER_EQUIPMENT_V2" then
+        character:SetInventory(data.payload.sets)
+        character:SetCurrentInventory(data.payload.current)
+        return;
     end
 
     if commType == "CHARACTER_SPEC" then
         character:SetTalents(data.payload.spec, data.payload.talents)
         character:SetGlyphs(data.payload.spec, data.payload.glyphs)
+        return;
     end
 
     if commType == "CHARACTER_PROFILE" then
@@ -1290,17 +1499,9 @@ function GuildbookMixin:OnCommsMessage(sender, data)
         character:SetMainCharacter(profile.mainCharacter)
 
         guild:SetAllCharactersAlts(profile.alts)
+        return;
     end
 
-    if self.guild.home.character.selectedCharacter and (self.guild.home.character.selectedCharacter:GetGuid() == character:GetGuid()) then
-        self:InitCharacterEquipmentDropdown(character)
-        self:InitCharacterTalentsDropdown(character)
-        self:LoadCharacterScrollView(character)
-    end
-
-    C_Timer.After(1.0, function()
-        guild:UpdateSavedVariablesForCharacter(senderGUID)
-    end)
 end
 
 
@@ -1376,7 +1577,7 @@ function GuildbookMixin:OnShow()
 end
 
 function GuildbookMixin:OnHide()
-
+    collectgarbage("collect")
 end
 
 function GuildbookMixin:OnUpdate()
@@ -1457,6 +1658,7 @@ function GuildbookMixin:OnDatabaseInitialised()
     self.settings.scrollChild.disableTooltipInInstance:SetChecked(Database:GetConfigSetting("disableTooltipInInstance"))
 
     self.settings.scrollChild.modifyDefaultGuildRoster:SetChecked(Database:GetConfigSetting("modifyDefaultGuildRoster"))
+    self.settings.scrollChild.showChatWindowMessages:SetChecked(Database:GetConfigSetting("showChatWindowMessages"))
 
     local isGuildUiModded = false;
     FriendsFrameTab3:HookScript("OnShow", function()
@@ -1641,6 +1843,45 @@ function GuildbookMixin:OnPlayerEnteringWorld()
     self:OnPlayerBagsUpdated()
 
     --set the specs for profile dropdown
+    self:InitProfileSpecDropdown()
+
+    self:UpdateAltManager()
+
+    self:SayHello()
+
+end
+
+
+function GuildbookMixin:SayHello()
+
+    for k, guild in ipairs(self.guilds) do
+        local player = guild:GetPlayerCharacter()
+        if type(player) == "table" then
+
+            --check for alts if this is a new alt
+            if player:GetMainCharacter() == false then
+                local myMain = guild:FindMyMainCharacter()
+                if type(myMain) == "table" then
+                    guild:SetMyCharactersAlts(myMain:GetGuid())
+                end
+            end
+
+
+            local profile = player:GetProfile();
+            if profile then
+                local msg = {
+                    type = "CHARACTER_PROFILE",
+                    payload = profile,
+                }
+                Comms:QueueMessage("CHARACTER_PROFILE", msg, "GUILD", nil, "NORMAL")
+                self:SetStatusText("saying hello!")
+            end
+        end
+    end
+end
+
+
+function GuildbookMixin:InitProfileSpecDropdown()
     self.profile.primarySpecDropdown.menu = {}
     self.profile.primarySpecDropdown.flyout:SetFlyoutBackgroundColour(Colours.StoneGold)
     self.profile.secondarySpecDropdown.menu = {}
@@ -1687,11 +1928,17 @@ function GuildbookMixin:OnPlayerEnteringWorld()
 
                 self.profile.primarySpecDropdown.MenuText:SetText(player:GetSpec("primary"))
                 self.profile.secondarySpecDropdown.MenuText:SetText(player:GetSpec("secondary"))
+
+                self.profile.primarySpecIsPvp:SetChecked(player:GetSpecIsPvp("primary"))
+                self.profile.secondarySpecIsPvp:SetChecked(player:GetSpecIsPvp("secondary"))
             end
         end
     end
+end
 
-    --alts
+
+function GuildbookMixin:UpdateAltManager()
+    self.profile.altManager.DataProvider:Flush()
     local alts = {}
     for guid, info in pairs(Database:GetMyCharacters()) do
     
@@ -1715,9 +1962,34 @@ function GuildbookMixin:OnPlayerEnteringWorld()
             return a.guild:GetName() < b.guild:GetName();
         end
     end)
-    --self.profile.altManager.DataProvider:Flush()
     self.profile.altManager.DataProvider:InsertTable(alts)
+end
 
+
+function GuildbookMixin:OnGuildRemoved(guild)
+    Database:RemoveGuild(guild:GetName())
+
+    self.menu.guilds.DataProvider:Flush()
+    self.profile.altManager.DataProvider:Flush()
+
+    local key
+    for k, _guild in ipairs(self.guilds) do
+        if _guild:GetName() == guild:GetName() then
+            key = k
+        end
+    end
+    if key then
+        table.remove(self.guilds, key)
+    end
+
+    for k, _guild in ipairs(self.guilds) do
+        self.menu.guilds.DataProvider:Insert({
+            name = _guild:GetName(),
+            guild = _guild,
+        })
+    end
+
+    self:UpdateAltManager()
 end
 
 
@@ -1860,7 +2132,7 @@ function GuildbookMixin:AltManagerListviewItem_OnCheckButtonClicked(binding, isC
             GUILDBOOK_GLOBAL.myCharacters[guid] = false;
         end
     
-        --get the selected alts guid
+        --get the selected alts guid (this is the alt selected as the main)
         local altGUID = binding.alt:GetGuid()
     
         --set the roster cache data
@@ -1872,33 +2144,7 @@ function GuildbookMixin:AltManagerListviewItem_OnCheckButtonClicked(binding, isC
     end
 
 
-    --update the listview
-
-    --THIS IS DUPLICATED CODE, MAKE AS A PROPER ALT FUNCTION ?
-    local alts = {}
-    for guid, info in pairs(Database:GetMyCharacters()) do
-    
-        for k, guild in ipairs(self.guilds) do
-
-            local alt = guild:GetCharacter(guid)
-
-            if type(alt) == "table" then
-                table.insert(alts, {
-                    alt = alt,
-                    guild = guild,
-                })
-            end
-
-        end
-    end
-    table.sort(alts, function(a,b)
-        if a.guild == b.guild then
-            return a.alt.data.name < b.alt.data.name;
-        else
-            return a.guild:GetName() < b.guild:GetName();
-        end
-    end)
-    self.profile.altManager.DataProvider:InsertTable(alts)
+    self:UpdateAltManager()
 
 
 end
@@ -2049,7 +2295,7 @@ function GuildbookMixin:TradeskillListviewItem_OnAddToWorkOrder(order, character
     --     character = character or false,
     -- })
 
-    addon.DEBUG("func", "TradeskillListviewItem_OnAddToWorkOrder", string.format("added %s to work order", item.name), item)
+    --addon.DEBUG("func", "TradeskillListviewItem_OnAddToWorkOrder", string.format("added %s to work order", item.name), item)
 
     self:UpdateWorkOrderReagents()
 end
@@ -2062,10 +2308,10 @@ function GuildbookMixin:TradeskillListviewItem_RemoveFromWorkOrder(item)
     self.guild.tradeskills.workOrders.DataProvider:InsertTable({})
 
     if item.character == false then
-        addon.DEBUG("func", "", string.format("removing item without character data > %s", item.name))
+        --addon.DEBUG("func", "", string.format("removing item without character data > %s", item.name))
 
     else
-        addon.DEBUG("func", "", string.format("removing item with character data > %s", item.name))
+        --addon.DEBUG("func", "", string.format("removing item with character data > %s", item.name))
     end
 
     --although for duplicated items it'll find each and return the last, as they're duplicates its not much of an issue
@@ -2085,7 +2331,7 @@ function GuildbookMixin:TradeskillListviewItem_RemoveFromWorkOrder(item)
 
     if key then
         table.remove(GUILDBOOK_GLOBAL.WorkOrders, key)
-        addon.DEBUG("func", "TradeskillListviewItem_OnRemoveFromWorkOrder", string.format("removed %s from work order", item.name), item)
+        --addon.DEBUG("func", "TradeskillListviewItem_OnRemoveFromWorkOrder", string.format("removed %s from work order", item.name), item)
     end
 
     --self.guild.tradeskills.workOrders.scrollView:FindFrame(item)
@@ -2217,6 +2463,10 @@ end
 
 function GuildbookMixin:OnPlayerTradeskillRecipesScanned(tradeskill, level, recipes)
 
+    if #recipes < 1 then
+        return
+    end
+
     local msg = {
         type = "TRADESKILL_RECIPES",
         payload = {
@@ -2265,13 +2515,13 @@ function GuildbookMixin:HandleCharacterSkillsUpdate(guid, data)
                 if character:GetTradeskill(1) == tradeskill then
                     character:SetTradeskillLevel(1, level)
 
-                    addon.DEBUG("func", "HandleCharacterSkillsUpdate", string.format("prof 1 is known > set prof 1 at level %s", level))
+                    --addon.DEBUG("func", "HandleCharacterSkillsUpdate", string.format("prof 1 is known > set prof 1 at level %s", level))
 
                 else
                     if character:GetTradeskill(2) == tradeskill then
                         character:SetTradeskillLevel(2, level)
 
-                        addon.DEBUG("func", "HandleCharacterSkillsUpdate", string.format("prof 2 is known > set prof 2 at level %s", level))
+                        --addon.DEBUG("func", "HandleCharacterSkillsUpdate", string.format("prof 2 is known > set prof 2 at level %s", level))
                     end
                 end
 
@@ -2280,14 +2530,14 @@ function GuildbookMixin:HandleCharacterSkillsUpdate(guid, data)
                     character:SetTradeskill(1, tradeskill)
                     character:SetTradeskillLevel(1, level)
 
-                    addon.DEBUG("func", "HandleCharacterSkillsUpdate", string.format("prof 1 is NEW > set prof 1 as %s at level %s", tradeskill, level))
+                    --addon.DEBUG("func", "HandleCharacterSkillsUpdate", string.format("prof 1 is NEW > set prof 1 as %s at level %s", tradeskill, level))
 
                 else
                     if (character:GetTradeskill(1) ~= tradeskill) and type(character:GetTradeskill(2)) ~= "number" then
                         character:SetTradeskill(2, tradeskill)
                         character:SetTradeskillLevel(2, level)
 
-                        addon.DEBUG("func", "HandleCharacterSkillsUpdate", string.format("prof 2 is NEW > set prof 2 as %s at level %s", tradeskill, level))
+                        --addon.DEBUG("func", "HandleCharacterSkillsUpdate", string.format("prof 2 is NEW > set prof 2 as %s at level %s", tradeskill, level))
                     end
                 end
 
@@ -2312,7 +2562,7 @@ function GuildbookMixin:HandleTradeskillUpdate(guid, tradeskill, level, recipes)
 
                 self:SetStatusText(string.format("%s sent %s recipes", character:GetName(), prof))
 
-                addon.DEBUG("func", "HandleTradeskillUpdate", string.format("found character %s seting %s", character:GetName(), tradeskill))
+                --addon.DEBUG("func", "HandleTradeskillUpdate", string.format("found character %s seting %s", character:GetName(), tradeskill))
 
                 --addon.DEBUG("func", "OnPlayerTradeskillRecipesScanned", "found character table")
 
@@ -2338,14 +2588,20 @@ function GuildbookMixin:HandleTradeskillUpdate(guid, tradeskill, level, recipes)
                     character:SetTradeskillLevel(1, level)
                     character:SetTradeskillRecipes(1, recipes)
 
-                    addon.DEBUG("func", "OnPlayerTradeskillRecipesScanned", string.format("prof 1 is known > set prof 1 at level %s", level))
+                    -- print(string.format("prof 1 is known > set prof 1 at level %s", level))
+                    -- DevTools_Dump({recipes})
+
+                    --addon.DEBUG("func", "OnPlayerTradeskillRecipesScanned", string.format("prof 1 is known > set prof 1 at level %s", level))
 
                 else
                     if character:GetTradeskill(2) == tradeskill then
                         character:SetTradeskillLevel(2, level)
                         character:SetTradeskillRecipes(2, recipes)
 
-                        addon.DEBUG("func", "OnPlayerTradeskillRecipesScanned", string.format("prof 2 is known > set prof 2 at level %s", level))
+                        -- print(string.format("prof 2 is known > set prof 2 at level %s", level))
+                        -- DevTools_Dump({recipes})
+
+                        --addon.DEBUG("func", "OnPlayerTradeskillRecipesScanned", string.format("prof 2 is known > set prof 2 at level %s", level))
                     end
                 end
 
@@ -2355,7 +2611,7 @@ function GuildbookMixin:HandleTradeskillUpdate(guid, tradeskill, level, recipes)
                     character:SetTradeskillLevel(1, level)
                     character:SetTradeskillRecipes(1, recipes)
 
-                    addon.DEBUG("func", "OnPlayerTradeskillRecipesScanned", string.format("prof 1 is NEW > set prof 1 as %s at level %s", tradeskill, level))
+                    --addon.DEBUG("func", "OnPlayerTradeskillRecipesScanned", string.format("prof 1 is NEW > set prof 1 as %s at level %s", tradeskill, level))
 
                 else
                     if (character:GetTradeskill(1) ~= tradeskill) and type(character:GetTradeskill(2)) ~= "number" then
@@ -2363,7 +2619,7 @@ function GuildbookMixin:HandleTradeskillUpdate(guid, tradeskill, level, recipes)
                         character:SetTradeskillLevel(2, level)
                         character:SetTradeskillRecipes(2, recipes)
 
-                        addon.DEBUG("func", "OnPlayerTradeskillRecipesScanned", string.format("prof 2 is NEW > set prof 2 as %s at level %s", tradeskill, level))
+                        --addon.DEBUG("func", "OnPlayerTradeskillRecipesScanned", string.format("prof 2 is NEW > set prof 2 as %s at level %s", tradeskill, level))
                     end
                 end
 
@@ -2383,7 +2639,7 @@ function GuildbookMixin:OnPlayerEquipmentChanged(equipment)
     self:SetStatusText("scanned player equipment sets")
 
     local msg = {
-        type = "CHARACTER_EQUIPMENT",
+        type = "CHARACTER_EQUIPMENT_V2", --v2 includes a new payload with current gear
         payload = equipment,
     }
 
@@ -2565,10 +2821,10 @@ end
 function GuildbookMixin:RosterListviewItem_OnMouseDown(character)
 
     if type(character) ~= "table" then
-        addon.DEBUG("func", "RosterListviewItem_OnMouseDown", "character object not a table", character)
+        --addon.DEBUG("func", "RosterListviewItem_OnMouseDown", "character object not a table", character)
         return
     else
-        addon.DEBUG("func", "RosterListviewItem_OnMouseDown", "character object is a table", character)
+        --addon.DEBUG("func", "RosterListviewItem_OnMouseDown", "character object is a table", character)
     end
 
     self:OpenTo("character")
@@ -2580,6 +2836,8 @@ function GuildbookMixin:RosterListviewItem_OnMouseDown(character)
 end
 
 function GuildbookMixin:LoadCharacterScrollView(character)
+
+    self.guild.home.character.scrollChild.stats.DataProvider:Flush()
 
     local class = character:GetClass()
 
@@ -2727,37 +2985,84 @@ function GuildbookMixin:InitCharacterTalentsDropdown(character)
 end
 
 
+function GuildbookMixin:LoadCharacterProfileStatsListview(stats)
+    self.guild.home.character.scrollChild.stats.DataProvider:Flush()
+    if type(stats) == "table" then
+        --DevTools_Dump({stats})
+        local t = {}
+        local i = 1;
+        for k, v in pairs(characterStats) do
+            if v.isHeader == true then
+                table.insert(t, {
+                    name = v.stat,
+                    value = nil,
+                })
+                i = 1;
+            else
+                if stats[v.stat] then
+                    table.insert(t, {
+                        name = L[v.stat],
+                        value = stats[v.stat],
+                        hasBounce = (i % 2) == 0 and true or false
+                    })
+                    i = i + 1;
+                end
+            end
+
+        end
+        self.guild.home.character.scrollChild.stats.DataProvider:InsertTable(t)
+    end
+end
+
+
 function GuildbookMixin:InitCharacterEquipmentDropdown(character)
-    local equipment = character:GetInventory()
+
     self.guild.home.character.scrollChild.equipsetDropdown.MenuText:SetText(L["CHAR_PROFILE_EQUIPMENT_DROPDOWN_LABEL"])
     self.guild.home.character.scrollChild.equipsetDropdown.menu = {}
     self.guild.home.character.scrollChild.equipsetDropdown.flyout:SetFlyoutBackgroundColour(Colours.StoneGold)
-    for name, info in pairs(equipment) do
+
+    local currentEquipment = character:GetCurrentInventory()
+    if type(currentEquipment) == "table" then
         table.insert(self.guild.home.character.scrollChild.equipsetDropdown.menu, {
-            text = name,
+            text = "Current",
             func = function()
                 for k, slot in ipairs(self.guild.home.character.scrollChild.equipSlots) do
-                    local itemID = equipment[name][k]
                     slot:ClearItem()
-                    slot:SetItem(itemID)
-
-                    self.guild.home.character.scrollChild.model:TryOn(string.format("item:%d",itemID))
-
+                    if currentEquipment[k] then
+                        slot:SetItem(currentEquipment[k])
+                        self.guild.home.character.scrollChild.model:TryOn(currentEquipment[k])
+                    end
 
                     self.guild.home.character.scrollChild.stats.DataProvider:Flush()
-                    local stats = character:GetPaperdollStats(name)
-                    if type(stats) == "table" then
-                        local t = {}
-                        for k, v in pairs(stats) do
-                            table.insert(t, {
-                                name = k,
-                                value = v,
-                            })
-                        end
-                        self.guild.home.character.scrollChild.stats.DataProvider:InsertTable(t)
-                    end
+                    local stats = character:GetCurrentPaperdollStats()
+                    self:LoadCharacterProfileStatsListview(stats)
                 end
             end,
         })
+    end
+
+    local equipment = character:GetInventory()
+    if type(equipment) == "table" then
+        for name, info in pairs(equipment) do
+            table.insert(self.guild.home.character.scrollChild.equipsetDropdown.menu, {
+                text = name,
+                func = function()
+                    for k, slot in ipairs(self.guild.home.character.scrollChild.equipSlots) do
+                        local itemID = equipment[name][k]
+                        slot:ClearItem()
+
+                        if itemID then
+                            slot:SetItem(itemID)
+
+                            self.guild.home.character.scrollChild.model:TryOn(string.format("item:%d",itemID))
+                        end
+
+                        self.guild.home.character.scrollChild.stats.DataProvider:Flush()
+                        local stats = character:GetPaperdollStats(name)
+                        self:LoadCharacterProfileStatsListview(stats)
+                    end
+                end,
+            })
+        end
     end
 end

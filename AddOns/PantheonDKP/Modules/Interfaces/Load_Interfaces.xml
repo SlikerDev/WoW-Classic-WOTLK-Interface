@@ -1,0 +1,10 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+    <Script file="Main.lua"/>
+    <Script file="ScrollTable_Base\ScrollTable.lua"/>
+    <Script file="SimpleScrollFrame\SimpleScrollFrame.lua"/>
+    <Script file="MemberTable\MemberTable.lua"/>
+    <Script file="HistoryTable\HistoryTable.lua"/>
+    <Script file="LootTable\LootTable.lua"/>
+    <Script file="TabController\TabController.lua"/>
+    <Script file="Dialogs\Dialogs.lua"/>
+</Ui>

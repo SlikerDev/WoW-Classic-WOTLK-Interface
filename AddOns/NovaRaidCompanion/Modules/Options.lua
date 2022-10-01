@@ -534,10 +534,91 @@ NRC.options = {
 					get = "getRaidCooldownsDisableMouse",
 					set = "setRaidCooldownsDisableMouse",
 				},]]
+				raidCooldownsClicksHeader = {
+					type = "header",
+					name = "|cFFFF6900" .. L["raidCooldownsClicksHeaderDesc"],
+					order = 40,
+				},
+				raidCooldownsLeftClick = {
+					type = "select",
+					name = L["raidCooldownsLeftClickTitle"],
+					desc = L["raidCooldownsLeftClickDesc"],
+					values = {
+						[1] = L["Do Nothing"],
+						[2] = L["raidCooldownsClickOption2"],
+						[3] = L["raidCooldownsClickOption3"],
+					},
+					sorting = {
+						[1] = 1,
+						[2] = 2,
+						[3] = 3,
+					},
+					order = 41,
+					get = "getRaidCooldownsLeftClick",
+					set = "setRaidCooldownsLeftClick",
+					width = 1.7,
+				},
+				raidCooldownsRightClick = {
+					type = "select",
+					name = L["raidCooldownsRightClickTitle"],
+					desc = L["raidCooldownsRightClickDesc"],
+					values = {
+						[1] = L["Do Nothing"],
+						[2] = L["raidCooldownsClickOption2"],
+						[3] = L["raidCooldownsClickOption3"],
+					},
+					sorting = {
+						[1] = 1,
+						[2] = 2,
+						[3] = 3,
+					},
+					order = 42,
+					get = "getRaidCooldownsRightClick",
+					set = "setRaidCooldownsRightClick",
+					width = 1.7,
+				},
+				raidCooldownsShiftLeftClick = {
+					type = "select",
+					name = L["raidCooldownsShiftLeftClickTitle"],
+					desc = L["raidCooldownsShiftLeftClickDesc"],
+					values = {
+						[1] = L["Do Nothing"],
+						[2] = L["raidCooldownsClickOption2"],
+						[3] = L["raidCooldownsClickOption3"],
+					},
+					sorting = {
+						[1] = 1,
+						[2] = 2,
+						[3] = 3,
+					},
+					order = 43,
+					get = "getRaidCooldownsShiftLeftClick",
+					set = "setRaidCooldownsShiftLeftClick",
+					width = 1.7,
+				},
+				raidCooldownsShiftRightClick = {
+					type = "select",
+					name = L["raidCooldownsShiftRightClickTitle"],
+					desc = L["raidCooldownsShiftRightClickDesc"],
+					values = {
+						[1] = L["Do Nothing"],
+						[2] = L["raidCooldownsClickOption2"],
+						[3] = L["raidCooldownsClickOption3"],
+					},
+					sorting = {
+						[1] = 1,
+						[2] = 2,
+						[3] = 3,
+					},
+					order = 44,
+					get = "getRaidCooldownsShiftRightClick",
+					set = "setRaidCooldownsShiftRightClick",
+					width = 1.7,
+				},
 				raidCooldownSpellsHeader = {
 					type = "header",
 					name = "|cFFFF6900" .. L["raidCooldownSpellsHeaderDesc"],
-					order = 40,
+					order = 99,
 				},
 				--Druid.
 				raidCooldownRebirth = {
@@ -4086,6 +4167,13 @@ NRC.optionDefaults = {
 		lootExportTradeskill = true,
 		exportType = "fightclub",
 		mapLootDisplayToTrades = true,
+		exportCustomHeader = "date;player;itemlink;itemid",
+		exportCustomString = "%date%;%player%;%itemlink%;%itemid%",
+		
+		raidCooldownsLeftClick = 1,
+		raidCooldownsRightClick = 1,
+		raidCooldownsShiftLeftClick = 1,
+		raidCooldownsShiftRightClick = 1,
 		
 		--Death Knight.
 		raidCooldownArmyoftheDead = false,
@@ -4435,11 +4523,11 @@ local function loadNewVersionFrame()
 	frame.scrollChild.fs:SetText("|cFFFFFF00Nova Raid Companion");
 	frame.scrollChild.fs2:SetText("|cFFFFFF00New in version|r |cFFFF6900" .. string.format("%.2f", NRC.version));
 	frame:Hide();
-	linesVersion = 1.20;
+	linesVersion = 1.21;
 	local lines = {
-		"Added loot export and editing of who looted which item.\n-There's a checkbox topright in the loot window that will automatically change the looter if you traded an item to someone.\n-So if you're looting for your guild run you can tick checkbox and everything you trade will be shown as that person looted.\n-You can also right click any loot in the loot tab and manually change who got it.\n-Click the export button to bring up a copy/paste string to export to spreadsheet.\n-For now only DFT Fight Club spreadsheet format is added because I don't know a lot about what kind of google spreadsheets guilds use, msg me on curse or join my discord if you want yours guild spreadsheet format added.",
-		"Added resetting of player cooldowns when a boss fight ends if you've been in combat for 30 seconds (how wrath boss fight cooldown resets works as far as I know).",
-		"Fixed a bug with talents effecting cooldown times, the right cooldown time should show for people in your raid with talents that lower the cooldown.\nFixed a bug with raid lockouts sometimes not showing in lockouts window since prepatch if you crashed right after raid.\nFixed some lua errors introduced in the prepatch.\nPerformance improvments, I've been right over the addon and it's running very smoothly.",
+		"New feature loot export feature for spreadsheets.\n-The export window can opened via a button in the raid log loot tab.\n-There's a dropdown menu to select a few presets like basic google/fight club/that's my bis.\n-There's also a option to create a custom string to work with any spreadsheet.\n---A button appears to open the custom string builder when you select \"Custom\" in the dropdown box.\n---Build your string using the tokens shown and any separator.\nIf you would like any more types of data or modifications to how this works for your guild just join my discord and ask.",
+		"Added left and right mouse clicks to the raid cooldown bars.\n-Open /nrc config and under \"Raid Cooldowns\" you will find config for what buttons do when clicking.\n-You can assign sending a tell to the player or showing raid chat the cooldown.\n-Clicks are disabled by default you need to enabled them if you want this feature.",
+		"TBC level 70 raid buffs (fort motw etc) will now be colored red as not being max rank in the raid buffs window.\nFixed the first raid cooldown bar mouseover tooltip not working if the frames aren't locked.\nFixed various lua errors, some Blizzard API functions have been less reliable causing these.",
 	};
 	local text = "";
 	--Seperator lines couldn't be used because the wow client won't render 1 pixel frames if they are in certain posotions.
@@ -4842,6 +4930,42 @@ end
 
 function NRC:getMergeRaidCooldowns(info)
 	return self.config.mergeRaidCooldowns;
+end
+
+--Raid cooldowns left click.
+function NRC:setRaidCooldownsLeftClick(info, value)
+	self.config.raidCooldownsLeftClick = value;
+end
+
+function NRC:getRaidCooldownsLeftClick(info)
+	return self.config.raidCooldownsLeftClick;
+end
+
+--Raid cooldowns right click.
+function NRC:setRaidCooldownsRightClick(info, value)
+	self.config.raidCooldownsRightClick = value;
+end
+
+function NRC:getRaidCooldownsRightClick(info)
+	return self.config.raidCooldownsRightClick;
+end
+
+--Raid cooldowns shift left click.
+function NRC:setRaidCooldownsShiftLeftClick(info, value)
+	self.config.raidCooldownsShiftLeftClick = value;
+end
+
+function NRC:getRaidCooldownsShiftLeftClick(info)
+	return self.config.raidCooldownsShiftLeftClick;
+end
+
+--Raid Cooldowns shift right click.
+function NRC:setRaidCooldownsShiftRightClick(info, value)
+	self.config.raidCooldownsShiftRightClick = value;
+end
+
+function NRC:getRaidCooldownsShiftRightClick(info)
+	return self.config.raidCooldownsShiftRightClick;
 end
 
 --Neck buff raid cooldowns.

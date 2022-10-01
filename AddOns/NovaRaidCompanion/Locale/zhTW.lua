@@ -27,7 +27,7 @@ L["hourShort"] = "小時"; --Used in short timers like 1h30m (single letter only
 L["dayShort"] = "天"; --Used in short timers like 1d8h (single letter only, usually the first letter of days).
 L["startsIn"] = "在 %s 後開始"; --"Starts in 1hour".
 L["endsIn"] = "在 %s 後結束"; --"Ends in 1hour".
-L["versionOutOfDate"] = "你的<Nova Raid Companion>插件已經過期了，請上https://www.curseforge.com/wow/addons/nova-raid-companion 更新，或通過twitch客戶端更新。";
+L["versionOutOfDate"] = "你的<NRC團隊夥伴>插件已經過期了，請上https://www.curseforge.com/wow/addons/nova-raid-companion 更新，或通過twitch客戶端更新。";
 L["Options"] = " 設定";
 L["None"] = "無";
 L["Layout"] = "佈局";
@@ -238,6 +238,9 @@ L["Rebirth"] = "復生";
 L["Innervate"] = "啟動";
 L["Tranquility"] = "寧靜";
 L["Misdirection"] = "誤導";
+L["ToT"] = "ToT"; --Tricks abbreviation.
+L["Tricks"] = "偷天";
+L["Tricks of the Trade"] = "偷天換日";
 L["Evocation"] = "喚醒";
 L["IceBlock"] = "寒冰護體";
 L["Invisibility"] = "隱形";
@@ -245,7 +248,8 @@ L["Divine Intervention"] = "神聖干涉";
 L["Divine Shield"] = "聖盾術";
 L["Lay on Hands"] = "聖療術";
 L["Blessing of Protection"] = "保護祝福";
-L["Fear Ward"] = "防護恐懼結界";
+L["Hand of Protection"] = "保護之手"; --
+L["Fear Ward"] = "防護恐懼結界";							 
 L["Shadowfiend"] = "暗影惡魔";
 L["Psychic Scream"] = "心靈尖嘯";
 L["Power Infusion"] = "能量注入";
@@ -261,14 +265,24 @@ L["Heroism"] = "英勇";
 L["Mana Tide"] = "法力之潮";
 L["Soulstone"] = "靈魂石";
 L["Soulshatter"] = "靈魂粉碎";
-L["Death Coil"] = "Death Coil";
+L["Death Coil"] = "死亡纏繞";
 L["Ritual of Souls"] = "招喚餐桌";
 L["Challenging Shout"] = "挑戰怒吼";
 L["Intimidating Shout"] = "破膽怒吼";
 L["Mocking Blow"] = "懲戒痛擊";
 L["Recklessness"] = "魯莽詛咒";
 L["ShieldWall"] = "盾牆";
-
+--Wrath.
+L["Army of the Dead"] = "亡靈大軍";
+L["Icebound Fortitude"] = "冰錮堅韌";
+L["Anti-Magic Zone"] = "反魔法力場";
+L["Divine Sacrifice"] = "神性犧牲";
+L["Divine Hymn"] = "神聖禮頌";
+L["Hymn of Hope"] = "希望禮頌";
+L["Tricks of the Trade"] = "偷天換日";
+L["Bladestorm"] = "劍刃風暴";
+L["Shattering Throw"] = "碎甲投擲";
+L["Unholy Frenzy"] = "邪惡狂熱";
 --Options
 L["mainTextDesc"] = "注意：這是一個處於早期階段的新插件，計劃在我有時間的時候提供更多的團隊助手功能。";
 
@@ -312,6 +326,8 @@ L["showMobSpawnedTimeTitle"] = "小怪重生時間";
 L["showMobSpawnedTimeDesc"] = "Show how long ago a mob spawned when you target it? (More of a novelty feature, but can be interesting for certain things)";
 
 --Raid cooldowns.
+L["raidCooldownsMainTextDesc"] = "向下滾動。";
+
 L["raidCooldownRebirthTitle"] = "復生";
 L["raidCooldownRebirthDesc"] = "Show Rebirth raid cooldowns?";
 
@@ -475,14 +491,17 @@ L["Food"] = "食物";
 L["raidStatusShowReadyCheckTitle"] = "在團確時顯示";
 L["raidStatusShowReadyCheckDesc"] = "Auto show the reaid status frame when a readycheck is started?";
 
+L["raidStatusFadeReadyCheckTitle"] = "隱藏團確完成";
+L["raidStatusFadeReadyCheckDesc"] = "如果每個人都準備好了，在就團確完成幾秒鐘後淡出團隊狀態框？";
+
 L["raidStatusHideCombatTitle"] = "戰鬥中隱藏";
 L["raidStatusHideCombatDesc"] = "Auto hide the raid status frame when any combat starts?";
 
-L["raidStatusColumsHeaderDesc"] = "Columns To Display";
+L["raidStatusColumsHeaderDesc"] = "顯示項目";
 
-L["deleteEntry"] = "Delete entry";
-L["deleteInstance"] = "Deleted instance entry %s (%s).";
-L["deleteInstanceError"] = "Error deleting instance entry %s.";
+L["deleteEntry"] = "刪除紀錄";
+L["deleteInstance"] = "刪除事件紀錄 %s (%s)。";
+L["deleteInstanceError"] = "刪除事件 %s 錯誤。";
 
 L["logDungeonsTitle"] = "記錄地城";
 L["logDungeonsDesc"] = "Log dungeons also? Turn this off if you only want to record raids.";
@@ -570,6 +589,9 @@ L["raidCooldownPowerInfusionDesc"] = "Show Power Infusion raid cooldowns?";
 L["raidCooldownBlessingofProtectionTitle"] = "保護祝福";
 L["raidCooldownBlessingofProtectionDesc"] = "Show Blessing of Protection raid cooldowns?";
 
+L["raidCooldownHandofProtectionTitle"] = "保護之手";
+L["raidCooldownHandofProtectionDesc"] = "Show Hand of Protection raid cooldowns?";
+
 L["soulstoneMsgSayTitle"] = "靈魂石訊息(說)";
 L["soulstoneMsgSayDesc"] = "Show a msg in /say when you cast a soulstone on someone?";
 
@@ -592,7 +614,7 @@ L["holdShitForExtraInfo"] = "按住Shift顯示更多資訊";
 L["timeStampFormatTitle"] = "時間格式";
 L["timeStampFormatDesc"] = "Set which timestamp format to use, 12 hour (1:23pm) or 24 hour (13:23). For things like the 3 day raid reset cycle when you hold shift on the minimap button.";
 
-L["Completed quest"] = "You have |cFF00C800completed|r this quest";
+L["Completed quest"] = "你已經 |cFF00C800完成|r 這個任務。";
 L["Not completed quest"] = "You have |cFFFF2222not completed|r this quest";
 
 L["raidCooldownsGrowthDirectionTitle"] = "生長方向";
@@ -616,46 +638,46 @@ L["meCastSpellOn"] = "施放 %s 在 %s"; --Capitalize these properly if translat
 L["otherCastSpellOn"] = "%s 施放 %s 在 %s"; --Capitalize these properly if translating.
 L["spellCastOn"] = "%s 施放在 %s";
 
-L["mdSendMyCastGroupTitle"] = "My MD Cast Group";
+L["mdSendMyCastGroupTitle"] = "團隊回報我的誤導";
 L["mdSendMyCastGroupDesc"] = "Show my misdirection casts in group chat?";
 
-L["mdSendMyCastSayTitle"] = "My MD Cast /Say";
+L["mdSendMyCastSayTitle"] = "/說 回報我的誤導";
 L["mdSendMyCastSayDesc"] = "Show my misdirection casts in /say? Only works in instances.";
 
-L["mdSendOtherCastGroupTitle"] = "Others MD Cast Group";
+L["mdSendOtherCastGroupTitle"] = "回報隊友的誤導";
 L["mdSendOtherCastGroupDesc"] = "Show other players misdirection casts in group chat? You should only use this if no other hunters in the raid have an addon showing their MD.";
 
-L["mdSendMyThreatGroupTitle"] = "My Threat To Group";
+L["mdSendMyThreatGroupTitle"] = "團隊回報我的誤導仇恨";
 L["mdSendMyThreatGroupDesc"] = "Show how much misdirection threat I transfered to the tank in group chat?";
 
-L["mdSendMyThreatSayTitle"] = "My Threat To /Say";
+L["mdSendMyThreatSayTitle"] = "/說 回報我的誤導仇恨";
 L["mdSendMyThreatSayDesc"] = "Show how much misdirection threat I transfered to the tank in /say? Only works in instances.";
 
-L["mdSendOthersThreatGroupTitle"] = "Other Threat To Group";
+L["mdSendOthersThreatGroupTitle"] = "團隊回報隊友誤導仇恨";
 L["mdSendOthersThreatGroupDesc"] = "Show how much misdirection threat other players transfered to the tank in group chat? You should only use this if no other hunters in the raid have an addon showing their threat transfer.";
 
-L["mdSendOthersThreatSayTitle"] = "Other Threat To /Say";
+L["mdSendOthersThreatSayTitle"] = "/說 回報隊友誤導仇恨";
 L["mdSendOthersThreatSayDesc"] = "Show how much misdirection threat other players transfered to the tank in /say? You should only use this if no other hunters in the raid have an addon showing their threat transfer. Only works in instances.";
 
-L["mdShowMySelfTitle"] = "Print My Threat Transfer";
+L["mdShowMySelfTitle"] = "顯示我的仇恨轉移";
 L["mdShowMySelfDesc"] = "Show how much misdirection I transfered to the tank in your chat window so only you can see?";
 
-L["mdShowOthersSelfTitle"] = "Print Others Threat Transfer";
+L["mdShowOthersSelfTitle"] = "顯示隊友的仇恨轉移";
 L["mdShowOthersSelfDesc"] = "Show how much misdirection other players transfered to the tank in your chat window so only you can see?";
 
-L["mdShowSpellsTitle"] = "Show Damage Spells Used";
+L["mdShowSpellsTitle"] = "顯示誤導時的傷害技能";
 L["mdShowSpellsDesc"] = "Print to your chat window which spells were used during the misdirection? Only you see this msg.";
 
-L["mdShowSpellsOtherTitle"] = "Show Damage Spells Used";
+L["mdShowSpellsOtherTitle"] = "顯示隊友誤導時的傷害技能";
 L["mdShowSpellsOtherDesc"] = "Print to your chat window which spells were used by other hunters during the misdirection? Only you see this msg.";
 					
-L["mdSendTargetTitle"] = "Whisper Threat To Target";
+L["mdSendTargetTitle"] = "密語目標轉移仇恨";
 L["mdSendTargetDesc"] = "Send threat amount tranfered from your misdirection to the target via whisper?";
 
-L["mdMyTextDesc"] = "Options for showing how much threat your misdirection transfered to the tank.";
-L["mdOtherTextDesc"] = "Options for showing how much threat other hunters in your group misdirection transfered to the tank. Please be mindful when enabling options that send to raid chat that others players don't have the same and create duplicate msgs.";
+L["mdMyTextDesc"] = "顯示您的誤導仇恨轉移到坦克的選項。";
+L["mdOtherTextDesc"] = "顯示團隊中的其他獵人誤導仇恨到坦克的選項。";
 L["mdLastTextDesc"] = "There's also a /lastmd command to show group chat the spells used for the last misdirection, you can do /lastmd to show last used, /lastmd <name> to show last by name, and /lastmd list to show who has a md recorded to pick from.";
-L["raidCooldownsDisableMouseTitle"] = "Disable Mouseover";
+L["raidCooldownsDisableMouseTitle"] = "關閉滑鼠提示";
 L["raidCooldownsDisableMouseDesc"] = "This will disable empty cooldown lists from showing when you mouseover them while they have no cooldowns showing, this means you will need to click the test button to move them instead.";
 
 L["raidCooldownsSortOrderTitle"] = "排序方式";
@@ -760,10 +782,10 @@ L["sreAddSpellDesc"] = "Add a custom spell here, input the spell ID for which sp
 L["sreRemoveSpellTitle"] = "移除自訂法術ID";
 L["sreRemoveSpellDesc"] = "Remove a custom spell here, input the spell ID to remove here.";
 
-L["You can't delete log entries while inside an instance."] = "You can't delete log entries while inside an instance.";
+L["You can't delete log entries while inside an instance."] = "你無法刪除你正在進行的副本紀錄。";
 
-L["consumesEncounterTooltip"] = "Choose what to display";
-L["consumesPlayersTooltip"] = "Pick a player or view all players.";
+L["consumesEncounterTooltip"] = "選擇顯示方式";
+L["consumesPlayersTooltip"] = "選擇一個玩家或全部玩家。";
 L["consumesViewTooltip"] = "View a timeline of usage or a total count";
 
 L["itemUseShowConsumesTooltip"] = "顯示基本消耗品";
@@ -857,3 +879,185 @@ L["raidCooldownsFontNumbersDesc"] = "Font used to display cooldowns ready number
 
 L["checkMetaGemTitle"] = "檢查變換寶石";
 L["checkMetaGemDesc"] = "如果你的變換寶石沒有啟動，出現警告訊息?";
+
+L["raidCooldownsFontSizeTitle"] = "字體大小";
+L["raidCooldownsFontSizeDesc"] = "How big do you want the font to be?";
+
+L["raidCooldownsWidthTitle"] = "寬度";
+L["raidCooldownsWidthDesc"] = "How wide do you want each bar to be?";
+
+L["raidCooldownsHeightTitle"] = "高度";
+L["raidCooldownsHeightDesc"] = "How high do you want each bar to be?";
+
+L["raidManaFontSizeTitle"] = "字體大小";
+L["raidManaFontSizeDesc"] = "How big do you want the font to be?";
+
+L["raidManaWidthTitle"] = "寬度";
+L["raidManaWidthDesc"] = "How wide do you want each bar to be?";
+
+L["raidManaHeightTitle"] = "高度";
+L["raidManaHeightDesc"] = "How high do you want each bar to be?";
+
+L["raidCooldownsFontOutlineTitle"] = "字體邊框";
+L["raidCooldownsFontOutlineDesc"] = "Do you want raid cooldowns font to have an outline?";
+
+L["sreFontOutlineTitle"] = "字體邊框";
+L["sreFontOutlineDesc"] = "Do you want scrolling events font to have an outline?";
+
+L["raidManaFontOutlineTitle"] = "字體邊框";
+L["raidManaFontOutlineDesc"] = "Do you want raid mana font to have an outline?";
+
+L["Thick Outline"] = "粗邊框";
+L["Thin Outline"] = "細邊框";
+
+L["sreFontTitle"] = "字體";								
+L["raidStatusFontTitle"] = "字體";
+L["raidStatusFontDesc"] = "Raid status font. Warning: Fonts have different widths and some fonts may not fit correctly in these small frames trying to fit a lot of info, adjust dont dize if you need to.";
+
+L["raidStatusFontSizeTitle"] = "字體大小";
+L["raidStatusFontSizeDesc"] = "How big do you want the font to be?";
+
+L["raidStatusFontOutlineTitle"] = "字體邊框";
+L["raidStatusFontOutlineDesc"] = "Do you want raid status font to have an outline?";
+
+L["tricksSendMyCastGroupTitle"] = "團頻回報我的偷天";
+L["tricksSendMyCastGroupDesc"] = "Show my tricks casts in group chat?";
+
+L["tricksSendMyCastSayTitle"] = "/說 回報我的偷天";
+L["tricksSendMyCastSayDesc"] = "Show my tricks of the trade casts in /say? Only works in instances.";
+
+L["tricksSendOtherCastGroupTitle"] = "回報隊友偷天";
+L["tricksSendOtherCastGroupDesc"] = "Show other players tricks casts in group chat? You should only use this if no other rogues in the raid have an addon showing their tricks.";
+
+L["tricksSendMyThreatGroupTitle"] = "團頻回報我的偷天仇恨";
+L["tricksSendMyThreatGroupDesc"] = "Show how much tricks threat I transfered to the tank in group chat?";
+
+L["tricksSendMyThreatSayTitle"] = "/說 回報我的偷天仇恨";
+L["tricksSendMyThreatSayDesc"] = "Show how much tricks threat I transfered in /say? Only works in instances.";
+
+L["tricksSendOthersThreatGroupTitle"] = "回報隊友偷天仇恨";
+L["tricksSendOthersThreatGroupDesc"] = "Show how much tricks threat other rogues transfered in group chat?";
+
+L["tricksSendOthersThreatSayTitle"] = "/說 回報隊友偷天仇恨";
+L["tricksSendOthersThreatSayDesc"] = "Show how much tricks threat other players transfered in /say?";
+
+L["tricksShowMySelfTitle"] = "顯示偷天仇恨";
+L["tricksShowMySelfDesc"] = "Show how much threat I transfered in your chat window so only you can see?";
+
+L["tricksShowOthersSelfTitle"] = "顯示隊友偷天仇恨";
+L["tricksShowOthersSelfDesc"] = "Show how much tricks other rogues transfered to the tank in your chat window so only you can see?";
+
+L["tricksShowSpellsTitle"] = "顯示偷天時使用的傷害技能";
+L["tricksShowSpellsDesc"] = "Print to your chat window which spells were used during the tricks? Only you see this msg, it may be a bit spammy.";
+
+L["tricksShowSpellsOtherTitle"] = "顯示隊友偷天時使用的傷害技能";
+L["tricksShowSpellsOtherDesc"] = "Print to your chat window which spells were used by other rogues during their tricks? Only you see this msg, it may be a bit spammy.";
+		
+L["tricksSendTargetTitle"] = "密語轉移仇恨的目標";
+L["tricksSendTargetDesc"] = "Send threat amount transfered from your threat to the target via whisper?";
+
+L["tricksMyTextDesc"] = "顯示你的偷天轉移了多少仇恨的選項。";
+L["tricksOtherTextDesc"] = "顯示隊友的偷天轉移了多少仇恨的選項。";
+L["tricksLastTextDesc"] = "There's also a /lasttricks command to show group chat the spells used for the last tricks, you can do /lasttricks to show last used, /lasttricks <name> to show last by name, and /lasttricks list to show who has a tricks recorded to pick from.";
+L["tricksDamageTextDesc"] = "顯示你的15%增傷目標得到多少額外傷害的選項。.";
+
+L["tricksSendDamageGroupTitle"] = "團頻回報你偷天的額外傷害";
+L["tricksSendDamageGroupDesc"] = "團頻回報你偷天的目標多了多少額外傷害。";
+
+L["tricksSendDamageGroupOtherTitle"] = "回報隊友偷天的額外傷害";
+L["tricksSendDamageGroupOtherDesc"] = "團頻回報隊友的偷天目標增加了多少額外傷害。";
+
+L["tricksSendDamageWhisperTitle"] = "密語傷害給偷天目標";
+L["tricksSendDamageWhisperDesc"] = "密語你的偷天目標他增加了多少額外傷害。";
+
+L["tricksSendDamagePrintTitle"] = "顯示你的額外傷害";
+L["tricksSendDamagePrintDesc"] = "Print to chat window the extra damage your tricks target did with your buff.";
+
+L["tricksSendDamagePrintOtherTitle"] = "顯示隊友的額外傷害";
+L["tricksSendDamagePrintOtherDesc"] = "Print to chat window the extra damage other rogues tricks did with their buff to anyone in the raid.";
+
+L["tricksOtherRoguesMineGainedTitle"] = "顯示我從其他盜賊得到的額外傷害";
+L["tricksOtherRoguesMineGainedDesc"] = "If a rogue casts tricks on me then print how much damage I gained? Works for all classes.";
+
+L["tricksOnlyWhenDamageTitle"] = "傷害大於0顯示";
+L["tricksOnlyWhenDamageDesc"] = "Only show msgs when damage is greater than 0.";
+
+L["otherTransferedDamageMyTricks"] = "%s 從我的偷天得到 %s 額外傷害。";
+L["otherTransferedDamageOtherTricks"] = "%s 得到 %s 額外傷害，從 %s 的偷天。";
+L["meTransferedThreatTricksWhisper"] = "你獲得 %s 額外傷害從我的偷天換日。";
+L["otherTransferedDamageTricksMine"] = "你獲得 %s 額外傷害，從 %s 的偷天換日。";
+
+--Wrath cooldowns.
+L["raidCooldownArmyoftheDeadTitle"] = "亡靈大軍";
+L["raidCooldownArmyoftheDeadDesc"] = "Show Army of the Dead raid cooldowns?";
+
+L["raidCooldownIceboundFortitudeTitle"] = "冰錮堅韌";
+L["raidCooldownIceboundFortitudeDesc"] = "Show Icebound Fortitude raid cooldowns?";
+
+L["raidCooldownAntiMagicZoneTitle"] = "反魔法力場";
+L["raidCooldownAntiMagicZoneDesc"] = "Show Anti Magic Zone raid cooldowns?";
+
+L["raidCooldownUnholyFrenzyTitle"] = "邪惡狂熱";
+L["raidCooldownUnholyFrenzyDesc"] = "Show Unholy Frenzy raid cooldowns?";
+
+L["raidCooldownDivineSacrificeTitle"] = "神性犧牲";
+L["raidCooldownDivineSacrificeDesc"] = "Show Divine Sacrifice raid cooldowns?";
+
+L["raidCooldownAuraMasteryTitle"] = "精通光環";
+L["raidCooldownAuraMasteryDesc"] = "Show Aura Mastery raid cooldowns?";
+
+L["raidCooldownDivineHymnTitle"] = "神聖禮頌";
+L["raidCooldownDivineHymnDesc"] = "Show Divine Hymn raid cooldowns?";
+
+L["raidCooldownHymnofHopeTitle"] = "希望禮頌";
+L["raidCooldownHymnofHopeDesc"] = "Show Hymn of Hope raid cooldowns?";
+
+L["raidCooldownGuardianSpiritTitle"] = "守護聖靈";
+L["raidCooldownGuardianSpiritDesc"] = "Show Guardian Spirit raid cooldowns?";
+
+L["raidCooldownTricksoftheTradeTitle"] = "偷天換日";
+L["raidCooldownTricksoftheTradeDesc"] = "Show Tricks of the Trade raid cooldowns?";
+
+L["raidCooldownBladestormTitle"] = "劍刃風暴";
+L["raidCooldownBladestormDesc"] = "Show Bladestorm raid cooldowns?";
+
+L["raidCooldownShatteringThrowTitle"] = "碎甲投擲";
+L["raidCooldownShatteringThrowDesc"] = "Show Shattering Throw raid cooldowns?";											  
+
+L["lowAmmoWarning"] = "低彈藥 (%s).";
+
+L["lowAmmoCheckTitle"] = "低彈藥確認";
+L["lowAmmoCheckDesc"] = "Wanrs you if you are running low on ammo, counts whatever ammo you have equipped and will warn you in chat with a 15min warning cooldown.";
+
+L["lowAmmoCheckThresholdTitle"] = "低彈藥數值";
+L["lowAmmoCheckThresholdDesc"] = "Below how much ammo should you get a warning?";
+
+L["exportTypeTooltip"] = "輸出格式";
+
+L["changeLootEntry"] = "Set looter for entry %s";
+L["renamedLootEntry"] = "改變時取 %s 給 %s 從 %s";
+L["clearedLootEntry"] = "Cleared loot override entry %s";
+L["mapTradesToLootTooltip"] = "Attempt to automatically show who looted\nas the person you traded the item to during raid.\n(Only works if you were the person looting)\nRight clicking an entry to edit overrides this."
+
+L["raidCooldownsClicksHeaderDesc"] = "點擊設定";
+L["raidCooldownsClickWhisperCastOnMe"] = "請對我施放 %s ！";
+L["raidCooldownsClickGroupChatReady"] = "%s 的 %s 已經準備好。";
+L["raidCooldownsClickGroupChatNotReady"] = "%s 的 %s 還有 %s 冷卻。";
+L["cooldownNotReadyMsg"] = "%s 的 %s 還沒準備好，剩餘 %s 時間。";
+L["selfOnlyCooldownMsg"] = "你無法要求這個技能， 這只能施放於自己。";
+
+L["raidCooldownsClickOption2"] = "密語要求施放於我";
+L["raidCooldownsClickOption3"] = "回報團隊冷卻時間";
+
+L["raidCooldownsLeftClickTitle"] = "點擊左鍵";
+L["raidCooldownsLeftClickDesc"] = "選擇當您左鍵單擊顯示玩家名稱的冷卻條時會發生什麼（未合併的冷卻條或合併時的工具提示）。";
+
+L["raidCooldownsRightClickTitle"] = "點擊右鍵";
+L["raidCooldownsRightClickDesc"] = "選擇當您右鍵單擊顯示玩家名稱的冷卻條時會發生什麼（未合併的冷卻條或合併時的工具提示）。";
+
+L["raidCooldownsShiftLeftClickTitle"] = "Shift+點擊左鍵";
+L["raidCooldownsShiftLeftClickDesc"] = "選擇當您Shift+單擊左鍵顯示玩家名稱的冷卻條時會發生什麼（未合併的冷卻條或合併時的工具提示）。";
+
+L["raidCooldownsShiftRightClickTitle"] = "Shift+點擊右鍵";
+L["raidCooldownsShiftRightClickDesc"] = "選擇當您Shift+點擊右鍵顯示玩家名稱的冷卻條時會發生什麼（未合併的冷卻條或合併時的工具提示）。";
+L["Do Nothing"] = "不做任何事";

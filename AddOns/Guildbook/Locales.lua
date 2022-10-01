@@ -33,6 +33,7 @@ the copyright holders.
 -- add this to proper helpAbout section when finished 
 --Written by Kylanda@Pyrewood Village, translations
 --French, Belrand@Auberdine / Belrand#1998
+--German, Ashnagarr#7229
 
 local addonName, Guildbook = ...
 
@@ -49,23 +50,34 @@ local L = {}
 L["WELCOME_MESSAGE"] = [[
 Welcome to Guildbook!
 
-To get started tap, click or whack that arrow like symbol up in the top left.
 
-That opens the menu which should have your guild(s) listed. If it doesn't then
-go to curse and complain ;)
+To get started tap, click or whack that arrow like symbol up in the top left, 
+click the (i) icon in the top right to display help tips.
 
+You should open your tradeskills and character frame so Guildbook can scan various bits of info.
 
-UPDATES 5.52
+Its also worth going to the profile section and setting your characters specializations and selecting your main (if you play alts).
 
-- added the code to actually check if you're in an instance
-- added tooltip extension
-- added additional scan for skills (professions)
+UPDATES 5.54
 
+- added a type check before looking for crafters of an item
+- added an option to show info messages in default chat window
+- added current inventory, new event type for this
+- added right click delete guild from main menu
+- improved alt system
+- added slash commands /gb /gbk /guildbook
+- fixed first aid not showing
+- tweaked comms queue system
+- fixed blizz roster not showing main spec
+- added option to add alts from other accounts
 
 ]]
 
 --dialog
-L["RESET_GUILD_DATA"] = "Reset all guild data ?"
+L["DIALOG_RESET_GUILD_DATA"] = "Reset all guild data ?"
+L["DIALOG_REMOVE_GUILD_DATA"] = "Remove guild ?"
+L["DIALOG_ADD_MAIN_CHARACTER"] = "Enter your characters name...."
+L["DIALOG_FOUND_MAIN_CHAR_SSS"] = "Found %s level %s %s"
 
 
 --guild home
@@ -81,7 +93,7 @@ L["GUILD_HOME_SHOW_OFFLINE_MEMBERS_LABEL"] = " Show offline"
 
 --tradeskill ui
 L["TRADESKILL_SEARCH_HEADER"] = "Search"
-L["TRADESKILL_SEARCH_HELPTIP"] = "Profession items are listed here.\n\nSearch by profession or tap the dropdown arrow to view categories.\n\nCtrl+click to view an item on your character."
+L["TRADESKILL_SEARCH_HELPTIP"] = "Profession items are listed here.\n\nSearch by profession or tap the dropdown arrow to view categories. This menu will change depending on which profession you are viewing.\n\nCtrl+click to view an item on your character."
 L["TRADESKILL_CRAFTERS_HEADER"] = "Crafters"
 L["TRADESKILL_CRAFTERS_HELPTIP"] = "Characters who can craft the item are listed here.\n\nIf the character is offline the request will fail"
 L["TRADESKILL_RECIPE_INFO_HEADER"] = "Recipe info:"
@@ -128,9 +140,66 @@ L["CHAR_PROFILE_TALENTS_HEADER"] = "Talents"
 L["CHAR_PROFILE_TALENTS_DROPDOWN_SPEC1"] = "Primary"
 L["CHAR_PROFILE_TALENTS_DROPDOWN_SPEC2"] = "Secondary"
 
+--attributes
+L["Strength"]						= "Strength"
+L["Agility"]						= "Agility"
+L["Stamina"]						= "Stamina"
+L["Intellect"]						= "Intellect"
+L["Spirit"]							= "Spirit"
+--defence
+L["Armor"]							= "Armor"
+L["Defence"]						= "Defence"
+L["Dodge"]							= "Dodge"
+L["Parry"]							= "Parry"
+L["Block"]							= "Block"
+L["ShieldBlock"]							= "Shield Block"
+--melee
+L["Expertise"]						= "Expertise"
+L["MeleeHit"]						= "Hit"
+L["MeleeCrit"]						= "Crit"
+L["AttackPower"]						= "Attack power"
+L["MeleeDmgMH"]						= "Main hand dmg"
+L["MeleeDmgOH"] 					= "Off hand dmg"
+L["MeleeDpsMH"] 					= "Main hand dps"
+L["MeleeDpsOH"] 					= "Off hand dps"
+--ranged
+L["RangedHit"] 					= "Hit"
+L["RangedCrit"] 					= "Crit"
+L["RangedDmg"] 					= "Damage"
+L["RangedDps"] 					= "Dps"
+--spells
+L["Haste"] 					= "Haste"
+L["ManaRegen"] 					= "Mana Regen"
+L["ManaRegenCasting"] 			= "Mana Regen (casting)"
+L["SpellHit"] 						= "Spell Hit"
+L["SpellCrit"] 						= "Spell Crit"
+L["SpellCritHoly"] 					= "Crit Holy"
+L["SpellCritFrost"] 					= "Crit Frost"
+L["SpellCritFire"] 					= "Crit Fire"
+L["SpellCritShadow"] 					= "Crit Shadow"
+L["SpellCritArcane"] 					= "Crit Arcane"
+L["SpellCritNature"] 					= "Crit Nature"
+L["HealingBonus"] 					= "Healing bonus"
+L["SpellDmgHoly"] 				= "Holy"
+L["SpellDmgFrost"] 				= "Frost"
+L["SpellDmgShadow"] 				= "Shadow"
+L["SpellDmgArcane"] 				= "Arcane"
+L["SpellDmgFire"] 				= "Fire"
+L["SpellDmgNature"] 				= "Nature"
+--attributes headers
+L["Attributes"] = "Attributes"
+L["Melee"] = "Melee"
+L["Ranged"] = "Ranged"
+L["Spells"] = "Spells"
+
 
 --settings ui
 L["SETTINGS_HEADER"] = "Settings"
+L["SETTINGS_GENERAL_LABEL"] = "General"
+L["SETTINGS_THEME_LABEL"] = "Theme"
+L["SETTINGS_DATASYNC_LABEL"] = "Data sync"
+L["SETTINGS_TOOLTIP_LABEL"] = "Tooltip"
+
 L["SETTINGS_EXPORT_IMPORT_LABEL"] = "You can import or export guild data here.\n\n*Click export to generate a big (|cffFFD100really big|r) gathering of characters which can be shared on various chat platforms.\n\n*Paste a data string then click import if your guild does that sort of thing."
 L["SETTINGS_SHOW_MINIMAP_BUTTON_LABEL"] = "Show minimap button"
 L["SETTINGS_SHOW_MINIMAP_BUTTON_TOOLTIP"] = "Enable or disable the minimap button"
@@ -156,6 +225,14 @@ L["SETTINGS_EXPORT_GUILD_LABEL"] = "Export"
 L["SETTINGS_MOD_BLIZZ_ROSTER_LABEL"] = "Modify the default Blizzard guild roster UI"
 L["SETTINGS_MOD_BLIZZ_ROSTER_TOOLTIP"] = "Expand the default Guild UI to show more columns.\n\n|cffAA0935WARNING - will cause a UI reload when toggled off!"
 
+L["SETTINGS_SHOW_CHAT_MESSAGES"] = "Display chat window messages"
+L["SETTINGS_SHOW_CHAT_MESSAGES_TOOLTIP"] = "SPAM WARNING\n\nThis might generate a lot of messages!"
+
+L["SETTINGS_THEME_NEW"] = "New"
+L["SETTINGS_THEME_DELETE"] = "Delete"
+L["SETTINGS_THEME_EDITOR_CONFIRM_LABEL"] = "Confirm"
+L["SETTINGS_THEME_EDITOR_CANCEL_LABEL"] = "Cancel"
+
 
 --profile
 L["PROFILE_HEADER"] = "Profile"
@@ -171,6 +248,7 @@ L["PROFILE_ALT_MANAGER_LABEL"] = "Alt manager"
 L["PROFILE_ALT_MANAGER_LABEL_RIGHT"] = "Main"
 L["PROFILE_ALTS_HELPTIP"] = "Here you can view your characters and set which is your main character.\n\nYou can set 1 main per guild."
 
+L["PROFILE_ADD_ALT_LABEL"] = "Add Alt"
 
 --help 
 L["HELP_HEADER"] = "Help"
@@ -253,7 +331,12 @@ L['< an hour']			    		= '< an hour'
 
 
 
-
+--chat messages
+L["GB_CHAT_MSG_SCANNED_TALENTS_GLYPHS"] = "scanned talents and glyphs, awesome!"
+L["GB_CHAT_MSG_SCANNED_TRADESKILL_RECIPES_S"] = "got your %s recipes, thanks."
+L["GB_CHAT_MSG_SCANNED_EQUIPMENT_SETS"] = "scanned your equipment sets, sweet threads!"
+L["GB_CHAT_MSG_SCANNED_CHARACTER_STATS_S"] = "got stats for %s, powerful stuff!"
+L["GB_CHAT_MSG_SCANNED_SKILLS"] = "took a look at your skills."
 
 
 
@@ -862,31 +945,25 @@ local locale = GetLocale()
 
 
 --[[
-    german  - thanks to Nezzquikk from discord for these translations
+    german  | Translation by Ashnagarr#7229
 ]]
 if locale == "deDE" then
 
-	L["WELCOME_MESSAGE"] = [[
-Willkommen zu Guildbook! 
-
-Um zu beginnen, klicke auf das Pfeilsymbol in der oberen linken Ecke. Das öffnet ein Menü in dem du deine Gilde(n) siehst. 
-
-Wenn du nichts siehst, geh zu Curse und beschwer dich ;)
-
-Update 5.52
-- Erweiterte Tooltips hinzugefügt
-- Zusätzlicher Scan fuer Berufe hinzugefügt.
-]]
-
+	L["< an hour"] = "< eine Stunde"
 	L["Affliction"] = "Gebrechen"
+	L["Agility"] = "Beweglichkeit"
 	L["Arcane"] = "Arkan"
+	L["Armor"] = "Rüstung"
 	L["Arms"] = "Waffen"
 	L["Assassination"] = "Meucheln"
+	L["AttackPower"] = "Angriffskraft"
+	L["Attributes"] = "Grundwerte"
 	L["BACK"] = "Rücken"
 	L["Balance"] = "Gleichgewicht"
 	L["Bear"] = "Bär"
 	L["Beast Master"] = "Tierherrschaft"
 	L["BeastMaster"] = "Tierherrschaft"
+	L["Block"] = "Blocken"
 	L["Blood"] = "Blut"
 	L["Cat"] = "Katze"
 	L["CHAR_PROFILE_EQUIPMENT_DROPDOWN_HELPTIP"] = "Falls dieser Charakter Ausrüstungs-Sets gespeichert hat und diese Informationen auch teilt, kannst du sie dir hier anschauen."
@@ -902,17 +979,30 @@ Update 5.52
 	L["CHAR_PROFILE_TALENTS_HEADER"] = "Talente"
 	L["CHEST"] = "Brust"
 	L["Combat"] = "Kampf"
+	L["DAYS"] = "Tage"
+	L["Defence"] = "Verteidigung"
 	L["Demonology"] = "Dämonologie"
 	L["Destruction"] = "Zerstörung"
+	L["DIALOG_ADD_MAIN_CHARACTER"] = "Namen deines Charakters eintragen..."
+	L["DIALOG_FOUND_MAIN_CHAR_SSS"] = "%s Stufe %s %s gefunden"
+	L["DIALOG_REMOVE_GUILD_DATA"] = "Gilde entfernen?"
+	L["DIALOG_RESET_GUILD_DATA"] = "Alle Gildendaten zurücksetzen?"
 	L["Discipline"] = "Disziplin"
+	L["Dodge"] = "Ausweichen"
 	L["Elemental"] = "Elementar"
 	L["Enhancement"] = "Verstärkung"
+	L["Expertise"] = "Waffenkunde"
 	L["FEET"] = "Füße"
 	L["Feral"] = "Wildheit"
 	L["FINGER"] = "Ringe"
 	L["Fire"] = "Feuer"
 	L["Frost"] = "Frost"
 	L["Fury"] = "Furor"
+	L["GB_CHAT_MSG_SCANNED_CHARACTER_STATS_S"] = "hat Charakterwerte für %s bekommen, echt interessant!"
+	L["GB_CHAT_MSG_SCANNED_EQUIPMENT_SETS"] = "hat deine Ausrüstungssets gescannt."
+	L["GB_CHAT_MSG_SCANNED_SKILLS"] = "hat sich deine Berufe angeschaut."
+	L["GB_CHAT_MSG_SCANNED_TALENTS_GLYPHS"] = "hat deine Talente und Glyphen gescannt, cool!"
+	L["GB_CHAT_MSG_SCANNED_TRADESKILL_RECIPES_S"] = "hat deine %s Rezepte erhalten, danke."
 	L["GEMS"] = "Edelsteine"
 	L["Guardian"] = "Wächter"
 	L["GUILD_HOME_CALENDAR_HELPTIP"] = "Hier werden Kalenderereignisse angezeigt (eventuell muss der Kalender zuerst einmal geöffnet werden)."
@@ -920,10 +1010,13 @@ Update 5.52
 	L["GUILD_HOME_LABEL"] = "Home"
 	L["GUILD_HOME_MEMBERS_HELPTIP"] = "Hier werden Gildenmitglieder angezeigt. Klicke auf einen Charakter um mehr Informationen über ihn zu sehen."
 	L["GUILD_HOME_NO_MOTD"] = "Du schaust dir eine Gilde an der dein Charakter nicht angehört - manche Informationen können fehlen oder veraltet sein."
+	L["GUILD_HOME_SHOW_OFFLINE_MEMBERS_LABEL"] = "Offline-Spieler anzeigen"
 	L["GUILD_TRADESKILLS_LABEL"] = "Berufe"
 	L["GUILDS_LIST_HEADER"] = "Gilden"
 	L["HANDS"] = "Hände"
+	L["Haste"] = "Tempowertung"
 	L["HEAD"] = "Kopf"
+	L["HealingBonus"] = "Heilbonus"
 	L["HELP_ABOUT"] = "Hilfe & Infos"
 	L["HELP_FAQ_A0"] = "Frag ein Gildenmitglied ob sie dir ihre Daten exportieren können. Diese kannst du dann in den Einstellungen importieren."
 	L["HELP_FAQ_A1"] = "Guildbook scannt Blizzards Ausüstungsmanager um gespeicherte Sets zu finden. Durch diese Methode werden die korrekten Gegenstände angezeigt, aber Verzauberungen und Edelsteine fehlen. Wir werden versuchen, dies mit einem weiteren Update in der Zukunft zu verbessern."
@@ -934,7 +1027,7 @@ Update 5.52
 	L["HELP_FAQ_A6"] = "Herstellungsaufträge erlauben dir, einem Gildenmitglied eine Nachricht via Guildbook zu schicken dass du einen Gegenstand hergestellt haben möchtest. Dein Gildenmitglied sieht deine Anfrage dann in ihrer Liste der Herstellungsaufträge."
 	L["HELP_FAQ_A7"] = "Du kannst natürlich immer noch einfach selbst fragen, aber vielleicht ist das Gildenmitglied ja beschäftigt, gerade in einem Bosskampf, afk oder sonstiges..."
 	--[[Translation missing --]]
-	--[[ L["HELP_FAQ_A8"] = "HELP_FAQ_A8"--]] 
+	--[[ L["HELP_FAQ_A8"] = ""--]] 
 	L["HELP_FAQ_Q0"] = "Ich habe das Addon gerade erst installiert und es zeigt überhaupt nichts an, so ein Mist!"
 	L["HELP_FAQ_Q1"] = "Warum sehe ich meine Ausrüstung nicht?"
 	L["HELP_FAQ_Q2"] = "Warum sehe ich meine Charakterwerte nicht?"
@@ -944,13 +1037,28 @@ Update 5.52
 	L["HELP_FAQ_Q6"] = "Was zum Geier sind Herstellungsaufträge?"
 	L["HELP_FAQ_Q7"] = "Warum frage ich nicht einfach im Gildenchat oder flüstere die Person an?"
 	--[[Translation missing --]]
-	--[[ L["HELP_FAQ_Q8"] = "HELP_FAQ_Q8"--]] 
+	--[[ L["HELP_FAQ_Q8"] = ""--]] 
 	L["HELP_HEADER"] = "Hilfe"
 	L["HOLDABLE"] = "Nebenhand"
 	L["Holy"] = "Heilig"
+	L["HOURS"] = "Stunde(n)"
+	L["Intellect"] = "Intelligenz"
 	L["LEGS"] = "Beine"
+	L["ManaRegen"] = "Mana-Regenerierung"
+	L["ManaRegenCasting"] = "Mana-Reg (während dem zaubern)"
 	L["Marksmanship"] = "Treffsicherheit"
+	L["Melee"] = "Nahkampf"
+	L["MeleeCrit"] = "Kritische Trefferchance"
+	L["MeleeDmgMH"] = "Waffenhand-Schaden"
+	L["MeleeDmgOH"] = "Schildhand-Schaden"
+	L["MeleeDpsMH"] = "Waffenhand Schaden pro Sekunde"
+	L["MeleeDpsOH"] = "Schildhand Schaden pro Sekunde"
+	L["MeleeHit"] = "Trefferchance"
+	L["MONTHS"] = "Monat(e)"
 	L["NECK"] = "Amulett"
+	L["Online"] = "Online"
+	L["Parry"] = "Parieren"
+	L["PROFILE_ADD_ALT_LABEL"] = "Alt hinzufügen"
 	L["PROFILE_ALT_MANAGER_LABEL"] = "Twink-Manager"
 	L["PROFILE_ALT_MANAGER_LABEL_RIGHT"] = "Hauptcharakter"
 	L["PROFILE_ALTS_HELPTIP"] = "Hier kannst du all deine Charaktere sehen und einstellen wer dein Hauptcharakter ist. Du kannst nur einen Hauptcharakter pro Gilde haben."
@@ -963,6 +1071,11 @@ Update 5.52
 	L["Protection"] = "Schutz"
 	L["PVP"] = "PVP"
 	L["RANGED"] = "Fernkampf"
+	L["Ranged"] = "Distanzkampf"
+	L["RangedCrit"] = "Kritische Trefferchance"
+	L["RangedDmg"] = "Schaden"
+	L["RangedDps"] = "Schaden pro Sekunde"
+	L["RangedHit"] = "Trefferchance"
 	L["RESET_GUILD_DATA"] = "Alle Gildendaten zurücksetzen?"
 	L["Restoration"] = "Wiederherstellung"
 	L["Retribution"] = "Vergeltung"
@@ -971,6 +1084,8 @@ Update 5.52
 	L["SETTINGS_BLOCK_COMMS_COMBAT_TOOLTIP"] = "Wenn Guildbook Daten sendet oder empfängt, kann dies unter Umständen andere Addons, die auch Daten schicken/empfangen, beeinträchtigen oder sogar blockieren. Obwohl dies eine sehr unwahrscheinliche Situation ist (Guildbook benutz AceComm), kannst du die Datenkommunikation während des Kampfes hiermit unterbinden."
 	L["SETTINGS_BLOCK_COMMS_INSTANCE_LABEL"] = "Datenkommunikation in Instanzen blocken"
 	L["SETTINGS_BLOCK_COMMS_INSTANCE_TOOLTIP"] = "Wenn Guildbook Daten sendet oder empfängt, kann dies unter Umständen andere Addons, die auch Daten schicken/empfangen, beeinträchtigen oder sogar blockieren. Obwohl dies eine sehr unwahrscheinliche Situation ist (Guildbook benutz AceComm), kannst du die Datenkommunikation während du in Instanzen bist hiermit unterbinden."
+	L["SETTINGS_DATASYNC_LABEL"] = "Synchronisiere.."
+	L["SETTINGS_DISABLE_TOOLTIP_EXTENSION"] = "Tooltip in Instanzen deaktivieren"
 	L["SETTINGS_EXPORT_GUILD_LABEL"] = "Exportieren"
 	L["SETTINGS_EXPORT_IMPORT_LABEL"] = "Hier kannst du Gildendaten importieren oder exportieren. *Klicke 'Exportieren' um einen langen (|cffFFD100wirklich langen|r) Zeichensatz zu erstellen den du dann mit anderen teilen kannst. *Kopiere einen Zeichensatz den dir jemand aus deiner Gilde exportiert hat hier rein und klicke dann 'Importieren'"
 	L["SETTINGS_HEADER"] = "Einstellungen"
@@ -979,16 +1094,38 @@ Update 5.52
 	L["SETTINGS_MOD_BLIZZ_ROSTER_TOOLTIP"] = "Erweitert das standard Gilden-UI und zeigt deutlich mehr Informationen an. |cffAA0935VORSICHT - den Haken zu entfernen löst ein Neuladen des Interfaces aus."
 	L["SETTINGS_RESET_CHARACTER_LABEL"] = "Charakterdaten zurücksetzen"
 	L["SETTINGS_RESET_GUILD_LABEL"] = "Gildendaten zurücksetzen"
+	L["SETTINGS_SHOW_CHAT_MESSAGES"] = "Chat-Nachrichten anzeigen"
+	L["SETTINGS_SHOW_CHAT_MESSAGES_TOOLTIP"] = "Spam-Warnung - Das kann jede Menge Nachrichten erzeugen!"
 	L["SETTINGS_SHOW_MINIMAP_BUTTON_LABEL"] = "Minimap-Knopf anzeigen"
 	L["SETTINGS_SHOW_MINIMAP_BUTTON_TOOLTIP"] = "Den Knopf an der Minimap ein- oder ausschalten"
 	L["SETTINGS_SHOW_TOOLTIP_CHAR_PROFILE"] = "Charakterprofil im Tooltip anzeigen"
 	L["SETTINGS_SHOW_TOOLTIP_MAIN_CHAR"] = "Hauptcharakter im Tooltip anzeigen"
 	L["SETTINGS_SHOW_TOOLTIP_MAIN_SPEC"] = "Haupt-Talentspezialisierung im Tooltip anzeigen"
 	L["SETTINGS_SHOW_TOOLTIP_TRADESKILLS"] = "Berufe im Tooltip anzeigen"
-	L["SETTINGS_DISABLE_TOOLTIP_EXTENSION"] = "Tooltip in Instanzen deaktivieren"
+	L["SETTINGS_THEME_LABEL"] = "Theme"
+	L["SETTINGS_TOOLTIP_LABEL"] = "Tooltip"
 	L["Shadow"] = "Schatten"
+	L["ShieldBlock"] = "Blockwertung"
 	L["SHIELDS"] = "Schilde"
 	L["SHOULDER"] = "Schultern"
+	L["SpellCrit"] = "Kritische Trefferchance"
+	L["SpellCritArcane"] = "Krit. Arkan"
+	L["SpellCritFire"] = "Krit. Feuer"
+	L["SpellCritFrost"] = "Krit. Frost"
+	L["SpellCritHoly"] = "Krit. Heilig"
+	L["SpellCritNature"] = "Krit. Natur"
+	L["SpellCritShadow"] = "Krit. Schatten"
+	L["SpellDmgArcane"] = "Arkan"
+	L["SpellDmgFire"] = "Feuer"
+	L["SpellDmgFrost"] = "Frost"
+	L["SpellDmgHoly"] = "Heilig"
+	L["SpellDmgNature"] = "Natur"
+	L["SpellDmgShadow"] = "Schatten"
+	L["SpellHit"] = "Trefferchance"
+	L["Spells"] = "Zauber"
+	L["Spirit"] = "Willenskraft"
+	L["Stamina"] = "Ausdauer"
+	L["Strength"] = "Stärke"
 	L["Subtlety"] = "Täuschung"
 	L["Survival"] = "Überleben"
 	L["TRADESKILL_CRAFTERS_HEADER"] = "Handwerker"
@@ -1008,15 +1145,22 @@ Update 5.52
 	L["WAIST"] = "Taille"
 	L["Warden"] = "Wächter"
 	L["WEAPONS"] = "Waffen"
-	L["WRIST"] = "Handgelenk"
-	L["GUILD_HOME_SHOW_OFFLINE_MEMBERS_LABEL"] = "Offline-Spieler anzeigen"
+	L["WELCOME_MESSAGE"] = [=[
+Willkommen zu Guildbook! Um zu beginnen, klicke auf das Pfeilsymbol in der oberen linken Ecke. 
+Das öffnet ein Menü in dem du deine Gilde(n) siehst. Wenn du nichts siehst, geh zu Curse und beschwer dich ;)
 
-	--ModBlizz.lua
-	L["YEARS"]                          = "Jahre"
-	L["MONTHS"]                         = "Monate"
-	L["DAYS"]                           = "Tage"
-	L["HOURS"]                          = "Stunden"
-	L['< an hour']			    		= '< eine Stunde'
+5.54 - Neuen Check hinzugefügt bevor nach Herstellern eines Gegenstandes geschaut wird
+ * Aktuelles Inventar hinzugefügt mit neuem Event-Typ
+ * 'Rechtsklick um Gilde aus dem Hauptmenü zu löschen' hinzugefügt
+ * Alt-Charakter-System verbessert
+ * Slash-Befehle hinzugefügt /gb /gbk /guildbook
+ * Erste Hilfe korrigiert (wird jetzt angezeigt)
+ * Internes Nachrichten-Wartelistensystem verbessert
+ * Gilden-Roster zeigt jetzt die Haupt-Talentspezialisierung
+ * Option hinzugefügt um Alt-Charaktere von anderen Accounts anzuzeigen]=]
+	L["WRIST"] = "Handgelenk"
+	L["YEARS"] = "Jahr(e)"
+	
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1484,7 +1628,7 @@ Update 5.52
 
 
 --[[
-    french | In order to avoid missing new things, I sorted the whole locale back to match the original one - Belrand
+    french | Translation by Belrand#1998
 ]]
 elseif locale == 'frFR' then
 --new strings
@@ -1493,19 +1637,30 @@ L["WELCOME_MESSAGE"] = [[
 Bienvenue sur Guildbook!
 
 Pour démarrer, cliquez sur la flèche en haut à gauche.
+Cliquez sur l'icône (i) jaune en haut à droite pour afficher l'aide.
 
-Cela va ouvrir le menu dans lequel votre (ou vos) guilde(s) sont listés.
-Si ce n'est pas le cas venez sur discord vous plaindre sur Curseforge ou Discord ;)
+Vous devriez ouvrir les fenêtres de vos métiers afin que l'addon puisse les scanner et les partager à votre guilde.
+
+Ca vaut aussi le coup de passer dans la section "Profile" pour définir vos spés et votre personnage principal.
 
 
-5.52
-- ajout de tooltips étendus
-- ajout de scans supplémentaires pour les méties
+MàJ 5.54
+- correction de bugs
+- ajout d'une option pour montrer des messages d'information dans la fenêtre de chat
+- ajout d'une option "équipement actuel" dans le profil du perso
+- ajout d'une option "clique droit pour supprimer" une guilde dans le menu principale
+- amélioration du système de reroll/persos secondaires
+- ajout d'une option pour les rerolls/persos secondaires sur un autre compte
+- ajout des commandes slash "/gb", "/gbk", "/guildbook"
+- peaufinage du système de partage de données
 
 ]]
 
 --dialog
 L["RESET_GUILD_DATA"] = "Réinitialiser données de guildes ?"
+L["DIALOG_REMOVE_GUILD_DATA"] = "Supprimer guilde ?"
+L["DIALOG_ADD_MAIN_CHARACTER"] = "Entrez nom du personnage...."
+L["DIALOG_FOUND_MAIN_CHAR_SSS"] = "Trouvé: %s %s niveau %s"
 
 
 --guild home
@@ -1568,10 +1723,66 @@ L["CHAR_PROFILE_TALENTS_HEADER"] = "Talents"
 L["CHAR_PROFILE_TALENTS_DROPDOWN_SPEC1"] = "Primaire"
 L["CHAR_PROFILE_TALENTS_DROPDOWN_SPEC2"] = "Secondaire"
 
+	--attributes
+	L["Strength"]                   = "Force"
+	L["Agility"]                    = "Agilité"
+	L["Stamina"]                    = "Endurance"
+	L["Intellect"]                  = "Intelligence"
+	L["Spirit"]                     = "Esprit"
+	--defence
+	L["Armor"]                      = "Armure"
+	L["Defence"]                    = "Défense"
+	L["Dodge"]                      = "Esquive"
+	L["Parry"]                      = "Parade"
+	L["Block"]                      = "Blocage"
+	L["ShieldBlock"]				= "Valeur de blocage"
+	--melee
+	L["Expertise"]                  = "Expertise"
+	L["MeleeHit"]                 	= "Chance de toucher"
+	L["MeleeCrit"]                 	= "Chance de crit"
+	L["AttackPower"]				= "Puissance d'Attaque"
+	L["MeleeDmgMH"]                 = "Dégâts main droite"
+	L["MeleeDmgOH"]                 = "Dégâts main gauche"
+	L["MeleeDpsMH"]                 = "DPS main droite"
+	L["MeleeDpsOH"]                 = "DPS main gauche"
+	--ranged
+	L["RangedHit"]                 	= "Chance de toucher"
+	L["RangedCrit"]               	= "Chance de crit"
+	L["RangedDmg"]                 	= "Dégâts"
+	L["RangedDps"]                 	= "DPS"
+	--spells
+	L["Haste"]                		= "Hâte"
+	L["ManaRegen"]                 	= "Régen mana"
+	L["ManaRegenCasting"] 			= "Régen mana(incantation)"
+	L["SpellHit"]                  	= "Chance de toucher"
+	L["SpellCrit"] 					= "Chance de critique"
+	L["SpellCritHoly"] 				= "Crit Sacré"
+	L["SpellCritFrost"] 			= "Crit Givre"
+	L["SpellCritFire"] 				= "Crit Feu"
+	L["SpellCritShadow"] 			= "Crit Ombre"
+	L["SpellCritArcane"] 			= "Crit Arcane"
+	L["SpellCritNature"] 			= "Crit Nature"
+	L["HealingBonus"]              	= "Pouvoir de guérison"	
+	L["SpellDmgHoly"]             	= "Sacré"
+	L["SpellDmgFrost"]				= "Givre"
+	L["SpellDmgShadow"]				= "Ombre"
+	L["SpellDmgArcane"]				= "Arcane"
+	L["SpellDmgFire"]             	= "Feu"
+	L["SpellDmgNature"] 			= "Nature"
+	--attributes headers
+	L["Attributes"] = "Caractéristiques"
+	L["Melee"] = "En Mêlée"
+	L["Ranged"] = "A Distance"
+	L["Spells"] = "Sorts"
+
+
 
 --settings ui
 L["SETTINGS_HEADER"] = "Paramètres"
 L["SETTINGS_EXPORT_IMPORT_LABEL"] = "Vous pouvez importez ou exportez les données de la guilde ici.\n\n*Cliquez sur Exporter pour générer une (|cffFFD100très|r) grosse chaîne de caractère qui peut être partagée via différentes plateformes de chat.\n\n*Coller (Ctrl+V) une chaîne de caractères et cliquer sur Importer si votre guilde utilise cette option."
+L["SETTINGS_THEME_LABEL"] = "Thème"
+L["SETTINGS_DATASYNC_LABEL"] = "Synchronisation de données"
+L["SETTINGS_TOOLTIP_LABEL"] = "Info-bulle (Tooltip)"
 
 L["SETTINGS_SHOW_MINIMAP_BUTTON_LABEL"] = "Afficher bouton de la minicarte"
 L["SETTINGS_SHOW_MINIMAP_BUTTON_TOOLTIP"] = "Active ou désactive le bouton de la minicarte"
@@ -1586,6 +1797,7 @@ L["SETTINGS_SHOW_TOOLTIP_MAIN_CHAR"] = "Afficher le personnage principal dans le
 L["SETTINGS_SHOW_TOOLTIP_MAIN_SPEC"] = "Afficher la spé principale dans le tooltip"
 L["SETTINGS_SHOW_TOOLTIP_CHAR_PROFILE"] = "Afficher le profil du joueur dans le tooltip"
 L["SETTINGS_SHOW_TOOLTIP_TRADESKILLS"] = "Afficher les métiers dans le tooltip"
+L["SETTINGS_DISABLE_TOOLTIP_EXTENSION"] = "Désactiver les tooltips en instances"
 
 L["SETTINGS_RESET_CHARACTER_LABEL"] = "Réinitialiser données de perso"
 L["SETTINGS_RESET_GUILD_LABEL"] = "Réinitialiser données de Guildes"
@@ -1595,7 +1807,9 @@ L["SETTINGS_EXPORT_GUILD_LABEL"] = "Exporter"
 
 L["SETTINGS_MOD_BLIZZ_ROSTER_LABEL"] = "Modifier la fenêtre de guilde"
 L["SETTINGS_MOD_BLIZZ_ROSTER_TOOLTIP"] = "Étend la fenêtre de guilde de Blizzard pour montrer plus d'infos.\n\n|cffAA0935ATTENTION - Cela va cause un rechargement de l'interface quand désactivé!"
-L["SETTINGS_DISABLE_TOOLTIP_EXTENSION"] = "Désactive les tooltips en instances"
+
+L["SETTINGS_SHOW_CHAT_MESSAGES"] = "Afficher les messages systèmes dans le chat"
+L["SETTINGS_SHOW_CHAT_MESSAGES_TOOLTIP"] = "ATTENTION\n\nCela peut générer beaucoup de messages!"
 
 --profile
 L["PROFILE_HEADER"] = "Profil"
@@ -1611,6 +1825,7 @@ L["PROFILE_ALT_MANAGER_LABEL"] = "Personnages secondaires"
 L["PROFILE_ALT_MANAGER_LABEL_RIGHT"] = "Main"
 L["PROFILE_ALTS_HELPTIP"] = "Ici, vous pouvez voir vos personages et en sélectionner un comme personnage principal.\n\nVous pouvez en sélectionner 1 par guilde."
 
+L["PROFILE_ADD_ALT_LABEL"] = "Ajouter reroll"
 
 --help 
 L["HELP_HEADER"] = "Aide"
@@ -1690,6 +1905,13 @@ L["HELP_FAQ_A8"] = ""
 	L["DAYS"]                           = "jours"
 	L["HOURS"]                          = "heures"
 	L['< an hour']			    		= 'moins d\'1h'
+
+	--chat messages
+	L["GB_CHAT_MSG_SCANNED_TALENTS_GLYPHS"] = "a scanné vos talents et glyphes, génial!"
+	L["GB_CHAT_MSG_SCANNED_TRADESKILL_RECIPES_S"] = "a trouvé vos %s recettes, merci."
+	L["GB_CHAT_MSG_SCANNED_EQUIPMENT_SETS"] = "a scanné vos ensembles d'équipement, belle garde-robe!"
+	L["GB_CHAT_MSG_SCANNED_CHARACTER_STATS_S"] = "a trouvé vos stats de %s, quelle puissance!"
+	L["GB_CHAT_MSG_SCANNED_SKILLS"] = "a regardé vos métiers."
 
 ------------------------------------------------------------------------------------------
 

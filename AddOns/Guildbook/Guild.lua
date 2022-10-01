@@ -85,7 +85,7 @@ end
 --scan the guild roster to get member data
 function Guild:ScanGuildRoster()
 
-    addon.DEBUG("func", "Guild:ScanGuildRoster", "scanning current guild roster")
+    --addon.DEBUG("func", "Guild:ScanGuildRoster", "scanning current guild roster")
 
     --lets make sure we only update the current guild data
     if self:IsCurrentGuild() then
@@ -158,7 +158,7 @@ function Guild:LoadCharactersFromSavedVars()
         return;
     end
 
-    addon.DEBUG("func", "Guild:LoadCharactersFromSavedVars", string.format("loading character data from saved vars for %s", self.data.name))
+    --addon.DEBUG("func", "Guild:LoadCharactersFromSavedVars", string.format("loading character data from saved vars for %s", self.data.name))
 
     local cache = Database:GetGuildRosterCache(self.data.name)
     for guid, info in pairs(cache) do
@@ -180,7 +180,7 @@ function Guild:UpdateSavedVariables()
 
     local t = {};
 
-    addon.DEBUG("func", "Guild:UpdateSavedVariables", string.format("updating saved variables for %s", self.data.name))
+    --addon.DEBUG("func", "Guild:UpdateSavedVariables", string.format("updating saved variables for %s", self.data.name))
     for guid, character in pairs(self.data.members) do
         t[guid] = character:GetData();
     end
@@ -222,6 +222,17 @@ function Guild:GetCharacter(guid)
 end
 
 
+function Guild:GetCharacterByName(name)
+
+    for guid, info in pairs(self.data.members) do
+        if info.data.name == name then
+            return info;
+        end
+    end
+    return false;
+end
+
+
 function Guild:FindCharacterAlts(guid)
     if not self.data.name then
         return;
@@ -241,6 +252,16 @@ function Guild:FindCharacterAlts(guid)
     end
 end
 
+
+function Guild:FindMyMainCharacter()
+
+    for guid, isMain in pairs(Database:GetMyCharacters()) do
+
+        if self.data.members[guid] and (isMain == true) then
+            return self.data.members[guid]
+        end
+    end
+end
 
 function Guild:SetMyCharactersAlts(main)
 

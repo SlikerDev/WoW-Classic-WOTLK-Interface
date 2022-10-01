@@ -1,0 +1,21 @@
+## Interface: 30400
+## Author: Neekio - Blaumeux (Bengejd)
+## Version: 4.9.12
+## Title: |cff33ff99PantheonDKP|r
+## Notes: Blind Bid based DKP Addon
+## DefaultState: Enabled
+## SavedVariables: PDKP_DB
+## OptionalDependencies: WagoAnalytics
+## LoadOnDemand: 0
+## X-Interface: 30400
+## X-Curse-Project-ID: 367232
+## X-Phase: 5
+
+# Libraries
+#@no-lib-strip@
+Libraries\Load_Libraries.xml
+#@end-no-lib-strip@
+
+PantheonDKP.xml
+Media\Load_Media.xml
+Modules\Load_Modules.xml

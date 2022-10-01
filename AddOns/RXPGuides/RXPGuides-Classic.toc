@@ -3,7 +3,7 @@
 ## Notes: In-game leveling guides
 ## Notes-zhCN: TODO
 ## Author: RestedXP
-## Version: v4.3.2-1-g52aab92
+## Version: v4.3.10
 ## OptionalDeps: Questie, unitscan
 ## SavedVariables: RXPData, RXPDB
 ## SavedVariablesPerCharacter: RXPCData, RXPCTrackingData, RXPCComms, RXPCSettings
@@ -23,6 +23,7 @@ ActiveItemFrame.lua
 LevelingTracker.lua
 Timers.lua
 Communications.lua
+Targeting.lua
 
 DB/classic.xml
 

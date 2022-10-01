@@ -2607,7 +2607,6 @@ NRC.scrolls = {
 		name = "Scroll of Protection VII",
 		icon = 132341,
 		desc = "+340 Armor",
-		maxRank = true,
 		order = 3,
 		itemID = 43467,
 		itemIcon = 134943,
@@ -2636,7 +2635,6 @@ NRC.scrolls = {
 		name = "Scroll of Intellect V",
 		icon = 135932,
 		desc = "+21 Intellect",
-		maxRank = true,
 		order = 4,
 		itemID = 27499,
 		itemIcon = 134937,
@@ -7239,7 +7237,6 @@ NRC.int = {
 		icon = 135932,
 		desc = "+40 Int",
 		rank = 6,
-		maxRank = true,
 	},
 	[42995] = {
 		name = "Arcane Intellect",
@@ -7259,7 +7256,6 @@ NRC.int = {
 		icon = 135869,
 		desc = "+40 Int",
 		rank = 2,
-		maxRank = true,
 	},
 	[43002] = {
 		name = "Arcane Brilliance",
@@ -7319,7 +7315,6 @@ NRC.fort = {
 		icon = 135987,
 		desc = "+79 Stam",
 		rank = 7,
-		maxRank = true,
 	},
 	[48161] = {
 		name = "Power Word: Fortitude",
@@ -7345,7 +7340,6 @@ NRC.fort = {
 		icon = 135941,
 		desc = "+79 Stam",
 		rank = 3,
-		maxRank = true,
 	},
 	[48162] = {
 		name = "Prayer of Fortitude",
@@ -7386,7 +7380,6 @@ NRC.spirit = {
 		icon = 135898,
 		desc = "+50 Spirit",
 		rank = 5,
-		maxRank = true,
 	},
 	[48073] = {
 		name = "Divine Spirit",
@@ -7406,7 +7399,6 @@ NRC.spirit = {
 		icon = 135946,
 		desc = "+50 Spirit",
 		rank = 2,
-		maxRank = true,
 	},
 	[48074] = {
 		name = "Prayer of Spirit",
@@ -7441,7 +7433,6 @@ NRC.shadow = {
 		icon = 136121,
 		desc = "+70 Shadow Resistance",
 		rank = 4,
-		maxRank = true,
 	},
 	[48169] = {
 		name = "Shadow Protection",
@@ -7461,7 +7452,6 @@ NRC.shadow = {
 		icon = 135945,
 		desc = "+70 Shadow Resistance",
 		rank = 2,
-		maxRank = true,
 	},
 	[48170] = {
 		name = "Prayer of Shadow Protection",
@@ -7520,7 +7510,6 @@ NRC.motw = {
 		icon = 136078,
 		desc = "+14 Stats, +350 Armor, +25 Resistances",
 		rank = 8,
-		maxRank = true,
 	},
 	[48469] = {
 		name = "Mark of the Wild",
@@ -7546,7 +7535,6 @@ NRC.motw = {
 		icon = 136038,
 		desc = "+14 Stats, +350 Armor, +25 Resistances",
 		rank = 3,
-		maxRank = true,
 	},
 	[48470] = {
 		name = "Gift of the Wild",
@@ -7650,7 +7638,6 @@ NRC.pal = {
 		icon = 135906,
 		desc = "+306 Attack Power",
 		rank = 8,
-		maxRank = true,
 		order = 3,
 	},
 	[48931] = {
@@ -7687,7 +7674,6 @@ NRC.pal = {
 		icon = 135908,
 		desc = "+306 Attack Power",
 		rank = 3,
-		maxRank = true,
 		order = 3,
 	},
 	[48933] = {
@@ -7753,7 +7739,6 @@ NRC.pal = {
 		icon = 135970,
 		desc = "+41 MP5",
 		rank = 7,
-		maxRank = true,
 		order = 4,
 	},
 	[48935] = {
@@ -7790,7 +7775,6 @@ NRC.pal = {
 		icon = 135912,
 		desc = "+41 MP5",
 		rank = 3,
-		maxRank = true,
 		order = 4,
 	},
 	[48937] = {

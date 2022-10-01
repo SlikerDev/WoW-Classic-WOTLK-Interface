@@ -3,7 +3,7 @@
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
 
-## Version: 4.11.6-17-gf513e91
+## Version: 4.11.6-20-gac40e29
 
 ## Author: Nevcairiel
 ## X-Email: h.leppkes at gmail dot com

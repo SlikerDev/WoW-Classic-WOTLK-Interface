@@ -5,6 +5,7 @@
 local addonName, addon = ...;
 
 local Tradeskills = addon.Tradeskills;
+local L = addon.Locales;
 
 addon.playerContainers = {};
 
@@ -59,6 +60,29 @@ local spellSchools = {
 	[7] = 'Arcane',
 }
 
+local invSlots = {
+    "HEADSLOT",
+    "NECKSLOT",
+    "SHOULDERSLOT",
+    "SHIRTSLOT",
+    "CHESTSLOT",
+    "WAISTSLOT",
+    "LEGSSLOT",
+    "FEETSLOT",
+    "WRISTSLOT",
+    "HANDSSLOT",
+    "FINGER0SLOT",
+    "FINGER1SLOT",
+    "TRINKET0SLOT",
+    "TRINKET1SLOT",
+    "BACKSLOT",
+    "MAINHANDSLOT",
+    "SECONDARYHANDSLOT",
+    "RANGEDSLOT",
+    "TABARDSLOT",
+
+}
+
 
 
 Mixin(addon, CallbackRegistryMixin)
@@ -90,6 +114,7 @@ addon:GenerateCallbackEvents({
 	"OnPlayerStatsChanged",
 
     "OnGuildChanged",
+    "OnGuildRemoved",
 
     "OnChatMessageGuild",
 
@@ -205,8 +230,13 @@ end
 
 
 
-
-
+local lastChatMessage;
+local lastChatMessageTime;
+function addon:PostChatWindowMessage(msg)
+    if Database:GetConfigSetting("showChatWindowMessages") then
+        print(string.format("[|cffB34BD4%s|r] %s", addonName, msg))
+    end
+end
 
 
 
@@ -225,8 +255,6 @@ function addon:ScanPlayerTalents(...)
 	if type(newSpec) ~= "number" then
 		newSpec = 1
 	end
-
-	addon.DEBUG("func", "ScanPlayerTalents", string.format("scannign spec for set %s", newSpec))
 
     local tabs, talents = {}, {}
     for tabIndex = 1, GetNumTalentTabs() do
@@ -278,6 +306,7 @@ function addon:ScanPlayerTalents(...)
         self:TriggerEvent("OnPlayerTalentSpecChanged", "secondary", talents, glyphs)
     end
 
+    self:PostChatWindowMessage(L["GB_CHAT_MSG_SCANNED_TALENTS_GLYPHS"])
 end
 
 
@@ -290,6 +319,10 @@ function addon:GetCharacterStats(setID)
 		if _setID == setID then
 			equipmentSetName = name;
 		end
+    end
+
+    if equipmentSetName == "" then
+        equipmentSetName = "gb-char-cur-equip-stats"
     end
 
     local stats = {};
@@ -356,14 +389,18 @@ function addon:GetCharacterStats(setID)
         stats.RangedHit = self:FormatNumberForCharacterStats(GetCombatRatingBonus(CR_HIT_RANGED));
 
     else
-    
+        stats.SpellHit = self:FormatNumberForCharacterStats(GetCombatRatingBonus(CR_HIT_SPELL));
+        stats.MeleeHit = self:FormatNumberForCharacterStats(GetCombatRatingBonus(CR_HIT_MELEE));
+        stats.RangedHit = self:FormatNumberForCharacterStats(GetCombatRatingBonus(CR_HIT_RANGED));
     end
 
     stats.RangedCrit = self:FormatNumberForCharacterStats(GetRangedCritChance());
     stats.MeleeCrit = self:FormatNumberForCharacterStats(GetCritChance());
 
-    stats.Haste = self:FormatNumberForCharacterStats(GetHaste());
+    stats.Haste = self:FormatNumberForCharacterStats(GetCombatRatingBonus(20));
     local base, casting = GetManaRegen()
+    base = base*5;
+    casting = casting*5;
     stats.ManaRegen = base and self:FormatNumberForCharacterStats(base) or 0;
     stats.ManaRegenCasting = casting and self:FormatNumberForCharacterStats(casting) or 0;
 
@@ -426,6 +463,8 @@ function addon:GetCharacterStats(setID)
 	--ViragDevTool:AddData(stats, "Guildbook_CharStats_"..equipmentSetName)
 
 	addon:TriggerEvent("OnPlayerStatsChanged", equipmentSetName, stats)
+
+    self:PostChatWindowMessage(L["GB_CHAT_MSG_SCANNED_CHARACTER_STATS_S"]:format(equipmentSetName))
 end
 
 
@@ -433,7 +472,10 @@ end
 function addon:ScanPlayerEquipment()
     local sets = C_EquipmentSet.GetEquipmentSetIDs();
 
-    local equipment = {};
+    local equipment = {
+        sets = {},
+        current = {},
+    };
 
     for k, v in ipairs(sets) do
         
@@ -441,10 +483,23 @@ function addon:ScanPlayerEquipment()
 
         local setItemIDs = C_EquipmentSet.GetItemIDs(setID)
 
-        equipment[name] = setItemIDs;
+        equipment.sets[name] = setItemIDs;
     end
 
+
+    --lets grab the current gear
+    local t = {}
+    for k, slot in ipairs(invSlots) do
+        local link = GetInventoryItemLink('player', GetInventorySlotInfo(slot)) or false;
+        if link ~= nil then
+            t[k] = link;
+        end
+    end
+    equipment.current = t;
+
     self:TriggerEvent("OnPlayerEquipmentChanged", equipment)
+
+    self:PostChatWindowMessage(L["GB_CHAT_MSG_SCANNED_EQUIPMENT_SETS"])
 end
 
 
@@ -455,6 +510,52 @@ function addon:ScanPlayerCharacter()
 	
 end
 
+
+
+function addon:ScanSkills()
+	local secondarySkills = {
+		[185] = 0,
+		[129] = 0,
+		[356] = 0,
+	}
+
+    local primarySkillIDs = {
+        [164] = 0,
+		[165] = 0,
+		[171] = 0,
+		[182] = 0,
+		[186] = 0,
+		[197] = 0,
+		[202] = 0,
+		[333] = 0,
+		[393] = 0,
+		[755] = 0,
+		[773] = 0,
+    }
+    local primarySkills = {}
+
+	for i = 1, GetNumSkillLines() do
+        local name, isHeader, _, rank = GetSkillLineInfo(i);
+
+		if name and type(rank) == "number" then
+			local tradeskillID = Tradeskills:GetTradeskillIDFromLocale(name)
+
+			if tradeskillID and secondarySkills[tradeskillID] and (type(rank) == "number") and (rank > 0) then
+				secondarySkills[tradeskillID] = rank;
+			end
+
+			if tradeskillID and primarySkillIDs[tradeskillID] and (type(rank) == "number") and (rank > 0) then
+				primarySkills[tradeskillID] = rank;
+			end
+
+		end
+
+	end
+
+	addon:TriggerEvent("OnPlayerSkillsScanned", secondarySkills, primarySkills)
+
+    self:PostChatWindowMessage(L["GB_CHAT_MSG_SCANNED_SKILLS"])
+end
 
 
 function addon:ADDON_LOADED(...)
@@ -490,6 +591,12 @@ function addon:PLAYER_ENTERING_WORLD()
 	PlayerTalentFrame:HookScript("OnHide", function()
 		self:ScanPlayerTalents({})
 	end)
+	SkillFrame:HookScript("OnShow", function()
+		self:ScanSkills()
+	end)
+    CharacterFrame:HookScript("OnHide", function()
+        self:GetCharacterStats()
+    end)
 
 	hooksecurefunc(C_EquipmentSet, "CreateEquipmentSet", function()
 		self:ScanPlayerEquipment()
@@ -518,6 +625,10 @@ function addon:GUILD_ROSTER_UPDATE()
     self:TriggerEvent("OnGuildRosterUpdate")
 end
 
+function addon:PLAYER_EQUIPMENT_CHANGED(...)
+    self:ScanPlayerEquipment()
+end
+
 function addon:TRADE_SKILL_UPDATE(...)
 
     local englishProf = nil;
@@ -542,14 +653,14 @@ function addon:TRADE_SKILL_UPDATE(...)
             if type(maxLevel) == "string" then
                 maxLevel = tonumber(maxLevel)
             end
-            addon.DEBUG("characterMixin", "Character:ScanTradeskillRecipes", string.format("found prof level [%s] from UI text", currentLevel))
+            --addon.DEBUG("characterMixin", "Character:ScanTradeskillRecipes", string.format("found prof level [%s] from UI text", currentLevel))
         end
     end
 
 	local tradeskillID = Tradeskills:GetTradeskillIDFromLocale(localeProf)
 
 	if type(tradeskillID) ~= "number" then
-		addon.DEBUG("func", "addon:TRADE_SKILL_UPDATE", "tradeskillID not found")
+		--addon.DEBUG("func", "addon:TRADE_SKILL_UPDATE", "tradeskillID not found")
 	end
 
 
@@ -603,6 +714,7 @@ function addon:TRADE_SKILL_UPDATE(...)
         self:TriggerEvent("OnPlayerTradeskillRecipesScanned", tradeskillID, currentLevel, tradeskillRecipes)
     end
 
+    self:PostChatWindowMessage(L["GB_CHAT_MSG_SCANNED_TRADESKILL_RECIPES_S"]:format(localeProf))
 end
 
 
@@ -625,48 +737,7 @@ end
 
 
 function addon:SKILL_LINES_CHANGED(...)
-
-	local secondarySkills = {
-		[185] = 0,
-		[129] = 0,
-		[356] = 0,
-	}
-
-    local primarySkillIDs = {
-        [164] = 0,
-		[165] = 0,
-		[171] = 0,
-		[182] = 0,
-		[186] = 0,
-		[197] = 0,
-		[202] = 0,
-		[333] = 0,
-		[393] = 0,
-		[755] = 0,
-		[773] = 0,
-    }
-    local primarySkills = {}
-
-	for i = 1, GetNumSkillLines() do
-        local name, isHeader, _, rank = GetSkillLineInfo(i);
-
-		if name and type(rank) == "number" then
-			local tradeskillID = Tradeskills:GetTradeskillIDFromLocale(name)
-
-			if tradeskillID and secondarySkills[tradeskillID] and (type(rank) == "number") and (rank > 0) then
-				secondarySkills[tradeskillID] = rank;
-			end
-
-			if tradeskillID and primarySkillIDs[tradeskillID] and (type(rank) == "number") and (rank > 0) then
-				primarySkills[tradeskillID] = rank;
-			end
-
-		end
-
-	end
-
-	addon:TriggerEvent("OnPlayerSkillsScanned", secondarySkills, primarySkills)
-
+    self:ScanSkills()
 end
 
 addon.e = CreateFrame("Frame");
@@ -678,19 +749,15 @@ addon.e:RegisterEvent("SKILL_LINES_CHANGED")
 addon.e:RegisterEvent("CHARACTER_POINTS_CHANGED")
 addon.e:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
 addon.e:RegisterEvent("CHAT_MSG_SKILL")
-addon.e:RegisterEvent("PLAYER_LEVEL_UP")
 addon.e:RegisterEvent("GUILD_ROSTER_UPDATE")
 addon.e:RegisterEvent("CHAT_MSG_SYSTEM")
 addon.e:RegisterEvent("CHAT_MSG_GUILD")
 addon.e:RegisterEvent("CHAT_MSG_WHISPER")
-addon.e:RegisterEvent('BANKFRAME_OPENED')
 addon.e:RegisterEvent('BANKFRAME_CLOSED')
 addon.e:RegisterEvent('BAG_UPDATE_DELAYED')
 addon.e:RegisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
 addon.e:RegisterEvent('EQUIPMENT_SETS_CHANGED')
 addon.e:RegisterEvent('EQUIPMENT_SWAP_FINISHED')
-addon.e:RegisterEvent('EQUIPMENT_SETS_CHANGED')
-addon.e:RegisterEvent('UPDATE_MOUSEOVER_UNIT')
 addon.e:SetScript("OnEvent", function(self, event, ...)
     if addon[event] then
         addon[event](addon, ...)

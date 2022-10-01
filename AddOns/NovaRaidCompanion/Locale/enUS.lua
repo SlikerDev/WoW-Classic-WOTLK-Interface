@@ -277,7 +277,7 @@ L["Hymn of Hope"] = "Hymn of Hope";
 L["Tricks of the Trade"] = "Tricks of the Trade";
 L["Bladestorm"] = "Bladestorm";
 L["Shattering Throw"] = "Shattering Throw";
-L["Unholy Frenzy"] = "Shattering Throw";
+L["Unholy Frenzy"] = "Unholy Frenzy";
 
 --Options
 L["mainTextDesc"] = "Note: This is a new addon in early stages, plans for more raid helpers as I get time.";
@@ -1035,4 +1035,34 @@ L["exportTypeTooltip"] = "Export format";
 L["changeLootEntry"] = "Set looter for entry %s";
 L["renamedLootEntry"] = "Changed loot %s to %s for %s";
 L["clearedLootEntry"] = "Cleared loot override entry %s";
-L["mapTradesToLootTooltip"] = "Attempt to automatically show who looted\nas the person you traded the item to during raid.\n(Only works if you were the person looting)\nRight clicking an entry to edit overrides this."
+L["mapTradesToLootTooltip"] = "Attempt to automatically show who looted\nas the person you traded the item to during raid.\n(Only works if you were the person looting)\nRight clicking an entry to edit overrides this.";
+
+L["raidCooldownsClicksHeaderDesc"] = "Click Actions";
+L["raidCooldownsClickWhisperCastOnMe"] = "Please use %s on me!";
+L["raidCooldownsClickGroupChatReady"] = "%s %s is ready!";
+L["raidCooldownsClickGroupChatNotReady"] = "%s %s has %s left.";
+L["cooldownNotReadyMsg"] = "%s %s not ready yet %s left.";
+L["selfOnlyCooldownMsg"] = "You can't ask for that cooldown, it's self only.";
+
+L["raidCooldownsClickOption2"] = "Whisper asking for cooldown cast on me";
+L["raidCooldownsClickOption3"] = "Send group chat the cooldown time";
+						
+L["raidCooldownsLeftClickTitle"] = "Left Click";
+L["raidCooldownsLeftClickDesc"] = "Choose what happens when you left click on a cooldown bar that displays a player name (unmerged cooldown bars or the tooltip when merged).";
+
+L["raidCooldownsRightClickTitle"] = "Right Click";
+L["raidCooldownsRightClickDesc"] = "Choose what happens when you right click on a cooldown bar that displays a player name (unmerged cooldown bars or the tooltip when merged).";
+
+L["raidCooldownsShiftLeftClickTitle"] = "Shift Left Click";
+L["raidCooldownsShiftLeftClickDesc"] = "Choose what happens when you shift left click on a cooldown bar that displays a player name (unmerged cooldown bars or the tooltip when merged).";
+
+L["raidCooldownsShiftRightClickTitle"] = "Shift Right Click";
+L["raidCooldownsShiftRightClickDesc"] = "Choose what happens when you shift right click on a cooldown bar that displays a player name (unmerged cooldown bars or the tooltip when merged).";
+
+L["Do Nothing"] = "Do Nothing";
+
+L["customExportStringFrameTitle"] = "Custom Export String";
+L["customExportStringFrameHeader"] = "Header:";
+L["customExportStringFrameText"] = "Loot String:";
+L["customExportStringFrameHeaderTooltip"] = "Header is the first line in the string.\nSome spreadsheets use this to tell them\nwhich order to put things.\nYou can leave this empty if you like.";
+L["customExportStringFrameStringTooltip"] = "The format for how each loot line will look.\nUse the tokens below to build your string.";

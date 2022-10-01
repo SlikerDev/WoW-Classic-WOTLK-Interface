@@ -1,0 +1,32 @@
+name: Upload addon archive
+on:
+  release:
+    types: [published]
+jobs:
+  tbc:
+    name: TBC
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install gitman
+        run: pipx install gitman
+      - run: gitman install
+      - name: Remove git dirs
+        run: find libs -type d -name ".git" -execdir rm -rf {} \; -prune
+      - run: sed -i "s/{VERSION}/${{ github.event.release.tag_name }}/g" LibEventSourcing.toc
+      - run: mkdir -p .release/LibEventSourcing
+      - run: mv readme.MD .release/LibEventSourcing/
+      - run: mv source .release/LibEventSourcing/
+      - run: mv libs .release/LibEventSourcing/
+      # This is copied so the packager can still read it in its original location
+      - run: cp LibEventSourcing.toc .release/LibEventSourcing/
+      - run: mv LibEventSourcing.xml .release/LibEventSourcing/
+      - name: Bigwigs packager
+        uses: BigWigsMods/packager@master
+        env:
+          package: LibEventSourcing
+          CF_API_KEY: ${{ secrets.CURSEFORGE_TOKEN }}
+          GITHUB_OAUTH: ${{ secrets.PAT_TOKEN }}
+        with:
+          args: "-c -o -e -u -g bcc"
+

@@ -409,7 +409,7 @@ function NRC:createListFrame(name, width, height, x, y, desc, isSubFrame, label)
 	frame.displayTab:SetBackdropColor(0, 0, 0, 0.8);
 	frame.displayTab:SetBackdropBorderColor(1, 1, 1, 1);
 	frame.displayTab:SetAllPoints();
-	frame.displayTab:SetFrameStrata("HIGH");
+	frame.displayTab:SetFrameStrata("MEDIUM");
 	frame.displayTab.fs = frame.displayTab:CreateFontString("$parentFS", "ARTWORK");
 	frame.displayTab.fs:SetPoint("CENTER", 0, 0);
 	frame.displayTab.fs:SetFont(NRC.regionFont, frame:GetHeight() - 8);
@@ -2756,6 +2756,7 @@ function NRC:createTextInputFrameLoot(name, width, height, parent)
 	frame:EnableMouse(true);
 	frame:SetUserPlaced(false);
 	frame:SetFrameStrata("HIGH");
+	frame:SetClampedToScreen(true);
 	--tinsert(UISpecialFrames, name);
 	frame:SetSize(width, height);
 	frame:SetBackdrop({
@@ -2774,6 +2775,9 @@ function NRC:createTextInputFrameLoot(name, width, height, parent)
 	frame.fs2 = frame:CreateFontString("$parentFS2", "MEDIUM");
 	frame.fs2:SetFontObject(Game11Font);
 	frame.fs2:SetPoint("TOP", 0, -20);
+	frame.fs3 = frame:CreateFontString("$parentFS2", "MEDIUM");
+	frame.fs3:SetFontObject(Game11Font);
+	frame.fs3:SetPoint("TOP", 0, -30);
 	frame.closeButton = CreateFrame("Button", name .. "Close", frame, "UIPanelCloseButton");
 	frame.closeButton:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -1, -1);
 	frame.closeButton:SetWidth(26);
@@ -3799,17 +3803,6 @@ function NRC:createExportFrame(name, width, height, x, y, notSpecialFrames)
 	frame:SetPoint("CENTER", UIParent, x, y);
 	frame:SetSize(width, height);
 	frame:SetFrameStrata("HIGH");
-	--[[frame.lastUpdate = 0;
-	--frame:SetScript("OnUpdate", function(self)
-		--Update throddle.
-		if (GetTime() - frame.lastUpdate > 1) then
-			frame.lastUpdate = GetTime();
-			if (frame.onUpdateFunction) then
-				--If we declare an update function for this frame to run when shown.
-				NRC[frame.onUpdateFunction]();
-			end
-		end
-	end)]]
 	frame.EditBox:SetWidth(width - 15);
 	
 	frame.topFrame = CreateFrame("Frame", "$parentTopFrame", frame, "BackdropTemplate");
@@ -3829,8 +3822,15 @@ function NRC:createExportFrame(name, width, height, x, y, notSpecialFrames)
 	frame.topFrame:SetPoint("BOTTOM", frame, "TOP", 0, -13);
 	frame.topFrame:SetFrameLevel(4);
 	frame.topFrame.fs = frame.topFrame:CreateFontString("$parentFS", "HIGH");
-	frame.topFrame.fs:SetPoint("TOP", 0, -4);
+	frame.topFrame.fs:SetPoint("TOP", -10, -4);
 	frame.topFrame.fs:SetFont(NRC.regionFont, 15);
+	--Click button to be used for whatever, set onclick in the frame data func.
+	frame.topFrame.button = CreateFrame("Button", "$parentButton", frame.topFrame, "UIPanelButtonTemplate");
+	frame.topFrame.button:SetFrameLevel(15);
+	frame.topFrame.button:SetPoint("TOPRIGHT", frame.topFrame, "TOPRIGHT", -34, -42);
+	frame.topFrame.button:SetWidth(200);
+	frame.topFrame.button:SetHeight(22);
+	frame.topFrame.button:Hide();
 	frame.topFrame:SetScript("OnMouseDown", function(self, button)
 		if (button == "LeftButton" and not frame.isMoving) then
 			--frame.EditBox:ClearFocus();
@@ -3930,69 +3930,6 @@ function NRC:createExportFrame(name, width, height, x, y, notSpecialFrames)
 	frame.close:GetPushedTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
 	frame.close:GetDisabledTexture():SetTexCoord(0.1875, 0.8125, 0.1875, 0.8125);
 	
-	--[[frame.dragFrame = CreateFrame("Frame", name .. "DragFrame", frame.topFrame);
-	frame.dragFrame:SetToplevel(true);
-	frame.dragFrame:EnableMouse(true);
-	frame.dragFrame:SetWidth(305);
-	frame.dragFrame:SetHeight(38);
-	frame.dragFrame:SetPoint("TOP", 0, 4);
-	frame.dragFrame:SetFrameLevel(131);
-	frame.dragFrame.tooltip = CreateFrame("Frame", name .. "DragTooltip", frame.dragFrame, "TooltipBorderedFrameTemplate");
-	frame.dragFrame.tooltip:SetPoint("CENTER", frame.dragFrame, "TOP", 0, 12);
-	frame.dragFrame.tooltip:SetFrameStrata("TOOLTIP");
-	frame.dragFrame.tooltip:SetFrameLevel(9);
-	frame.dragFrame.tooltip:SetAlpha(.8);
-	frame.dragFrame.tooltip.fs = frame.dragFrame.tooltip:CreateFontString(name .. "DragTooltipFS", "MEDIUM");
-	frame.dragFrame.tooltip.fs:SetPoint("CENTER", 0, 0.5);
-	frame.dragFrame.tooltip.fs:SetFont(NRC.regionFont, 12);
-	frame.dragFrame.tooltip.fs:SetText("Hold to drag");
-	frame.dragFrame.tooltip:SetWidth(frame.dragFrame.tooltip.fs:GetStringWidth() + 16);
-	frame.dragFrame.tooltip:SetHeight(frame.dragFrame.tooltip.fs:GetStringHeight() + 10);
-	frame.dragFrame:SetScript("OnEnter", function(self)
-		frame.dragFrame.tooltip:Show();
-	end)
-	frame.dragFrame:SetScript("OnLeave", function(self)
-		frame.dragFrame.tooltip:Hide();
-	end)
-	frame.dragFrame.tooltip:Hide();
-	frame.dragFrame:SetScript("OnMouseDown", function(self, button)
-		if (button == "LeftButton" and not frame.isMoving) then
-			--frame.EditBox:ClearFocus();
-			frame:StartMoving();
-			frame.isMoving = true;
-			--frame:SetUserPlaced(false);
-		end
-	end)
-	frame.dragFrame:SetScript("OnMouseUp", function(self, button)
-		if (button == "LeftButton" and frame.isMoving) then
-			frame:StopMovingOrSizing();
-			frame.isMoving = false;
-			frame:SetUserPlaced(false);
-			NRC.db.global[frame:GetName() .. "_point"], _, NRC.db.global[frame:GetName() .. "_relativePoint"], 
-					NRC.db.global[frame:GetName() .. "_x"], NRC.db.global[frame:GetName() .. "_y"] = frame:GetPoint();
-		end
-	end)
-	frame.dragFrame:SetScript("OnHide", function(self)
-		if (frame.isMoving) then
-			frame:StopMovingOrSizing();
-			frame.isMoving = false;
-		end
-	end)]]
 	frame:Hide();
 	return frame;
-	--Changing scroll position requires a slight delay.
-	--Second delay is a backup.
-	--[[C_Timer.After(0.05, function()
-		trackedItemsFrame:SetVerticalScroll(0);
-	end)
-	C_Timer.After(0.3, function()
-		trackedItemsFrame:SetVerticalScroll(0);
-	end)
-	--So interface options and this frame will open on top of each other.
-	if (InterfaceOptionsFrame:IsShown()) then
-		trackedItemsFrame:SetFrameStrata("DIALOG");
-	else
-		trackedItemsFrame:SetFrameStrata("HIGH");
-	end
-	trackedItemsFrame.EditBox:ClearFocus();]]
 end

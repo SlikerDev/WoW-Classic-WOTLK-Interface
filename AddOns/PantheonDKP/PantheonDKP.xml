@@ -1,0 +1,58 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+<Script file="PantheonDKP.lua" />
+
+	<Button name="pdkp_miniButton" inherits="UIPanelButtonTemplate" virtual="true">
+		<NormalFont style="GameFontNormalSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+		<DisabledFont style="GameFontDisableSmall"/>
+		<Size><AbsDimension x="20" y="18"/></Size>
+	</Button>
+
+	<Button name="pdkp_dkp_entryTemplate" virtual="true" checked="false">
+		<Size x="200" y="20"/>
+		<Layers>
+			<Layer level="BORDER">
+				<FontString name="$parent_col1" inherits="GameFontHighlightLeft" text="" justifyH="LEFT">
+					<Size x="95" y="14"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-3"/>
+					</Anchors>
+				</FontString>
+
+				<FontString name="$parent_col2" inherits="GameFontHighlightLeft" text="" justifyH="LEFT">
+					<Size x="95" y="14"/>
+					<Anchors>
+						<Anchor point="RIGHT" relativeTo="$parent_col1" relativePoint="RIGHT" x="178" y="0"/>
+					</Anchors>
+				</FontString>
+				<FontString name="$parent_col3" inherits="GameFontHighlightLeft" justifyH="CENTER" text="COL 3" wordwrap="false">
+					<Size x="95" y="0"/>
+					<Anchors>
+						<Anchor point="RIGHT" relativeTo="$parent_col2" relativePoint="RIGHT" x="55" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
+			<Size x="325" y="16"/>
+			<Anchors>
+				<Anchor relativeTo="$parent_col1" point="LEFT" x="-12" y="-2"/>
+			</Anchors>
+		</HighlightTexture>
+		<PushedTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD">
+			<Size x="325" y="16"/>
+			<Anchors>
+				<Anchor relativeTo="$parent_col1" point="LEFT" x="-12" y="-2"/>
+			</Anchors>
+		</PushedTexture>
+		<Scripts>
+			<OnLoad>
+
+			</OnLoad>
+			<OnClick>
+
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

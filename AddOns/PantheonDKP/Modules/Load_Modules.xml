@@ -1,0 +1,40 @@
+<Ui xmlns='http://www.blizzard.com/wow/ui/'>
+
+    <!-- Core Addon Modules -->
+    <Script file="Constants\Constants.lua"/>
+    <Script file="Utils\Utils.lua"/>
+    <Script file="Utils\GUtils.lua"/>
+
+
+    <!--  Models  -->
+    <Script file="Database\Database.lua"/>
+    <Script file="GuildManager\Member\Member.lua"/>
+    <Script file="LedgerManager\LedgerManager.lua"/>
+    <Script file="DKPManager\DKPEntry\DBEntry.lua"/>
+    <Script file="RaidManager\Group.lua"/>
+    <Script file="CommsManager\Comm.lua"/>
+
+    <!-- Controllers -->
+    <Script file="CommsManager\CommsManager.lua"/>
+    <Script file="ChatManager\ChatManager.lua"/>
+    <Script file="GuildManager\GuildManager.lua"/>
+    <Script file="RaidManager\RaidManager.lua"/>
+    <Script file="DKPManager\DKPManager.lua"/>
+    <Script file="AuctionManager\AuctionManager.lua"/>
+    <Script file="Lockouts\Lockouts.lua"/>
+    <Script file="Options\Options.lua"/>
+    <Script file="Adjustments\Adjustments.lua"/>
+    <Script file="SyncManager\SyncManager.lua"/>
+
+    <!-- Standalone Views  -->
+    <Include file="Interfaces\Load_interfaces.xml"/>
+
+    <!-- Dependent Views   -->
+    <Include file="RaidManager\GUI.lua"/>
+    <Include file="AuctionManager\GUI.lua"/>
+    <Include file="Lockouts\GUI.lua"/>
+    <Include file="Options\GUI.lua"/>
+    <Include file="Adjustments\GUI.lua"/>
+    <Script file="Minimap\GUI.lua"/>
+    <Script file="SyncManager\GUI.lua"/>
+</Ui>
