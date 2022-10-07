@@ -91,8 +91,9 @@ function addon.settings:InitializeSettings()
             worldMapPinBackgroundOpacity = 0.35,
             batchSize = 5,
             phase = 6,
-            xpRate = 1,
+            xprate = 1,
             guideFontSize = 9,
+            activeItemsScale = 1,
 
             showEnabled = true
         }
@@ -753,6 +754,20 @@ function addon.settings:CreateAceOptionsPanel()
                             _G.ReloadUI()
                         end
                     },
+                    activeItemsScale = {
+                        name = L("Active Item Scale"), -- TODO locale
+                        desc = L("Scale of the Active Item frame"),
+                        type = "range",
+                        width = optionsWidth,
+                        order = 2.5,
+                        min = 0.8,
+                        max = 2,
+                        step = 0.05,
+                        set = function(info, value)
+                            SetProfileOption(info, value)
+                            addon.activeItemFrame:SetScale(value)
+                        end
+                    },
                     automationHeader = {
                         name = L("Automation"), -- TODO locale
                         type = "header",
@@ -1294,7 +1309,7 @@ function addon.settings:CreateAceOptionsPanel()
                         order = 2.2,
                         min = 1,
                         max = 1.5,
-                        step = 0.5,
+                        step = 0.05,
                         confirm = function()
                             return L(
                                        "Notice: Changing experience rates beyond 1x may cause some chapters to become hidden and certain steps may automatically skip as you out level them") -- TODO locale
@@ -1468,12 +1483,6 @@ function addon.settings:DetectXPRate(heirloomCheck)
 
     if addon.gameVersion < 20000 then
         addon.settings.db.profile.SoM = CheckBuff(362859) -- SoM
-    elseif addon.gameVersion < 40000 then
-        if CheckBuff(377749) then -- Joyous Journeys
-            addon.settings.db.profile.xprate = 1.5
-        else -- Reset to 1 after buff goes away for Wrath
-            addon.settings.db.profile.xprate = 1
-        end
     end
 
     -- TODO heirloomCheck for periodic checking

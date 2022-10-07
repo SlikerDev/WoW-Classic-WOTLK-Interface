@@ -1,12 +1,14 @@
-tag 11eea3e82ddd9f10068b7b6512a2003ba88b3b03 Guildbook_5.55
+tag 4402e7de13a98702f0ff99e5802887bfd3c4c92c Guildbook_5.56
 Author:	stpain <sam.pain@live.co.uk>
-Date:	Sat Oct 1 09:00:48 2022 +0100
+Date:	Sat Oct 1 19:08:29 2022 +0100
 
-commit 6cd220f405abfd3c59d50e4a09f219888671dd0d
+commit b70d177a68870798a74a8a5d437e50f81b5825f6
 Author: stpain <sam.pain@live.co.uk>
-Date:   Sat Oct 1 09:00:38 2022 +0100
+Date:   Sat Oct 1 19:08:18 2022 +0100
 
-    jc fix
+    saved var fix
     
-    fixed error with jc tradeskill ID
+    fixed bug where the db class would reset saved var values if they were false
+    
+    also move the minimap load into the PEW event
 

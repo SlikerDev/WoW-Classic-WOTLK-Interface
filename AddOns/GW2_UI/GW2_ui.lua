@@ -12,7 +12,7 @@ local IsIncompatibleAddonLoadedOrOverride = GW.IsIncompatibleAddonLoadedOrOverri
 
 local l = CreateFrame("Frame", nil, UIParent) -- Main event frame nil
 
-GW.VERSION_STRING = "1.2.2-Wrath Classic"
+GW.VERSION_STRING = "1.4.0-Wrath Classic"
 
 -- setup Binding Header color
 _G.BINDING_HEADER_GW2UI = GetAddOnMetadata(..., "Title")
@@ -445,6 +445,9 @@ local function loadAddon(self)
     if GetSetting("WORLDMAP_SKIN_ENABLED") then
         GW.SkinWorldMap()
     end
+
+    GW.LoadGossipSkin()
+    GW.LoadQuestLogFrameSkin()
 
     GW.LoadDetailsSkin()
 

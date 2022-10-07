@@ -4,7 +4,7 @@
 ## Title: Classic Loot Manager
 ## Notes: Robust, DKP and EPGP based Loot Manager system
 ## Author: Lantis
-## Version: v2.3.0
+## Version: v2.3.1
 ## X-License: MIT
 ## X-Curse-Project-ID: 481373
 ## X-Wago-ID: vEGPw4K1

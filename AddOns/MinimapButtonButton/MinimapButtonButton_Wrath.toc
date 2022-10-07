@@ -1,0 +1,16 @@
+## Interface: 30400
+## Title: MinimapButtonButton
+## Title-ruRU: Универсальная кнопка миникарты
+## Version: 1.8.1
+## Author: syndenbock
+## Notes: Creates a button that collects all minimap buttons
+## Notes-ruRU: Создает кнопку, которая собирает все значки миникарты воедино
+
+## X-Curse-Project-ID: 446096
+## X-Wago-ID: pkNM4QGz
+
+## OptionalDeps: ElvUI, Tukui
+## SavedVariables: MinimapButtonButtonOptions
+## SavedVariablesPerCharacter:
+
+MinimapButtonButton.xml

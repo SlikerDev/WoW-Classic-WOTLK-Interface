@@ -1,13 +1,16 @@
 # RestedXP Guides
 
-## [v4.3.10](https://github.com/RestedXP/RXPGuides/tree/v4.3.10) (2022-10-01)
-[Full Changelog](https://github.com/RestedXP/RXPGuides/compare/v4.3.9...v4.3.10) [Previous Releases](https://github.com/RestedXP/RXPGuides/releases)
+## [v4.3.15](https://github.com/RestedXP/RXPGuides/tree/v4.3.15) (2022-10-05)
+[Full Changelog](https://github.com/RestedXP/RXPGuides/compare/v4.3.14...v4.3.15) [Previous Releases](https://github.com/RestedXP/RXPGuides/releases)
 
-- Added northrend farm guides  
-- General fixes 20-30  
-    Fixed typos, duplicate/skipping steps and coordinates  
-- Ghostlands adjustments  
-- Troll/Orc updates  
-    Added Lesser Heal r2 training for Troll Priest, required for class quest  
-    Improved routing at Razor Hill for Troll Priest  
-    Updated .deathskip commands  
+- Fix Help/FAQ lua error on retail  
+- Fix arrow hide persistence  
+- Fix Active Item frame hide persistence  
+- Sort level tracker sub-level list  
+- Add Active Items scale setting (#73)  
+- Wintergrasp farm guides  
+- Fix set HS skipping step  
+- Duplicate FP step  
+- Cheese for Glowergold update  
+- darkshore fixes  
+- addon no longer updates when the window is hidden  

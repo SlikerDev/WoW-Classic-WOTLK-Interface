@@ -1,0 +1,1 @@
+- Added interface version for Wrath Classic

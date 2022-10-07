@@ -1,0 +1,23 @@
+## Interface: 90200
+## Title: Console Port |cff69ccf0Keyboard|r
+## Notes: Virtual keyboard module
+## SavedVariables: ConsolePort_KeyboardLayout, ConsolePort_KeyboardDictionary, ConsolePort_KeyboardMarkers
+## RequiredDeps: ConsolePort
+## LoadOnDemand: 1
+## X-Curse-Project-ID: 91376
+## X-WoWI-ID: 23536
+## X-Wago-ID: LvNAYjNo
+
+Keyboard.xml
+
+Components\Charset.lua
+Components\Config.lua
+Components\Suggester.lua
+
+Core\UTF8.lua
+Core\Dictionary.lua
+Core\Spellcorrect.lua
+
+Lookup.lua
+Keyboard.lua
+Core\Observer.lua

@@ -294,9 +294,10 @@ local function setupMicroButtons(mbf)
         cref:SetAttribute(
             "_onclick",
             [=[
-            local f = self:GetFrameRef("GwCharacterWindow")
-            f:SetAttribute("keytoggle", "1")
-            f:SetAttribute("windowpanelopen", "paperdoll")
+                if button ~= "LeftButton" then return end
+                local f = self:GetFrameRef("GwCharacterWindow")
+                f:SetAttribute("keytoggle", "1")
+                f:SetAttribute("windowpanelopen", "paperdoll")
             ]=]
         )
 
@@ -305,6 +306,7 @@ local function setupMicroButtons(mbf)
             self:ClearAllPoints()
             self:SetPoint("TOPLEFT", UIParent, "TOPLEFT", -40, 40)
         end
+        cref:RegisterForClicks("AnyUp")
         cref:SetScript("OnEnter", CharacterMicroButton.OnEnter)
         cref:SetScript("OnLeave", GameTooltip_Hide)
         cref:HookScript("OnEnter", GW.Friends_OnEnter)
@@ -399,16 +401,15 @@ local function setupMicroButtons(mbf)
     -- AchievementMicroButton
     hooksecurefunc(AchievementMicroButton, "SetPoint", function(_, _, parent)
         if parent ~= tref and InCombatLockdown() then
-            mbf:GetParent():RegisterEvent("PLAYER_REGEN_ENABLED")
-
-            mbf:GetParent():SetScript("OnEvent", function()
+            mbf:RegisterEvent("PLAYER_REGEN_ENABLED")
+            mbf:SetScript("OnEvent", function()
                 AchievementMicroButton:ClearAllPoints()
                 AchievementMicroButton:SetPoint("BOTTOMLEFT", tref, "BOTTOMRIGHT", 4, 0)
 
-                mbf:GetParent():UnregisterEvent("PLAYER_REGEN_ENABLED")
-                mbf:GetParent():SetScript("OnEvent", nil)
+                mbf:UnregisterEvent("PLAYER_REGEN_ENABLED")
+                mbf:SetScript("OnEvent", nil)
             end)
-        elseif parent ~= tref and not InCombatLockdown() then
+        elseif parent ~= tref then
             AchievementMicroButton:ClearAllPoints()
             AchievementMicroButton:SetPoint("BOTTOMLEFT", tref, "BOTTOMRIGHT", 4, 0)
         end
@@ -692,5 +693,6 @@ local function LoadMicroMenu()
         mbf.cf:Hide()
     end
 
+    
 end
 GW.LoadMicroMenu = LoadMicroMenu
